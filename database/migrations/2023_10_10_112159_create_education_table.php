@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('level');
             $table->string('institution');
-            $table->int('completion_year');
+            $table->integer('completion_year');
             $table->string('board');
-            $table->int('score');
+            $table->integer('score');
+            $table->unsignedBigInteger('doctors_id');
             $table
                 ->foreign('doctors_id')
                 ->references('id')

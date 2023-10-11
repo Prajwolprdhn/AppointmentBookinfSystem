@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('organization');
             $table->string('position');
-            $table->int('start_date');
-            $table->int('end_date');
+            $table->integer('start_date');
+            $table->integer('end_date');
             $table->string('job_description');
+            $table->unsignedBigInteger('doctors_id');
             $table
                 ->foreign('doctors_id')
                 ->references('id')

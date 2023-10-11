@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('lisence_no');
             $table->string('first_name');
             $table->string('last_name');
-            $table->int('contact');
+            $table->integer('contact');
             $table->string('department');
             $table->string('photo');
             $table->string('province');
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('tole');
             $table->enum('gender',['Male', 'Female', 'Others']);
             $table->date('birthday');
+            $table->unsignedBigInteger('user_id');
             $table
                 ->foreign('user_id')
                 ->references('id')
