@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
 
@@ -12,15 +13,42 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        //
+        return view('doctors.forms.doctors_form');
+    }
+    public function education_form()
+    {
+        return view('doctors.forms.education_form');
     }
 
+    public function doctors_table(){
+        return view('doctors.tables.doctors_table');
+    }
+
+    public function details_table(){
+        return view('doctors.tables.user_details_table');
+    }
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $formfields = $request->validate([
+            'status' => 'required|in:0,1',
+            'fname' => 'required|string|max:255',
+            'lname' => 'required|string|max:255',
+            'email' => 'required|unique:users|email',
+            'password' => 'required|string|min:8',
+            'role' => 'nullable'
+        ]);
+
+        $formFields['status'] = $request->has('status') ? 1 : null;
+
+        $formfields['name'] = $formfields['fname'] . ' ' . $formfields['lname'];
+        User::create($formfields);
+        print("Sucess");
+
+        return redirect()->route('doctors_table')
+                        ->with('success','Doctor created successfully.');
     }
 
     /**
