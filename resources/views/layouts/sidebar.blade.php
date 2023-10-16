@@ -89,7 +89,14 @@
                         </a>
                     </li>
                 @endif
-
+                @if (auth()->check() && auth()->user()->role == 0)
+                    <li class="nav-item">
+                        <a href="{{ route('department_table') }}" class="nav-link">
+                            <i class="fa fa-building pr-3"></i>
+                            <p>Departments</p>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

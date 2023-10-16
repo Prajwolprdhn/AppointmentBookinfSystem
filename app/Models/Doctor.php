@@ -24,7 +24,7 @@ class Doctor extends Model
         'ward',
         'tole',
         'gender',
-        'birthday',
+        'dob',
         'user_id'
     ];
 

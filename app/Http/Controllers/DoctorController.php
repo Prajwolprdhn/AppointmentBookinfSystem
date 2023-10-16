@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Doctor;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
@@ -17,6 +18,7 @@ class DoctorController extends Controller
     }
     public function education_form()
     {
+       
         return view('doctors.forms.education_form');
     }
 

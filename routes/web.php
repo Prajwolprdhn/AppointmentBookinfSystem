@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\DepartmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +54,24 @@ Route::put('/home/edit_user/{user_id}', [AdminController::class, 'update'])->nam
 
 Route::delete('/home/delete_users/{user}', [AdminController::class, 'delete'])->name('delete_users');
 
+//Admin--doctors
+Route::get('/home/doctors_table', [AdminController::class, 'doctors_table'])->name('doctors_table');
+Route::get('/home/doctors_form', [AdminController::class, 'doctors_form'])->name('doctors_form');
+Route::post('/home/add_doctors', [AdminController::class, 'add_doctors'])->name('add_doctors');
+
+
+
 Route::post('/home/add_users', [AdminController::class, 'create'])->name('add_users');
+
+
+
+//Departments
+Route::get('/home/department_table', [DepartmentController::class, 'index'])->name('department_table');
+Route::get('/home/department_form', [DepartmentController::class, 'add_department'])->name('department_form');
+
+Route::post('/home/add_department', [DepartmentController::class, 'create'])->name('add_department');
+Route::delete('/home/delete_department/{department}', [DepartmentController::class, 'delete'])->name('delete_department');
+
 
 
 

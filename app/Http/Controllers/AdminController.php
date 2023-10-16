@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Doctor;
+use App\Models\Department;
 use Illuminate\Http\Request;
+use App\Http\Requests\DoctorRequest;
 
 class AdminController extends Controller
 {
@@ -53,7 +56,7 @@ class AdminController extends Controller
             'role' => 'nullable'
         ]);
 
-        $formFields['status'] = $request->has('status') ? 1 : null;
+        $formFields['status'] = $request->has('status') ? 1 : 0;
 
         $formfields['name'] = $formfields['fname'] . ' ' . $formfields['lname'];
         User::create($formfields);
@@ -85,5 +88,28 @@ class AdminController extends Controller
         $user_id->update($formfields);
         return redirect()->route('users_table')
                         ->with('success','User updated successfully.');
+    }
+
+
+    public function doctors_table(){
+        $doctors = Doctor::all();
+        return view('admin.tables.doctors_details',['doctors'=>$doctors]);
+    }
+    public function doctors_form(){
+        $department = Department::all();
+        return view('admin.forms.doctors_form',['departments'=>$department]);
+    }
+    public function add_doctors(DoctorRequest $request){
+        // dd($request->all());
+        $formfields = $request;
+        
+        $request['status'] = $request->has('status') ? 1 : 0;
+        $formfields['name'] = $request['first_name'] . ' ' . $request['last_name'];
+
+        $userData = User::create($formfields->all());
+        $formfields['user_id'] = $userData->id;
+        $doctorData = Doctor::create($formfields->all());
+        return redirect()->route('doctors_table')
+        ->with('success','User updated successfully.');
     }
 }
