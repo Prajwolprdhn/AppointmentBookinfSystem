@@ -65,7 +65,8 @@ class HomeController extends Controller
             'fname' => 'required|string|max:255',
             'lname' => 'required|string|max:255',
             'email' => 'required|unique:users|email',
-            'password' => 'required|string|min:8',
+            'password' => 'required|confirmed|string|min:8',
+            'password_confirmation' => 'required',
             'role' => 'nullable'
         ]);
 

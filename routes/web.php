@@ -58,6 +58,7 @@ Route::delete('/home/delete_users/{user}', [AdminController::class, 'delete'])->
 Route::get('/home/doctors_table', [AdminController::class, 'doctors_table'])->name('doctors_table');
 Route::get('/home/doctors_form', [AdminController::class, 'doctors_form'])->name('doctors_form');
 Route::post('/home/add_doctors', [AdminController::class, 'add_doctors'])->name('add_doctors');
+Route::delete('/home/delete_doctor/{doctor}', [AdminController::class, 'delete_doctor'])->name('delete_doctor');
 
 
 
@@ -72,7 +73,8 @@ Route::get('/home/department_form', [DepartmentController::class, 'add_departmen
 Route::post('/home/add_department', [DepartmentController::class, 'create'])->name('add_department');
 Route::delete('/home/delete_department/{department}', [DepartmentController::class, 'delete'])->name('delete_department');
 
-
+Route::get('/home/edit_department/{department_id}', [DepartmentController::class, 'edit_department'])->name('edit_department');
+Route::put('/home/edit_department/{department_id}', [DepartmentController::class, 'update'])->name('update_department');
 
 
 

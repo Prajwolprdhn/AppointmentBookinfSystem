@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    {{-- @dd($doctors) --}}
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -21,7 +22,7 @@
         @if (session('success'))
             <div class="alert alert-success d-flex align-items-center" role="alert"
                 style="position:absolute;
-                  top:40px;
+                  bottom:40px;
                   right:25px;
                   z-index: 9999;">
                 <i class="fas fa-check pr-3"></i>
@@ -71,7 +72,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $doctor->first_name . ' ' . $doctor->last_name }}</td>
-                                                <td>{{ $doctor->department }}</td>
+                                                <td>{{ $doctor->department->departments }}</td>
                                                 <td>{{ $doctor->contact }}</td>
                                                 <td class="project-actions text-right">
                                                     <form action="#" method="post">
@@ -84,12 +85,42 @@
                                                                 class="fa fa-pen-square pr-2">
                                                             </i>Edit</button>
                                                     </form>
-                                                    <form action="" method="post">
+                                                    <form action="{{ route('delete_doctor', ['doctor' => $doctor]) }}"
+                                                        method="post">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger"><i
+                                                        {{-- <button type="submit" class="btn btn-danger"><i
                                                                 class="fas fa-trash pr-2">
+                                                            </i>Delete</button> --}}
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                            data-target="#modal-default">
+                                                            <i class="fas fa-trash pr-2">
                                                             </i>Delete</button>
+                                                        <div class="modal fade" id="modal-default">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">Delete Confirmation</h4>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body" style="text-align: left;">
+                                                                        <p>Are you sure you want to delete it?</p>
+                                                                    </div>
+                                                                    <div class="modal-footer justify-content-between">
+                                                                        <button type="button" class="btn btn-primary"
+                                                                            data-dismiss="modal">Cancel</button>
+                                                                        <button type="submit" class="btn btn-danger"
+                                                                            id="confirmDeleteBtn">Confirm Delete
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.modal-content -->
+                                                            </div>
+                                                            <!-- /.modal-dialog -->
+                                                        </div>
                                                     </form>
 
                                                 </td>
@@ -107,6 +138,18 @@
                 <!-- /.row -->
             </div>
         </div>
-
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Find the "Confirm Delete" button by its id
+            const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+            // Add a click event listener to the button
+            confirmDeleteBtn.addEventListener('click', function() {
+                // Trigger the form submission
+                const form = confirmDeleteBtn.closest('form');
+                form.submit();
+            });
+        });
+    </script>
 @endsection

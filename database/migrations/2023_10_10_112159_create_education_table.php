@@ -18,12 +18,7 @@ return new class extends Migration
             $table->integer('completion_year');
             $table->string('board');
             $table->integer('score');
-            $table->unsignedBigInteger('doctors_id');
-            $table
-                ->foreign('doctors_id')
-                ->references('id')
-                ->on('doctors')
-                ->onDelete('cascade');
+            $table->foreignId('doctors_id')->constrained('doctors');
             $table->timestamps();
         });
     }

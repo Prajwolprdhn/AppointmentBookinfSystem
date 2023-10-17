@@ -52,7 +52,8 @@ class AdminController extends Controller
             'fname' => 'required|string|max:255',
             'lname' => 'required|string|max:255',
             'email' => 'required|unique:users|email',
-            'password' => 'required|string|min:8',
+            'password' => 'required|confirmed|string|min:8',
+            'password_confirmation' => 'required',
             'role' => 'nullable'
         ]);
 
@@ -71,7 +72,7 @@ class AdminController extends Controller
     }
 
     public function edit_form($user_id){
-        $data = User::find($user_id);
+        $data = User::findOrFail($user_id);
         return view('admin.forms.edit_user',['details'=>$data]);
     }
     public function update(Request $request, User $user_id){
@@ -93,6 +94,9 @@ class AdminController extends Controller
 
     public function doctors_table(){
         $doctors = Doctor::all();
+        // $departmentValue = $doctors['department'];
+        // $data= Department::find($departmentValue);
+        // $doctors['department'] = $data['departments'];
         return view('admin.tables.doctors_details',['doctors'=>$doctors]);
     }
     public function doctors_form(){
@@ -102,14 +106,27 @@ class AdminController extends Controller
     public function add_doctors(DoctorRequest $request){
         // dd($request->all());
         $formfields = $request;
-        
+
         $request['status'] = $request->has('status') ? 1 : 0;
         $formfields['name'] = $request['first_name'] . ' ' . $request['last_name'];
+        $formfields['role'] = 1;
+
+        // NepaliFunctions.BS2AD("2065-02-15");
+        //BS to AD Conversion
+        // $english_date = $this->getEnglishDate($request['nepali_date']);
+        // dd($english_date);
 
         $userData = User::create($formfields->all());
+
         $formfields['user_id'] = $userData->id;
+        // dd($formfields->all());
         $doctorData = Doctor::create($formfields->all());
+
         return redirect()->route('doctors_table')
         ->with('success','User updated successfully.');
+    }
+    public function delete_doctor(Doctor $doctor){
+        $doctor->delete();
+        return redirect()->route('doctors_table')->with('success', 'Doctor deleted successfully.');
     }
 }

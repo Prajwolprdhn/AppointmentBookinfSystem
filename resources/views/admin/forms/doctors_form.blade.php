@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="content-wrapper">
+        {{-- {{ $errors }} --}}
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
@@ -35,23 +36,34 @@
                             <form action="{{ route('add_doctors') }}" method="post">
                                 @csrf
                                 <div class="card-body">
-                                    <div class="form-group row">
-                                        <label for="status" class="col-sm-2 col-form-label">Status</label>
-                                        <div class="col-sm-4">
-                                            <input type="hidden" name="status" value="0">
-                                            <input type="checkbox" class="form-check-input" id="status" name="status"
-                                                value="1" {{ old('status') ? 'checked' : '' }}>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 col-form-label" for="exampleInputStatus">Status</label>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input mt-1" type="radio" name="status"
+                                                id="inlineRadio1" value="0">
+                                            <label class="form-check-label" for="inlineRadio1">InActive</label>
                                         </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input mt-1" type="radio" name="status"
+                                                id="inlineRadio2" value="1">
+                                            <label class="form-check-label" for="inlineRadio2">Active</label>
+                                        </div>
+                                        @error('status')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group row">
                                         <label for="lisence" class="col-sm-2 col-form-label">Lisence No.</label>
                                         <div class="col-sm-3">
                                             <input type="text" class="form-control" id="lisence" name="lisence_no"
                                                 placeholder="Lisence No.">
+                                            @error('lisence_no')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <label for="department" class="col-sm-2 col-form-label">Department</label>
                                         <div class="col-sm-5">
-                                            <select class="form-control select2" name="department" style="width: auto;">
+                                            <select class="form-control select2" name="department_id" style="width: auto;">
                                                 <option selected="selected">-- select one --</option>
                                                 @foreach ($departments as $department)
                                                     <option value="{{ $department->id }}">{{ $department->departments }}
@@ -65,7 +77,7 @@
                                         <div class="col-sm-2">
                                             <input type="text" class="form-control" id="fname" name="first_name"
                                                 placeholder="First Name">
-                                            @error('fname')
+                                            @error('first_name')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -73,7 +85,7 @@
                                         <div class="col-sm-2">
                                             <input type="text" class="form-control" id="lname" name="last_name"
                                                 placeholder="Last Name">
-                                            @error('lname')
+                                            @error('last_name')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -95,6 +107,9 @@
                                                 id="inlineRadio3" value="Others">
                                             <label class="form-check-label" for="inlineRadio2">Others</label>
                                         </div>
+                                        @error('gender')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group row">
                                         <label for="contact" class="col-sm-2 col-form-label">Contact No.</label>
@@ -105,11 +120,21 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        <label for="birthday" class="col-sm-2 col-form-label">D.O.B.</label>
+                                        <label for="birthday" class="col-sm-2 col-form-label">Date of Birth</label>
                                         <div class="col-sm-3">
-                                            <input type="text" class="form-control" id="birthday" name="dob"
-                                                placeholder="YYYY-MM-DD">
-                                            @error('birthday')
+                                            <input type="text" class="form-control" id="nepali-datepicker"
+                                                name="nepali_date" placeholder="YYYY-MM-DD">
+                                            @error('nepali_date')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" hidden>
+                                        <label for="birthday" class="col-sm-2 col-form-label">Date of Birth (AD)</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="english_date"
+                                                onclick="getDate()" name="english_date" placeholder="YYYY-MM-DD">
+                                            @error('english_date')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -135,14 +160,22 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-2 col-form-label">Confirm
+                                            Password</label>
+                                        <div class="col-sm-5">
+                                            <input type="password" class="form-control" id="inputPassword"
+                                                name="password_confirmation" placeholder="Confirm Password">
+                                            @error('password_confirmation')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label for="role" class="col-sm-2 col-form-label">Role</label>
                                         <div class="col-sm-5">
                                             <select class="form-control select2" name="role" style="width: auto;"
                                                 disabled>
-                                                <option selected="selected" value="1">Doctor</option>
-                                                <option value="0">Admin</option>
-                                                <option value="1">Doctor</option>
-                                                <option value="2">User</option>
+                                                <option value="1" selected>Doctor</option>
                                             </select>
                                         </div>
                                     </div>
@@ -175,4 +208,33 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        window.onload = function() {
+            year = NepaliFunctions.GetCurrentBsYear();
+            month = NepaliFunctions.GetCurrentBsMonth();
+            day = NepaliFunctions.GetCurrentBsDay();
+            var currentdate = year + "-" + month + "-" + day
+            console.log(currentdate)
+            var mainInput = document.getElementById("nepali-datepicker");
+            mainInput.nepaliDatePicker({
+                disableBefore: currentdate,
+                disableDaysAfter: 3
+            });
+
+
+        };
+    </script>
+    <script>
+        setInterval(() => {
+            getDate()
+        }, 10);
+
+        function getDate() {
+            var nepali = document.getElementById("nepali-datepicker").value;
+            converted = NepaliFunctions.BS2AD(nepali)
+
+            var english = document.getElementById("english_date");
+            english.value = converted;
+        }
+    </script>
 @endsection

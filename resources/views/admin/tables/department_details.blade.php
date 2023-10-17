@@ -70,16 +70,15 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $department->departments }}</td>
-                                                <td>Count</td>
+                                                <td>{{ $department->doctor->count() }}</td>
                                                 <td class="project-actions text-right">
                                                     <form
-                                                        action="{{ route('delete_department', ['department' => $department]) }}"
-                                                        method="post">
+                                                        action="{{ route('edit_department', ['department_id' => $department->id]) }}"
+                                                        method="get">
                                                         @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger"><i
-                                                                class="fas fa-trash pr-2">
-                                                            </i>Delete</button>
+                                                        <button type="submit" class="btn btn-info"> <i
+                                                                class="fa fa-pen-square pr-2">
+                                                            </i>Edit</button>
                                                     </form>
 
                                                 </td>

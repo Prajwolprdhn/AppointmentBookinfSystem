@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Education;
+use App\Models\Department;
 use App\Models\Experience;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +17,7 @@ class Doctor extends Model
         'first_name',
         'last_name',
         'contact',
-        'department',
+        'department_id',
         'photo',
         'province',
         'district',
@@ -24,8 +25,9 @@ class Doctor extends Model
         'ward',
         'tole',
         'gender',
-        'dob',
-        'user_id'
+        'nepali_date',
+        'english_date',
+        'user_id',
     ];
 
     public function experience()
@@ -35,5 +37,8 @@ class Doctor extends Model
     public function education()
     {
         return $this->hasMany(Education::class);
+    }
+    public function department(){
+        return $this->belongsTo(Department::class);
     }
 }

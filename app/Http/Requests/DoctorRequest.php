@@ -27,10 +27,11 @@ class DoctorRequest extends FormRequest
             'last_name' => 'required|string|max:255',
             'contact' => 'required|string|max:255',
             'email' => 'required|unique:users|email',
-            'password' => 'required|string|min:8',
-            'dob' => 'required|string|max:255',
+            'password' => 'required|confirmed|string|min:8',
+            'password_confirmation' => 'required',
+            // 'dob' => 'required|string|max:255',
             'gender' => 'required|string|max:255',
-            'department' => 'required|integer|max:255',
+            'department_id' => 'required',
             'role' => 'nullable'
         ];
     }

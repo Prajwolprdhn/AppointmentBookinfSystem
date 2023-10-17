@@ -17,21 +17,17 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('contact');
-            $table->string('department');
-            $table->string('photo');
-            $table->string('province');
-            $table->string('district');
-            $table->string('municipality');
-            $table->string('ward');
-            $table->string('tole');
+            $table->string('photo')->nullable();
+            $table->string('province')->nullable();
+            $table->string('district')->nullable();
+            $table->string('municipality')->nullable();
+            $table->string('ward')->nullable();
+            $table->string('tole')->nullable();
             $table->enum('gender',['Male', 'Female', 'Others']);
-            $table->string('dob');
-            $table->unsignedBigInteger('user_id');
-            $table
-                ->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
+            $table->string('nepali_date')->nullable();
+            $table->string('english_date')->nullable();
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('department_id')->constrained('departments');
             $table->timestamps();
         });
     }
