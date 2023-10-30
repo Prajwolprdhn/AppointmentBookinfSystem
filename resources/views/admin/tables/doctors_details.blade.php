@@ -19,33 +19,7 @@
                 </div>
             </div><!-- /.container-fluid -->
         </section>
-        @if (session('success'))
-            <div class="alert alert-success d-flex align-items-center" role="alert"
-                style="position:absolute;
-                  bottom:40px;
-                  right:25px;
-                  z-index: 9999;">
-                <i class="fas fa-check pr-3"></i>
-                <div>
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div>
-        @endif
-
-        @if (session('flash-message'))
-            <div class="alert alert-success d-flex align-items-center" role="alert"
-                style="position:absolute;
-                  top:40px;
-                  right:25px;
-                  z-index: 9999;">
-                <i class="fas fa-times pr-3"></i>
-                <div>
-                    {{ session('flash-message') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div>
-        @endif
+        {{-- @include('layouts.popup') --}}
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -72,14 +46,21 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $doctor->first_name . ' ' . $doctor->last_name }}</td>
-                                                <td>{{ $doctor->department->departments }}</td>
+                                                <td>
+                                                    @if ($doctor->department)
+                                                        {{ $doctor->department->departments }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
                                                 <td>{{ $doctor->contact }}</td>
                                                 <td class="project-actions text-right">
                                                     <form action="#" method="post">
                                                         <button type="submit" class="btn btn-warning"><i
                                                                 class="fa fa-eye pr-2"></i> View</button>
                                                     </form>
-                                                    <form action="" method="get">
+                                                    <form action="{{ route('edit_doctor', ['doctor_id' => $doctor->id]) }}"
+                                                        method="get">
                                                         @csrf
                                                         <button type="submit" class="btn btn-info"> <i
                                                                 class="fa fa-pen-square pr-2">

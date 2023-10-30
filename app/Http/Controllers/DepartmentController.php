@@ -26,6 +26,7 @@ class DepartmentController extends Controller
             'department' => 'required|string|max:255',
         ]);
         $department = Department::create(['departments' => $validatedData['department']]);
+        Alert::success('Success!','Department Created Sucessfully!');
 
         return redirect()->route('department_table')
                         ->with('success','Department created successfully.');
@@ -33,6 +34,8 @@ class DepartmentController extends Controller
 
     public function delete(Department $department){
         $department->delete();
+        Alert::success('Success!','Department Deleted Sucessfully!');
+
         return redirect()->route('department_table')->with('success', 'Department deleted successfully.');
     }
     public function edit_department($department_id){
@@ -47,6 +50,7 @@ class DepartmentController extends Controller
         $data = Department::find($department_id);
         $data->departments = $request->department;
         $data->update();
+        Alert::success('Success!','Department Updated Sucessfully!');
         return redirect()->route('department_table')
                         ->with('success','Department updated successfully.');
     }

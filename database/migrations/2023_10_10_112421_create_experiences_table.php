@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('position');
             $table->integer('start_date');
             $table->integer('end_date');
-            $table->string('job_description');
+            $table->longText('job_description');
             $table->foreignId('doctors_id')->constrained('doctors');
             $table->timestamps();
         });

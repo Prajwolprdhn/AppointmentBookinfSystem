@@ -26,7 +26,7 @@ return new class extends Migration
             $table->enum('gender',['Male', 'Female', 'Others']);
             $table->string('nepali_date')->nullable();
             $table->string('english_date')->nullable();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('department_id')->constrained('departments');
             $table->timestamps();
         });

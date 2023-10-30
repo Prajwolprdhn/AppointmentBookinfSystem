@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Add Doctors</h1>
+                        <h1 class="m-0">Edit Doctors</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Doctors Form</li>
+                            <li class="breadcrumb-item active">Edit Doctors</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -33,19 +33,22 @@
                             <!-- /.card-header -->
                             <!-- form start -->
                             {{-- {{ $error }} --}}
-                            <form id= "multistep-form" action="{{ route('add_doctors') }}" method="post">
+                            <form action="{{ route('edit_doc', ['doctor_id' => $result['doctor']->id]) }}" method="post">
                                 @csrf
+                                @method('put')
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label class="col-sm-2 col-form-label" for="exampleInputStatus">Status</label>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input mt-1" type="radio" name="status"
-                                                id="inlineRadio1" value="0">
+                                                id="inlineRadio1" value="0"
+                                                @if ($result['user']->status == 0) checked @endif>
                                             <label class="form-check-label" for="inlineRadio1">InActive</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input mt-1" type="radio" name="status"
-                                                id="inlineRadio2" value="1">
+                                                id="inlineRadio2" value="1"
+                                                @if ($result['user']->status == 1) checked @endif>
                                             <label class="form-check-label" for="inlineRadio2">Active</label>
                                         </div>
                                         @error('status')
@@ -56,7 +59,7 @@
                                         <label for="lisence" class="col-sm-2 col-form-label">Lisence No.</label>
                                         <div class="col-sm-3">
                                             <input type="text" class="form-control" id="lisence" name="lisence_no"
-                                                placeholder="Lisence No.">
+                                                value="{{ $result['doctor']->lisence_no }}">
                                             @error('lisence_no')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -64,9 +67,10 @@
                                         <label for="department" class="col-sm-2 col-form-label">Department</label>
                                         <div class="col-sm-5">
                                             <select class="form-control select2" name="department_id" style="width: auto;">
-                                                <option selected="selected">-- select one --</option>
                                                 @foreach ($departments as $department)
-                                                    <option value="{{ $department->id }}">{{ $department->departments }}
+                                                    <option value="{{ $department->id }}"
+                                                        @if ($department->id == $result['doctor']->department_id) selected="selected" @endif>
+                                                        {{ $department->departments }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -76,7 +80,7 @@
                                         <label for="fname" class="col-sm-2 col-form-label ">First Name</label>
                                         <div class="col-sm-2">
                                             <input type="text" class="form-control" id="fname" name="first_name"
-                                                placeholder="First Name">
+                                                value="{{ $result['doctor']->first_name }}">
                                             @error('first_name')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -84,7 +88,7 @@
                                         <label for="lname" class="col-sm-2 col-form-label">Last Name</label>
                                         <div class="col-sm-2">
                                             <input type="text" class="form-control" id="lname" name="last_name"
-                                                placeholder="Last Name">
+                                                value="{{ $result['doctor']->last_name }}">
                                             @error('last_name')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -94,17 +98,20 @@
                                         <label class="col-sm-2 col-form-label" for="exampleInputEmail1">Sex</label>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input mt-1" type="radio" name="gender"
-                                                id="inlineRadio1" value="Male">
+                                                id="inlineRadio1" value="Male"
+                                                @if ($result['doctor']->gender == 'Male') checked @endif>
                                             <label class="form-check-label" for="inlineRadio1">Male</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input mt-1" type="radio" name="gender"
-                                                id="inlineRadio2" value="Female">
+                                                id="inlineRadio2" value="Female"
+                                                @if ($result['doctor']->gender == 'Female') checked @endif>
                                             <label class="form-check-label" for="inlineRadio2">Female</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input mt-1" type="radio" name="gender"
-                                                id="inlineRadio3" value="Others">
+                                                id="inlineRadio3" value="Others"
+                                                @if ($result['doctor']->gender == 'Others') checked @endif>
                                             <label class="form-check-label" for="inlineRadio2">Others</label>
                                         </div>
                                         @error('gender')
@@ -115,7 +122,7 @@
                                         <label for="contact" class="col-sm-2 col-form-label">Contact No.</label>
                                         <div class="col-sm-3">
                                             <input type="text" class="form-control" id="contact" name="contact"
-                                                placeholder="Contact Details">
+                                                value="{{ $result['doctor']->contact }}">
                                             @error('contact')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -123,7 +130,7 @@
                                         <label for="birthday" class="col-sm-2 col-form-label">Date of Birth</label>
                                         <div class="col-sm-3">
                                             <input type="text" class="form-control" id="nepali-datepicker"
-                                                name="nepali_date" placeholder="YYYY-MM-DD">
+                                                name="nepali_date" value="{{ $result['doctor']->nepali_date }}">
                                             @error('nepali_date')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -143,29 +150,8 @@
                                         <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                         <div class="col-sm-5">
                                             <input type="text" class="form-control" id="inputEmail" name="email"
-                                                placeholder="email">
+                                                value="{{ $result['user']->email }}">
                                             @error('email')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-                                        <div class="col-sm-5">
-                                            <input type="password" class="form-control" id="inputPassword"
-                                                name="password" placeholder="Password">
-                                            @error('password')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-2 col-form-label">Confirm
-                                            Password</label>
-                                        <div class="col-sm-5">
-                                            <input type="password" class="form-control" id="inputPassword"
-                                                name="password_confirmation" placeholder="Confirm Password">
-                                            @error('password_confirmation')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -197,7 +183,7 @@
 
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-secondary float-right m-2"
-                                        style="color: white">Create Doctor</button>
+                                        style="color: white">Edit Doctor</button>
                                     {{-- <button type="submit" onclick="" class="btn btn-info float-right m-2">Next</button> --}}
                                 </div>
                             </form>

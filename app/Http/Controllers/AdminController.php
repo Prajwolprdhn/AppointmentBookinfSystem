@@ -6,38 +6,26 @@ use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use App\Http\Requests\DoctorRequest;
+use App\Http\Requests\EditDoctorRequest;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        return view('home');
+        $user=User::all();
+        $department=Department::all();
+        return view('home',['user'=>$user,'department'=>$department]);
     }
-    // public function authenticate(Request $request){
-    //     $user = Auth::attempt( [
-    //         'email' => $request->email,
-    //         'password' => $request->password,
-    //     ]);      
-
-    //     if ($user) {
-    //         if (Auth::user()->role == 'Admin') {
-    //             return view('admin.dashboard');
-    //         }
-    //         elseif (Auth::user()->role == 'Doctor') {
-    //             return view('doctors.dashboard'); 
-    //         }else{
-    //             return view('/'); 
-    //         }
-    //     }
-    // }
-
     public function users_form(){
         return view('admin.forms.add_user');
     }
 
     public function users_table(){
-        $users = User::all();
+        $users = User::latest()->get();
+
         return view('admin.tables.user_details',['users' => $users]);
     }
 
@@ -45,29 +33,27 @@ class AdminController extends Controller
         return view('admin.tables.add_user');
     }
 
-    public function create(Request $request)
+    public function create(UserRequest $request)
     {
-        $formfields = $request->validate([
-            'status' => 'required|in:0,1',
-            'fname' => 'required|string|max:255',
-            'lname' => 'required|string|max:255',
-            'email' => 'required|unique:users|email',
-            'password' => 'required|confirmed|string|min:8',
-            'password_confirmation' => 'required',
-            'role' => 'nullable'
-        ]);
+        $formfields = $request;
 
         $formFields['status'] = $request->has('status') ? 1 : 0;
 
-        $formfields['name'] = $formfields['fname'] . ' ' . $formfields['lname'];
-        User::create($formfields);
+        $formfields['name'] = $formfields['first_name'] . ' ' . $formfields['last_name'];
+        $userData=User::create($formfields->all());
 
-        return redirect()->route('users_table')
-                        ->with('success','User created successfully.');
+        if($formfields['role'] == 1){
+            $formfields['user_id'] = $userData->id;
+        // dd($formfields->all());
+        $doctorData = Doctor::create($formfields->all());
+        }
+        Alert::success('Success!','User Created Sucessfully!');
+        return redirect()->route('users_table');
     }
 
     public function delete(User $user){
         $user->delete();
+        Alert::success('Success!','User Deleted Sucessfully!');
         return redirect()->route('users_table')->with('success', 'User deleted successfully.');
     }
 
@@ -86,7 +72,9 @@ class AdminController extends Controller
         $data = User::find($user_id);
 
         $formfields['name'] = $formfields['fname'] . ' ' . $formfields['lname'];
+        dd($formfields);
         $user_id->update($formfields);
+        Alert::success('Success!','User Edited Sucessfully!');
         return redirect()->route('users_table')
                         ->with('success','User updated successfully.');
     }
@@ -111,11 +99,6 @@ class AdminController extends Controller
         $formfields['name'] = $request['first_name'] . ' ' . $request['last_name'];
         $formfields['role'] = 1;
 
-        // NepaliFunctions.BS2AD("2065-02-15");
-        //BS to AD Conversion
-        // $english_date = $this->getEnglishDate($request['nepali_date']);
-        // dd($english_date);
-
         $userData = User::create($formfields->all());
 
         $formfields['user_id'] = $userData->id;
@@ -127,6 +110,42 @@ class AdminController extends Controller
     }
     public function delete_doctor(Doctor $doctor){
         $doctor->delete();
+        Alert::success('Success!','User Deleted Sucessfully!');
         return redirect()->route('doctors_table')->with('success', 'Doctor deleted successfully.');
+    }
+
+    public function edit_doctor($doctor_id){
+        $department = Department::all();
+        $data = Doctor::findOrFail($doctor_id);
+        $user = $data->user;
+        $result = [
+            'doctor' => $data,
+            'user' => $user,
+        ];
+        // dd($result);
+        return view('admin.forms.edit_doctor',['result'=>$result,'departments'=>$department]);
+    }
+
+    public function update_doctor(EditDoctorRequest $request, $doctor_id){
+        // $formfields = $request;
+        // // dd($doctor_id);
+        // $request['status'] = $request->has('status') ? 1 : 0;
+        // $formfields['name'] = $request['first_name'] . ' ' . $request['last_name'];
+        // $data = Doctor::findOrFail($doctor_id);
+        // $user = $data->user;
+        // // dd($formfields);
+        // $userData = User::where('id', $user->id)->update($formfields->all());
+        // dd($userData);
+        // $formfields['user_id'] = $userData->id;
+        // // dd($formfields->all());
+        // $doctorData = Doctor::update($formfields->all());
+
+        // return redirect()->route('doctors_table')
+        // ->with('success','User updated successfully.');
+
+        $formfields = $request;
+        $request['status'] = $request->has('status') ? 1 : 0;
+        $formfields['name'] = $request['first_name'] . ' ' . $request['last_name'];
+        dd($formfields);
     }
 }

@@ -59,6 +59,9 @@ Route::get('/home/doctors_table', [AdminController::class, 'doctors_table'])->na
 Route::get('/home/doctors_form', [AdminController::class, 'doctors_form'])->name('doctors_form');
 Route::post('/home/add_doctors', [AdminController::class, 'add_doctors'])->name('add_doctors');
 Route::delete('/home/delete_doctor/{doctor}', [AdminController::class, 'delete_doctor'])->name('delete_doctor');
+Route::get('/home/edit_doctor/{doctor_id}', [AdminController::class, 'edit_doctor'])->name('edit_doctor');
+Route::put('/home/edit_doc/{doctor_id}', [AdminController::class, 'update_doctor'])->name('edit_doc');
+
 
 
 

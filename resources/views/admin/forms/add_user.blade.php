@@ -69,7 +69,7 @@
                                     <div class="form-group row ">
                                         <label for="fname" class="col-sm-2 col-form-label ">First Name</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="fname" name="fname"
+                                            <input type="text" class="form-control" id="fname" name="first_name"
                                                 placeholder="First Name">
                                             @error('fname')
                                                 <span class="text-danger">{{ $message }}</span>
@@ -81,7 +81,7 @@
                     </div> --}}
                                         <label for="lname" class="col-sm-2 col-form-label">Last Name</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="lname" name="lname"
+                                            <input type="text" class="form-control" id="lname" name="last_name"
                                                 placeholder="Last Name">
                                             @error('lname')
                                                 <span class="text-danger">{{ $message }}</span>

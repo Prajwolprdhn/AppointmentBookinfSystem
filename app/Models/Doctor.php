@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\Education;
 use App\Models\Department;
 use App\Models\Experience;
@@ -30,6 +31,10 @@ class Doctor extends Model
         'user_id',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
     public function experience()
     {
         return $this->hasMany(Experience::class);

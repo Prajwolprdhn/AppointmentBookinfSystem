@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('institution');
             $table->integer('completion_year');
             $table->string('board');
-            $table->integer('score');
+            $table->double('score');
             $table->foreignId('doctors_id')->constrained('doctors');
             $table->timestamps();
         });
