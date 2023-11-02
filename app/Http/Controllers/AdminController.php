@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Doctor;
+use App\Models\Education;
 use App\Models\Department;
+use App\Models\Experience;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\DoctorRequest;
@@ -92,21 +94,77 @@ class AdminController extends Controller
         return view('admin.forms.doctors_form',['departments'=>$department]);
     }
     public function add_doctors(DoctorRequest $request){
-        // dd($request->all());
+        // foreach($request->get('education') as $educations){
+        //     dd($educations);
+        // }
+        // dd($request);
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image');
+            $fileName = $imagePath->getClientOriginalName();
+            $request['photo'] = $fileName;
+            $imagePath->storeAs('public/img', $fileName);
+        }
+        
         $formfields = $request;
-
         $request['status'] = $request->has('status') ? 1 : 0;
         $formfields['name'] = $request['first_name'] . ' ' . $request['last_name'];
         $formfields['role'] = 1;
-
+    
         $userData = User::create($formfields->all());
-
         $formfields['user_id'] = $userData->id;
-        // dd($formfields->all());
         $doctorData = Doctor::create($formfields->all());
+    
+        // Handle dynamic input fields for education
+        if ($request->has('education')) {
+            // foreach ($request->input('education.institution') as $key => $institution) {
+            //     $education = [
+            //         'doctors_id' => $doctorData->id,
+            //         'institution' => $institution,
+            //         'board' => $request->input('education.board')[$key],
+            //         'level' => $request->input('education.level')[$key],
+            //         'completion_year' => $request->input('education.completion_year')[$key],
+            //         'score' => $request->input('education.score')[$key],
+            //     ];
+            //     $educationData[] = $education;
+            // }
+            // Education::insert($educationData);
+
+            foreach ($request->input('education.institution') as $index => $institution) {
+                // Create a new Education instance
+                $education = new Education([
+                    'doctors_id' => $doctorData->id,
+                    'institution' => $institution,
+                    'board' => $request->input('education.board')[$index],
+                    'level' => $request->input('education.level')[$index],
+                    'completion_year' => $request->input('education.completion_year')[$index],
+                    'score' => $request->input('education.score')[$index],
+                ]);
+
+                // Save the education record
+                $education->save();
+            }
+        }
+
+        // Handle dynamic input fields for experience
+        if ($request->has('experience')) {
+            foreach ($request->input('experience.organization') as $index => $organization) {
+                $experience = new Experience([
+                    'doctors_id' => $doctorData->id,
+                    'organization' => $organization,
+                    'position' => $request->input('experience.position')[$index],
+                    'start_date' => $request->input('experience.start_date')[$index],
+                    'end_date' => $request->input('experience.end_date')[$index],
+                    'job_description' => $request->input('experience.job_description')[$index],
+                ]);
+
+                $experience->save();
+            }
+        }
+
+        Alert::success('Success!','Doctor Added Successfully!');
 
         return redirect()->route('doctors_table')
-        ->with('success','User updated successfully.');
+            ->with('success', 'User updated successfully.');
     }
     public function delete_doctor(Doctor $doctor){
         $doctor->delete();
@@ -147,5 +205,9 @@ class AdminController extends Controller
         $request['status'] = $request->has('status') ? 1 : 0;
         $formfields['name'] = $request['first_name'] . ' ' . $request['last_name'];
         dd($formfields);
+    }
+
+    public function view_doctor(){
+        return view('admin.view.doctors_view');
     }
 }

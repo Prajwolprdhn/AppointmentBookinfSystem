@@ -62,7 +62,7 @@ Route::delete('/home/delete_doctor/{doctor}', [AdminController::class, 'delete_d
 Route::get('/home/edit_doctor/{doctor_id}', [AdminController::class, 'edit_doctor'])->name('edit_doctor');
 Route::put('/home/edit_doc/{doctor_id}', [AdminController::class, 'update_doctor'])->name('edit_doc');
 
-
+Route::get('/home/view_doctor',[AdminController::class,'view_doctor'])->name('view_doctor');
 
 
 Route::post('/home/add_users', [AdminController::class, 'create'])->name('add_users');

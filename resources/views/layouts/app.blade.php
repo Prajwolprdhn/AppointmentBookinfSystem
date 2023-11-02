@@ -23,7 +23,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Nepali Datepicker -->
     <link href="http://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/css/nepali.datepicker.v4.0.1.min.css"
         rel="stylesheet" type="text/css" />
-    {{-- <link rel="stylesheet" href="{{ asset('css/nepali.datepicker.v4.0.1.min.css') }}"> --}}
+
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
     <style>
         .project-actions form {
             display: inline;
@@ -69,4 +72,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         mainInput.nepaliDatePicker();
     };
 </script>
+
+
+
+<script src="{{ asset('js/imagepreview.js') }}"></script>
+
 {{-- <script src="{{ asset('js/nepali.datepicker.v4.0.1.min.js') }}"></script> --}}

@@ -55,7 +55,7 @@
                                                 </td>
                                                 <td>{{ $doctor->contact }}</td>
                                                 <td class="project-actions text-right">
-                                                    <form action="#" method="post">
+                                                    <form action="{{ route('view_doctor') }}" method="get">
                                                         <button type="submit" class="btn btn-warning"><i
                                                                 class="fa fa-eye pr-2"></i> View</button>
                                                     </form>
