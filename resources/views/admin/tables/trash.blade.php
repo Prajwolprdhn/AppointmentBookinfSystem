@@ -54,7 +54,9 @@
                                                 </td>
                                                 <td>{{ $doctor->contact }}</td>
                                                 <td class="project-actions text-right">
-                                                    <form action="" method="get">
+                                                    <form action="{{ route('restore', ['user_id' => $doctor->user_id]) }}"
+                                                        method="post">
+                                                        @csrf
                                                         <button type="submit" class="btn btn-success"
                                                             style="color:white;"><i class="fa fa-redo pr-2"></i>
                                                             Restore</button>
@@ -65,9 +67,6 @@
                                                         method="post">
                                                         @csrf
                                                         @method('DELETE')
-                                                        {{-- <button type="submit" class="btn btn-danger"><i
-                                                                class="fas fa-trash pr-2">
-                                                            </i>Delete</button> --}}
                                                         <button type="button" class="btn btn-danger" data-toggle="modal"
                                                             data-target="#modal-default">
                                                             <i class="fas fa-trash pr-2">

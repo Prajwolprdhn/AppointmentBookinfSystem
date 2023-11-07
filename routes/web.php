@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DepartmentController;
 
 /*
@@ -84,7 +85,11 @@ Route::put('/home/edit_department/{department_id}', [DepartmentController::class
 //Trash
 Route::resource('trash',TrashController::class);
 
-// Route::get('trash', [TrashController::class, 'index'])->name('trash.index');
+Route::post('trash/restore/{user_id}', [TrashController::class, 'restore'])->name('restore');
+
+
+//Schedule
+Route::resource('schedule',ScheduleController::class);
 
 
 

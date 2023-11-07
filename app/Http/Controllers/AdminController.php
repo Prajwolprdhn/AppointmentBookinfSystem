@@ -87,7 +87,7 @@ class AdminController extends Controller
 
 
     public function doctors_table(){
-        $doctors = Doctor::all();
+        $doctors = Doctor::latest()->get();
         return view('admin.tables.doctors_details',['doctors'=>$doctors]);
     }
     public function doctors_form(){
@@ -154,6 +154,9 @@ class AdminController extends Controller
         return redirect()->route('doctors_table');
     }
     public function delete_doctor(Doctor $doctor){
+        if($doctor->user){
+            $doctor->user->delete();
+        }
         $doctor->delete();
         Alert::success('Success!','User Deleted Sucessfully!');
         return redirect()->route('doctors_table')->with('success', 'Doctor deleted successfully.');
@@ -170,31 +173,56 @@ class AdminController extends Controller
         // dd($result);
 
         $doctor = Doctor::findOrFail($doctor_id);
+        $departments = Department::all();
 
-        return view('admin.forms.edit_doctor',compact('doctor'));
+        return view('admin.forms.edit_doctor',compact('doctor','departments'));
     }
 
-    public function update_doctor(EditDoctorRequest $request, $doctor_id){
-        // $formfields = $request;
-        // // dd($doctor_id);
-        // $request['status'] = $request->has('status') ? 1 : 0;
-        // $formfields['name'] = $request['first_name'] . ' ' . $request['last_name'];
-        // $data = Doctor::findOrFail($doctor_id);
-        // $user = $data->user;
-        // // dd($formfields);
-        // $userData = User::where('id', $user->id)->update($formfields->all());
-        // dd($userData);
-        // $formfields['user_id'] = $userData->id;
-        // // dd($formfields->all());
-        // $doctorData = Doctor::update($formfields->all());
-
-        // return redirect()->route('doctors_table')
-        // ->with('success','User updated successfully.');
-
+    public function update_doctor(EditDoctorRequest $request,Doctor $doctor_id){
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image');
+            $fileName = $imagePath->getClientOriginalName();
+            $request['photo'] = 'storage/img/' . $fileName;
+            $imagePath->storeAs('public/img', $fileName);
+        }
         $formfields = $request;
-        $request['status'] = $request->has('status') ? 1 : 0;
         $formfields['name'] = $request['first_name'] . ' ' . $request['last_name'];
-        dd($formfields);
+        $doctor_id->user->update($formfields->all());
+        if ($doctor_id) {
+             Education::where('doctors_id', $doctor_id->id)->delete();
+        }
+        foreach ($request->input('education.institution') as $index => $institution) {
+            // Create a new Education instance
+            $education = new Education([
+                'doctors_id' => $doctor_id->id,
+                'institution' => $institution,
+                'board' => $request->input('education.board')[$index],
+                'level' => $request->input('education.level')[$index],
+                'completion_year' => $request->input('education.completion_year')[$index],
+                'score' => $request->input('education.score')[$index],
+            ]);
+            $education->save();
+        }
+        if ($doctor_id) {
+            Experience::where('doctors_id', $doctor_id->id)->delete();
+        }
+        foreach ($request->input('experience.organization') as $index => $organization) {
+            $experience = new Experience([
+                'doctors_id' => $doctor_id->id,
+                'organization' => $organization,
+                'position' => $request->input('experience.position')[$index],
+                'start_date' => $request->input('experience.start_date')[$index],
+                'end_date' => $request->input('experience.end_date')[$index],
+                'job_description' => $request->input('experience.job_description')[$index],
+            ]);
+
+            $experience->save();
+        }
+
+        $doctor_id->update($formfields->all());
+        Alert::success('Success!','Doctor Updated Successfully!');
+
+        return redirect()->route('doctors_table');
     }
 
     public function view_doctor($id){
@@ -203,5 +231,4 @@ class AdminController extends Controller
         return view('admin.view.doctors_view',compact('doctor'));
     }
 
-    
 }

@@ -188,6 +188,7 @@
                                                 <div class="row second-form">
                                                     <div class="col-sm-3 nopadding">
                                                         <div class="form-group">
+                                                            <label for="institution">Institution</label>
                                                             <input type="text" class="form-control" id="institution"
                                                                 name="education[institution][]"
                                                                 placeholder="Institution Name" required />
@@ -198,6 +199,7 @@
                                                     </div>
                                                     <div class="col-sm-2 nopadding">
                                                         <div class="form-group">
+                                                            <label for="board">Board</label>
                                                             <input type="text" class="form-control" id="board"
                                                                 name="education[board][]" value=""
                                                                 placeholder="Board" required />
@@ -208,6 +210,7 @@
                                                     </div>
                                                     <div class="col-sm-2 nopadding">
                                                         <div class="form-group">
+                                                            <label for="level">Level</label>
                                                             <div class="input-group">
                                                                 <select class="form-control" id="level"
                                                                     name="education[level][]" required>
@@ -227,6 +230,7 @@
                                                     </div>
                                                     <div class="col-sm-2 nopadding">
                                                         <div class="form-group">
+                                                            <label for="completion_year">Completion Year</label>
                                                             <input type="text" class="form-control"
                                                                 id="completion_year" name="education[completion_year][]"
                                                                 value="" placeholder="Completion Year" required />
@@ -237,6 +241,7 @@
                                                     </div>
                                                     <div class="col-sm-1 nopadding">
                                                         <div class="form-group">
+                                                            <label for="score">Score</label>
                                                             <input type="text" class="form-control" id="score"
                                                                 name="education[score][]" placeholder="Score" required />
                                                             @error('score')
@@ -245,8 +250,9 @@
                                                         </div>
                                                     </div>
                                                     <!-- Add Remove button next to input fields -->
-                                                    <div class="col-sm-1 nopadding">
+                                                    <div class="col-sm-1 nopadding mt-2">
                                                         <div class="form-group">
+                                                            <label for=""></label>
                                                             <button type="button"
                                                                 class="btn btn-danger remove-button">Remove</button>
                                                         </div>

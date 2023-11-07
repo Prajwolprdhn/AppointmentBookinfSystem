@@ -99,10 +99,44 @@
                 @endif
                 @if (auth()->check() && auth()->user()->role == 0)
                     <li class="nav-item">
+                        <a href="{{ route('schedule.index') }}" class="nav-link">
+                            <i class="far fa-calendar pr-3"></i>
+                            <p>Schedule Management</p>
+                        </a>
+                    </li>
+                @endif
+                @if (auth()->check() && auth()->user()->role == 0)
+                    <li class="nav-item">
                         <a href="{{ route('trash.index') }}" class="nav-link">
                             <i class="fa fa-trash pr-3"></i>
                             <p>Trash</p>
                         </a>
+                    </li>
+                @endif
+
+                @if (auth()->check() && auth()->user()->role == 0)
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-wrench pr-3"></i>
+                            <p>
+                                Settings
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="pages/layout/top-nav.html" class="nav-link">
+                                    <i class="fas fa-user-edit nav-icon"></i>
+                                    <p>Edit Profile</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                                    <i class="fas fa-unlock nav-icon"></i>
+                                    <p>Change Password</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 @endif
             </ul>

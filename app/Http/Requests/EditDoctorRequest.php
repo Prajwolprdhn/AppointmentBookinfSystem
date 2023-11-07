@@ -26,7 +26,7 @@ class EditDoctorRequest extends FormRequest
             'first_name' => 'required',
             'last_name' => 'required|string|max:255',
             'contact' => 'required|string|max:255',
-            'email' => 'required|email',
+            // 'email' => 'required|email',
             // 'dob' => 'required|string|max:255',
             'gender' => 'required|string|max:255',
             'department_id' => 'required',

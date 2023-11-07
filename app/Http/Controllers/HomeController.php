@@ -28,7 +28,9 @@ class HomeController extends Controller
     {
         $user=User::all();
         $department=Department::all();
-        return view('home',['user'=>$user,'department'=>$department]);
+        $trashedCount = User::onlyTrashed()->count();
+
+        return view('home',['user'=>$user,'department'=>$department, 'trashedCount'=>$trashedCount]);
     }
     // public function authenticate(Request $request){
     //     $user = Auth::attempt( [

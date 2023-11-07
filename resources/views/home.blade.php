@@ -99,7 +99,7 @@
                         <!-- small card -->
                         <div class="small-box bg-secondary">
                             <div class="inner">
-                                <h3>2
+                                <h3>{{ $trashedCount }}
                                 </h3>
 
                                 <p>Trash</p>

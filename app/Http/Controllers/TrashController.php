@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TrashController extends Controller
 {
@@ -71,6 +72,20 @@ class TrashController extends Controller
             $user->forceDelete();
         }
         $doctor->forceDelete();
+        Alert::success('Success!','User Deleted Sucessfully!');
         return redirect()->route('trash.index');
+    }
+
+    public function restore($user_id){
+        // dd($user_id);
+        $doctor = Doctor::onlyTrashed()->where('user_id', $user_id)->first();
+        if($doctor){
+            $doctor->restore();
+        }
+        $user = User::onlyTrashed()->find($user_id);
+        $user->restore();
+        Alert::success('Success!','User Restored Sucessfully!');
+        return redirect()->route('trash.index');
+
     }
 }
