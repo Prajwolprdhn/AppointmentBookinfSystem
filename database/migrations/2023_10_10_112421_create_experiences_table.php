@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('start_date');
             $table->integer('end_date');
             $table->longText('job_description');
-            $table->foreignId('doctors_id')->constrained('doctors');
+            $table->foreignId('doctors_id')->constrained('doctors')->onDelete('cascade');
             $table->timestamps();
         });
     }

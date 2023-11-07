@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
+use App\Models\Department;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,5 +23,18 @@ class DatabaseSeeder extends Seeder
             'role' => 0,
             'status'=> 1
         ]);
+        $departmentNames = [
+            'Cardiologists',
+            'Neurologists',
+            'Pediatricians',
+            'Oncologists',
+            'Dermatologists',
+        ];
+
+        foreach ($departmentNames as $name) {
+            Department::create([
+                'departments' => $name,
+            ]);
+        }
     }
 }

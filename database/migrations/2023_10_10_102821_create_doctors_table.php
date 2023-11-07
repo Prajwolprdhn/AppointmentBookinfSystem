@@ -13,21 +13,22 @@ return new class extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('lisence_no');
+            $table->bigInteger('lisence_no')->nullable();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('contact');
+            $table->string('contact')->nullable();
             $table->string('photo')->nullable();
             $table->string('province')->nullable();
             $table->string('district')->nullable();
             $table->string('municipality')->nullable();
             $table->string('ward')->nullable();
             $table->string('tole')->nullable();
-            $table->enum('gender',['Male', 'Female', 'Others']);
+            $table->enum('gender',['Male', 'Female', 'Others'])->nullable();
             $table->string('nepali_date')->nullable();
             $table->string('english_date')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('department_id')->constrained('departments');
+            $table->softDeletes(); // This adds the 'deleted_at' column
             $table->timestamps();
         });
     }

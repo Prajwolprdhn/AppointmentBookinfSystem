@@ -213,11 +213,11 @@
                                                                     name="education[level][]" required>
 
                                                                     <option value="">Level</option>
-                                                                    <option value="2015">S.E.E</option>
-                                                                    <option value="2016">+2</option>
-                                                                    <option value="2017">Bachelors</option>
-                                                                    <option value="2018">Masters</option>
-                                                                    <option value="2018">PhD</option>
+                                                                    <option value="S.E.E">S.E.E</option>
+                                                                    <option value="+2">+2</option>
+                                                                    <option value="Bachelors">Bachelors</option>
+                                                                    <option value="Masters">Masters</option>
+                                                                    <option value="PhD">PhD</option>
                                                                 </select>
                                                                 @error('level')
                                                                     <span class="text-danger">{{ $message }}</span>
@@ -242,6 +242,13 @@
                                                             @error('score')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
+                                                        </div>
+                                                    </div>
+                                                    <!-- Add Remove button next to input fields -->
+                                                    <div class="col-sm-1 nopadding">
+                                                        <div class="form-group">
+                                                            <button type="button"
+                                                                class="btn btn-danger remove-button">Remove</button>
                                                         </div>
                                                     </div>
 
@@ -310,8 +317,14 @@
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
                                                         </div>
+                                                        <div class="col-sm-9 nopadding text-right">
+                                                            <div class="form-group">
+                                                                <button type="button"
+                                                                    class="btn btn-danger remove-button">Remove</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-
+                                                    <!-- Add Remove button next to input fields -->
 
                                                 </div>
                                             </div>
@@ -497,6 +510,12 @@
             document.getElementById('addInput2').addEventListener('click', function() {
                 const newRow = document.querySelector('.third-form').cloneNode(true);
                 document.querySelector('.third-form').parentNode.appendChild(newRow);
+            });
+            // Remove an input field when the "Remove" button is clicked
+            document.addEventListener('click', function(e) {
+                if (e.target && e.target.classList.contains('remove-button')) {
+                    e.target.closest('.second-form').remove();
+                }
             });
         });
     </script>

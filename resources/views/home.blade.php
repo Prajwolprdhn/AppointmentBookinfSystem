@@ -51,7 +51,7 @@
                                 <p>Total Doctors</p>
                             </div>
                             <div class="icon">
-                                <i class="fas fa-shopping-cart"></i>
+                                <i class="fas fa-user-md"></i>
                             </div>
                             <a href="{{ route('doctors_table') }}" class="small-box-footer">
                                 More info <i class="fas fa-arrow-circle-right"></i>
@@ -84,6 +84,25 @@
                                 <h3>{{ $user->where('status', 0)->count() }}</h3>
 
                                 <p>Inactive Users</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <a href="{{ route('users_table') }}" class="small-box-footer">
+                                More info <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-secondary">
+                            <div class="inner">
+                                <h3>2
+                                </h3>
+
+                                <p>Trash</p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-chart-pie"></i>

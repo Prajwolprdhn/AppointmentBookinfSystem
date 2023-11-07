@@ -8,13 +8,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Doctors Management</h1>
+                        <h1>Trash</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}" style="text-decoration: none">Home</a>
                             </li>
-                            <li class="breadcrumb-item active">Doctors Management</li>
+                            <li class="breadcrumb-item active">Trash Management</li>
                         </ol>
                     </div>
                 </div>
@@ -27,9 +27,7 @@
                     <div class="col-12">
                         <div class="card card-info">
                             <div class="card-header ">
-                                <h3 class="card-title mt-2">List of Doctors</h3>
-                                <a class="btn btn-light float-right" href="{{ route('doctors_form') }}" role="button"
-                                    style="color: black"><i class="fa fa-plus-circle mr-2"></i> Add Doctors</a>
+                                <h3 class="card-title mt-2">List of Deleted Users</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body table-responsive p-0">
@@ -38,7 +36,7 @@
                                         <tr>
                                             <th>S.N.</th>
                                             <th>Name</th>
-                                            <th>Department</th>
+                                            <th>Email</th>
                                             <th>Contact</th>
                                         </tr>
                                     </thead>
@@ -56,20 +54,14 @@
                                                 </td>
                                                 <td>{{ $doctor->contact }}</td>
                                                 <td class="project-actions text-right">
-                                                    <form action="{{ route('view_doctor', ['doctor_id' => $doctor->id]) }}"
-                                                        method="get">
-                                                        <button type="submit" class="btn btn-info" style="color:white;"><i
-                                                                class="fa fa-eye pr-2"></i>
-                                                            View</button>
+                                                    <form action="" method="get">
+                                                        <button type="submit" class="btn btn-success"
+                                                            style="color:white;"><i class="fa fa-redo pr-2"></i>
+                                                            Restore</button>
                                                     </form>
-                                                    <form action="{{ route('edit_doctor', ['doctor_id' => $doctor->id]) }}"
-                                                        method="get">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-warning" style="color:white;">
-                                                            <i class="fa fa-pen-square pr-2">
-                                                            </i>Edit</button>
-                                                    </form>
-                                                    <form action="{{ route('delete_doctor', ['doctor' => $doctor]) }}"
+
+                                                    <form
+                                                        action="{{ route('trash.destroy', ['trash' => $doctor->user_id]) }}"
                                                         method="post">
                                                         @csrf
                                                         @method('DELETE')

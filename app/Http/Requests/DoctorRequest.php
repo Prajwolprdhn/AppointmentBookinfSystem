@@ -32,7 +32,8 @@ class DoctorRequest extends FormRequest
             // 'dob' => 'required|string|max:255',
             'gender' => 'required|string|max:255',
             'department_id' => 'required',
-            'role' => 'nullable'
+            'role' => 'nullable',
+            // 'image' => 'required|image|size:3072'
         ];
     }
 }

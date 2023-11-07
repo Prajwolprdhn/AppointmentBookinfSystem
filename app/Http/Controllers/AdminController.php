@@ -53,7 +53,11 @@ class AdminController extends Controller
         return redirect()->route('users_table');
     }
 
-    public function delete(User $user){
+    public function delete($user_id){
+        $user = User::findOrFail($user_id);
+        if($user->doctor){
+            $user->doctor->delete();
+        }
         $user->delete();
         Alert::success('Success!','User Deleted Sucessfully!');
         return redirect()->route('users_table')->with('success', 'User deleted successfully.');
@@ -74,7 +78,7 @@ class AdminController extends Controller
         $data = User::find($user_id);
 
         $formfields['name'] = $formfields['fname'] . ' ' . $formfields['lname'];
-        dd($formfields);
+        // dd($formfields);
         $user_id->update($formfields);
         Alert::success('Success!','User Edited Sucessfully!');
         return redirect()->route('users_table')
@@ -84,9 +88,6 @@ class AdminController extends Controller
 
     public function doctors_table(){
         $doctors = Doctor::all();
-        // $departmentValue = $doctors['department'];
-        // $data= Department::find($departmentValue);
-        // $doctors['department'] = $data['departments'];
         return view('admin.tables.doctors_details',['doctors'=>$doctors]);
     }
     public function doctors_form(){
@@ -101,7 +102,7 @@ class AdminController extends Controller
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image');
             $fileName = $imagePath->getClientOriginalName();
-            $request['photo'] = $fileName;
+            $request['photo'] = 'storage/img/' . $fileName;
             $imagePath->storeAs('public/img', $fileName);
         }
         
@@ -116,19 +117,6 @@ class AdminController extends Controller
     
         // Handle dynamic input fields for education
         if ($request->has('education')) {
-            // foreach ($request->input('education.institution') as $key => $institution) {
-            //     $education = [
-            //         'doctors_id' => $doctorData->id,
-            //         'institution' => $institution,
-            //         'board' => $request->input('education.board')[$key],
-            //         'level' => $request->input('education.level')[$key],
-            //         'completion_year' => $request->input('education.completion_year')[$key],
-            //         'score' => $request->input('education.score')[$key],
-            //     ];
-            //     $educationData[] = $education;
-            // }
-            // Education::insert($educationData);
-
             foreach ($request->input('education.institution') as $index => $institution) {
                 // Create a new Education instance
                 $education = new Education([
@@ -163,8 +151,7 @@ class AdminController extends Controller
 
         Alert::success('Success!','Doctor Added Successfully!');
 
-        return redirect()->route('doctors_table')
-            ->with('success', 'User updated successfully.');
+        return redirect()->route('doctors_table');
     }
     public function delete_doctor(Doctor $doctor){
         $doctor->delete();
@@ -173,15 +160,18 @@ class AdminController extends Controller
     }
 
     public function edit_doctor($doctor_id){
-        $department = Department::all();
-        $data = Doctor::findOrFail($doctor_id);
-        $user = $data->user;
-        $result = [
-            'doctor' => $data,
-            'user' => $user,
-        ];
+        // $department = Department::all();
+        // $data = Doctor::findOrFail($doctor_id);
+        // $user = $data->user;
+        // $result = [
+        //     'doctor' => $data,
+        //     'user' => $user,
+        // ];
         // dd($result);
-        return view('admin.forms.edit_doctor',['result'=>$result,'departments'=>$department]);
+
+        $doctor = Doctor::findOrFail($doctor_id);
+
+        return view('admin.forms.edit_doctor',compact('doctor'));
     }
 
     public function update_doctor(EditDoctorRequest $request, $doctor_id){
@@ -207,7 +197,11 @@ class AdminController extends Controller
         dd($formfields);
     }
 
-    public function view_doctor(){
-        return view('admin.view.doctors_view');
+    public function view_doctor($id){
+        $doctor = Doctor::findOrFail($id);
+        // dd($doctor);
+        return view('admin.view.doctors_view',compact('doctor'));
     }
+
+    
 }

@@ -97,6 +97,14 @@
                         </a>
                     </li>
                 @endif
+                @if (auth()->check() && auth()->user()->role == 0)
+                    <li class="nav-item">
+                        <a href="{{ route('trash.index') }}" class="nav-link">
+                            <i class="fa fa-trash pr-3"></i>
+                            <p>Trash</p>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

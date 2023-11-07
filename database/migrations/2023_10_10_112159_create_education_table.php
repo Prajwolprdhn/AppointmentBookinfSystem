@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('completion_year');
             $table->string('board');
             $table->double('score');
-            $table->foreignId('doctors_id')->constrained('doctors');
+            $table->foreignId('doctors_id')->constrained('doctors')->onDelete('cascade');
             $table->timestamps();
         });
     }

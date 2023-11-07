@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->integer('role')->nullable();     /*0 - Admin  // 1 - Doctor // 2 - User*/
             $table->boolean('status')->default(0);  /*0 - Inactive // 1 - Active */
+            $table->softDeletes(); // This adds the 'deleted_at' column
             $table->rememberToken();
             $table->timestamps();
         });

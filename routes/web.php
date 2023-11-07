@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TrashController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DepartmentController;
 
@@ -62,7 +63,7 @@ Route::delete('/home/delete_doctor/{doctor}', [AdminController::class, 'delete_d
 Route::get('/home/edit_doctor/{doctor_id}', [AdminController::class, 'edit_doctor'])->name('edit_doctor');
 Route::put('/home/edit_doc/{doctor_id}', [AdminController::class, 'update_doctor'])->name('edit_doc');
 
-Route::get('/home/view_doctor',[AdminController::class,'view_doctor'])->name('view_doctor');
+Route::get('/home/view_doctor/{doctor_id}',[AdminController::class,'view_doctor'])->name('view_doctor');
 
 
 Route::post('/home/add_users', [AdminController::class, 'create'])->name('add_users');
@@ -78,6 +79,13 @@ Route::delete('/home/delete_department/{department}', [DepartmentController::cla
 
 Route::get('/home/edit_department/{department_id}', [DepartmentController::class, 'edit_department'])->name('edit_department');
 Route::put('/home/edit_department/{department_id}', [DepartmentController::class, 'update'])->name('update_department');
+
+
+//Trash
+Route::resource('trash',TrashController::class);
+
+// Route::get('trash', [TrashController::class, 'index'])->name('trash.index');
+
 
 
 
