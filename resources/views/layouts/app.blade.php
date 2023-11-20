@@ -34,6 +34,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             margin-right: 10px;
             /* Add some spacing between buttons */
         }
+
+        .modal-header {
+            background: rgb(72, 191, 196);
+            color: #fff;
+        }
+
+        .required:after {
+            content: "*";
+            color: red;
+        }
     </style>
 </head>
 
@@ -64,6 +74,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 
+<script src="{{ asset('js/nepalidatepicker.js') }}"></script>
+<script src="{{ asset('js/formchange.js') }}"></script>
+<script src="{{ asset('js/field_add.js') }}"></script>
+<script src="{{ asset('js/time_add.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+        // Initialize Nepali Date Picker for Modal
+        $("#modal-nepali-date-picker").nepaliDatePicker({
+            container: "#myModal",
+        });
+    });
+
+    function getDate() {
+        var nepali = document.getElementById("modal-nepali-date-picker").value;
+        converted = NepaliFunctions.BS2AD(nepali);
+
+        var english = document.getElementById("english_date");
+        english.value = converted;
+    }
+</script>
 <script src="http://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/js/nepali.datepicker.v4.0.1.min.js"
     type="text/javascript"></script>
 <script type="text/javascript">

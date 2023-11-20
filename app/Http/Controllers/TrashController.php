@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
@@ -16,6 +17,9 @@ class TrashController extends Controller
     {
         $userData = User::onlyTrashed()->get();
         $doctorData = Doctor::onlyTrashed()->get();
+        // $date = Carbon::parse('2023-11-09');
+        // $day = $date->format('l');
+        // dd($day);
         return view('admin.tables.trash', ['user' => $userData, 'doctors' => $doctorData]);
     }
 

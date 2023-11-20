@@ -51,7 +51,7 @@
                                                         action="{{ route('edit_department', ['department_id' => $department->id]) }}"
                                                         method="get">
                                                         @csrf
-                                                        <button type="submit" class="btn btn-info"> <i
+                                                        <button type="submit" class="btn btn-info" style="color:white;"> <i
                                                                 class="fa fa-pen-square pr-2">
                                                             </i>Edit</button>
                                                     </form>

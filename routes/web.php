@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DepartmentController;
 
@@ -19,17 +21,14 @@ use App\Http\Controllers\DepartmentController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-//authenticating user
-// Route::post('/users/authenticate',[HomeController::class,'authenticate'])->name('authenticate');
+Route::get('/', [PatientController::class, 'index'])->name('main');
+
 Auth::routes();
 
 
 
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [AdminController::class, 'index'])->name('home');
 
 
 
@@ -90,8 +89,9 @@ Route::post('trash/restore/{user_id}', [TrashController::class, 'restore'])->nam
 
 //Schedule
 Route::resource('schedule',ScheduleController::class);
+// Route::post('/schedule/store/{doctors_id}', [ScheduleController::class, 'store'])->name('schedule.data');
 
 
-
-
+//Patiennt
+Route::resource('booking',BookingController::class);
 

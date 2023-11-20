@@ -68,13 +68,14 @@
                                                 </td>
                                                 <td class="project-actions text-right">
                                                     <form action="#" method="post">
-                                                        <button type="submit" class="btn btn-warning"><i
-                                                                class="fa fa-eye pr-2"></i> View</button>
+                                                        <button type="submit" class="btn btn-warning"
+                                                            style="color:white;"><i class="fa fa-eye pr-2"></i>
+                                                            View</button>
                                                     </form>
                                                     <form action="{{ route('edit_form', ['user_id' => $user->id]) }}"
                                                         method="get">
                                                         @csrf
-                                                        <button type="submit" class="btn btn-info"> <i
+                                                        <button type="submit" class="btn btn-info" style="color:white;"> <i
                                                                 class="fa fa-pen-square pr-2">
                                                             </i>Edit</button>
                                                     </form>

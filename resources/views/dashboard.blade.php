@@ -22,6 +22,7 @@
         <!-- /.content-header -->
 
         <!-- Main content -->
+
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -117,6 +118,8 @@
                 <!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
+
+
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->

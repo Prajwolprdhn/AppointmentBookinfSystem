@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Schedule;
 use App\Models\Education;
 use App\Models\Department;
 use App\Models\Experience;
@@ -49,5 +50,8 @@ class Doctor extends Model
     }
     public function department(){
         return $this->belongsTo(Department::class);
+    }
+    public function schedule(){
+        return $this->hasMany(Schedule::class,'doctors_id','id');
     }
 }

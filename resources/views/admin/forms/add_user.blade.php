@@ -50,22 +50,6 @@
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    {{-- <div class="form-group row">
-                    <label for="lisence" class="col-sm-2 col-form-label">Lisence No.</label>
-                    <div class="col-sm-5">
-                      <input type="text" class="form-control" id="lisence" value="Lisence No.">
-                    </div>
-                    <label for="dept" class="col-sm-2 col-form-label">Department</label>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control" id="dept" value="Department">
-                    </div>
-                  </div> --}}
-                                    {{-- <div class="form-group row">
-                    <label for="name" class="col-sm-2 col-form-label">Full Name</label>
-                    <div class="col-sm-5">
-                      <input type="text" class="form-control" id="name" placeholder="Full Name">
-                    </div>
-                  </div> --}}
                                     <div class="form-group row ">
                                         <label for="fname" class="col-sm-2 col-form-label ">First Name</label>
                                         <div class="col-sm-2">
@@ -75,10 +59,6 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        {{-- <label for="mname" class="col-sm-2 col-form-label">Middle Name</label>
-                    <div class="col-sm-2">
-                      <input type="text" class="form-control" id="mname" placeholder="Middle Name">
-                    </div> --}}
                                         <label for="lname" class="col-sm-2 col-form-label">Last Name</label>
                                         <div class="col-sm-2">
                                             <input type="text" class="form-control" id="lname" name="last_name"
@@ -88,25 +68,6 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    {{-- <div class="form-group row">
-                    <!-- radio -->
-                      <div class="form-group">
-                        <label class="col-sm-2 col-form-label" for="exampleInputEmail1">Sex</label>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input mt-1" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                          <label class="form-check-label" for="inlineRadio1">Male</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input mt-1" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                          <label class="form-check-label" for="inlineRadio2">Female</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input mt-1" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                          <label class="form-check-label" for="inlineRadio2">Others</label>
-                        </div>
-                      </div>
-                  </div> --}}
-
                                     <div class="form-group row">
                                         <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                         <div class="col-sm-5">

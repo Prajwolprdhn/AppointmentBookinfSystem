@@ -17,9 +17,14 @@ class AdminController extends Controller
 {
     public function index()
     {
+        // $user=User::all();
+        // $department=Department::all();
+        // return view('home',['user'=>$user,'department'=>$department]);
+
         $user=User::all();
         $department=Department::all();
-        return view('home',['user'=>$user,'department'=>$department]);
+        $trashedCount = User::onlyTrashed()->count();
+        return view('dashboard',['user'=>$user,'department'=>$department, 'trashedCount'=>$trashedCount]);
     }
     public function users_form(){
         return view('admin.forms.add_user');
@@ -38,7 +43,6 @@ class AdminController extends Controller
     public function create(UserRequest $request)
     {
         $formfields = $request;
-
         $formFields['status'] = $request->has('status') ? 1 : 0;
 
         $formfields['name'] = $formfields['first_name'] . ' ' . $formfields['last_name'];
@@ -46,7 +50,6 @@ class AdminController extends Controller
 
         if($formfields['role'] == 1){
             $formfields['user_id'] = $userData->id;
-        // dd($formfields->all());
         $doctorData = Doctor::create($formfields->all());
         }
         Alert::success('Success!','User Created Sucessfully!');

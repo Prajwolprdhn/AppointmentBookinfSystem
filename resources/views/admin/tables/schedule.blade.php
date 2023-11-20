@@ -56,13 +56,7 @@
                                                 </td>
                                                 <td>{{ $doctor->contact }}</td>
                                                 <td class="project-actions text-right">
-                                                    {{-- <form action="{{ route('view_doctor', ['doctor_id' => $doctor->id]) }}"
-                                                        method="get">
-                                                        <button type="submit" class="btn btn-info" style="color:white;"><i
-                                                                class="fa fa-eye pr-2"></i>
-                                                            View</button>
-                                                    </form> --}}
-                                                    <form action="{{ route('edit_doctor', ['doctor_id' => $doctor->id]) }}"
+                                                    <form action="{{ route('schedule.show', ['schedule' => $doctor->id]) }}"
                                                         method="get">
                                                         @csrf
                                                         <button type="submit" class="btn btn-info" style="color:white;">
