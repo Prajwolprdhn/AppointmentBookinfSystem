@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Doctor;
+use App\Models\Booking;
 use App\Models\Education;
 use App\Models\Department;
 use App\Models\Experience;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\DoctorRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\EditDoctorRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -17,14 +19,30 @@ class AdminController extends Controller
 {
     public function index()
     {
-        // $user=User::all();
-        // $department=Department::all();
-        // return view('home',['user'=>$user,'department'=>$department]);
-
         $user=User::all();
         $department=Department::all();
+        $patient=Department::all();
+        $doctors=Doctor::paginate(6);
         $trashedCount = User::onlyTrashed()->count();
-        return view('dashboard',['user'=>$user,'department'=>$department, 'trashedCount'=>$trashedCount]);
+        $id = Auth::id();
+        $userData = User::where('id',$id)->get();
+        $doctorDetails = null;
+        $booking = null;
+        if($userData[0]->role == 1){
+            $doctorDetails = Doctor::where('user_id',$id)->pluck('id');
+            $booking=Booking::where('doctors_id',$doctorDetails)->get();
+        }
+        $departmentChartData = [
+            'labels' => $department->pluck('departments')->toArray(),
+            'values' => [],
+        ];
+        foreach ($department as $dept) {
+            $count = Doctor::where('department_id', $dept->id)->count();
+            $values[] = $count;
+        }
+
+        $departmentChartData['values'] = $values;
+        return view('dashboard',compact('user','doctors', 'booking', 'department', 'trashedCount', 'departmentChartData','id','doctorDetails','patient'));
     }
     public function users_form(){
         return view('admin.forms.add_user');
@@ -57,35 +75,29 @@ class AdminController extends Controller
     }
 
     public function delete($user_id){
+        // dd($user_id);
         $user = User::findOrFail($user_id);
         if($user->doctor){
             $user->doctor->delete();
         }
         $user->delete();
         Alert::success('Success!','User Deleted Sucessfully!');
-        return redirect()->route('users_table')->with('success', 'User deleted successfully.');
+        return redirect()->route('users_table');
     }
 
     public function edit_form($user_id){
         $data = User::findOrFail($user_id);
         return view('admin.forms.edit_user',['details'=>$data]);
     }
-    public function update(Request $request, User $user_id){
-        $formfields = $request->validate([
-            'status' => 'required|in:0,1',
-            'fname' => 'required|string|max:255',
-            'lname' => 'required|string|max:255',
-            'email' => 'required|email',
-            'role' => 'nullable'
-        ]);
+    public function update(EditDoctorRequest $request, User $user_id){
+        $formfields = $request;
         $data = User::find($user_id);
 
         $formfields['name'] = $formfields['fname'] . ' ' . $formfields['lname'];
         // dd($formfields);
         $user_id->update($formfields);
         Alert::success('Success!','User Edited Sucessfully!');
-        return redirect()->route('users_table')
-                        ->with('success','User updated successfully.');
+        return redirect()->route('users_table');
     }
 
 

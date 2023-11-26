@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Doctor;
-use App\Models\Patient;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 
-class PatientController extends Controller
+class AppointmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-        $patients = Patient::latest()->get();
-        return view('admin.view.patients_view',compact('patients'));
-
+        $appointments = Booking::all();
     }
 
     /**
@@ -32,15 +28,18 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $id)
     {
         //
+        $doctors_id = $id;
+        $appointment = Booking::where('doctors_id', $doctors_id)->get();
+        return view('doctors.view.appointments',['appointment' => $appointment]);
     }
 
     /**

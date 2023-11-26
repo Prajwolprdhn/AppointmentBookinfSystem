@@ -77,10 +77,10 @@
                                                                 class="fas fa-trash pr-2">
                                                             </i>Delete</button> --}}
                                                         <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                            data-target="#modal-default">
+                                                            data-target="#modal-default{{ $doctor->id }}">
                                                             <i class="fas fa-trash pr-2">
                                                             </i>Delete</button>
-                                                        <div class="modal fade" id="modal-default">
+                                                        <div class="modal fade" id="modal-default{{ $doctor->id }}">
                                                             <div class="modal-dialog">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">

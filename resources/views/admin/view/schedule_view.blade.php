@@ -57,50 +57,66 @@
                                                     <td>{{ $doctors->first()->day }}</td>
                                                     <td>
                                                         @foreach ($doctors as $doctor)
-                                                            {{ $doctor->start_time . ' - ' . $doctor->end_time }}
-                                                            <form action="{{ route('schedule.destroy', $doctor->id) }}"
-                                                                method="post">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <input type="hidden" name = "id"
-                                                                    value="{{ $doctor->id }}">
-                                                                <button type="button" class="btn btn-danger"
-                                                                    data-toggle="modal"
-                                                                    data-target="#modal-default-{{ $doctor->id }}">
-                                                                    <i class="fas fa-trash">
-                                                                    </i></button>
-                                                                <div class="modal fade"
-                                                                    id="modal-default-{{ $doctor->id }}">
-                                                                    <div class="modal-dialog">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h4 class="modal-title">Delete Confirmation
-                                                                                </h4>
-                                                                                <button type="button" class="close"
-                                                                                    data-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="modal-body"
-                                                                                style="text-align: left;">
-                                                                                <p>Are you sure you want to delete it?</p>
-                                                                            </div>
-                                                                            <div
-                                                                                class="modal-footer justify-content-between">
-                                                                                <button type="button"
-                                                                                    class="btn btn-primary"
-                                                                                    data-dismiss="modal">Cancel</button>
-                                                                                <button type="submit"
-                                                                                    class="btn btn-danger"
-                                                                                    id="confirmDeleteBtn">Confirm Delete
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                        <!-- /.modal-content -->
-                                                                    </div>
-                                                                    <!-- /.modal-dialog -->
+                                                            <div class="schedule-item row d-flex">
+                                                                <div class="col-3">
+                                                                    {{ $doctor->start_time . ' - ' . $doctor->end_time }}
                                                                 </div>
-                                                            </form>
+
+                                                                <div class="col-3">
+                                                                    <form
+                                                                        action="{{ route('schedule.destroy', $doctor->id) }}"
+                                                                        method="post" class="delete-form">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <input type="hidden" name="id"
+                                                                            value="{{ $doctor->id }}">
+                                                                        <button type="button" class="btn btn-danger ml-2"
+                                                                            data-toggle="modal"
+                                                                            data-target="#modal-default-{{ $doctor->id }}">
+                                                                            <i class="fas fa-trash"></i>
+                                                                        </button>
+                                                                        <div class="modal fade"
+                                                                            id="modal-default-{{ $doctor->id }}">
+                                                                            <div class="modal-dialog">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h4 class="modal-title">Delete
+                                                                                            Confirmation
+                                                                                        </h4>
+                                                                                        <button type="button"
+                                                                                            class="close"
+                                                                                            data-dismiss="modal"
+                                                                                            aria-label="Close">
+                                                                                            <span
+                                                                                                aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body"
+                                                                                        style="text-align: left;">
+                                                                                        <p>Are you sure you want to delete
+                                                                                            it?
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="modal-footer justify-content-between">
+                                                                                        <button type="button"
+                                                                                            class="btn btn-primary"
+                                                                                            data-dismiss="modal">Cancel</button>
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-danger"
+                                                                                            id="confirmDeleteBtn">Confirm
+                                                                                            Delete
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!-- /.modal-content -->
+                                                                            </div>
+                                                                            <!-- /.modal-dialog -->
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+
+                                                            </div>
                                                             @if (!$loop->last)
                                                                 <br>
                                                             @endif

@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Booking;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Patient extends Model
 {
     use HasFactory;
+
+    protected $table = 'patient';
 
     protected $fillable = [
         'name',
@@ -18,4 +21,8 @@ class Patient extends Model
         'dob_ad',
         'gender'
     ];
+
+    public function booking(){
+        return $this->hasMany(Booking::class);
+    }
 }

@@ -54,4 +54,7 @@ class Doctor extends Model
     public function schedule(){
         return $this->hasMany(Schedule::class,'doctors_id','id');
     }
+    public function booking(){
+        return $this->hasMany(Booking::class);
+    }
 }

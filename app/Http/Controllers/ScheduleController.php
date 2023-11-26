@@ -70,14 +70,6 @@ class ScheduleController extends Controller
     {
         $doctors_id = $id;
         $schedules = Schedule::where('doctors_id', $doctors_id)->get();
-        // dd($schedules);
-        // if ($schedules) {
-        //     foreach ($schedules as $schedule) {
-        //         $date = Carbon::parse($schedule['date_ad']);
-        //         $day = $date->format('l');
-        //         $schedule
-        //     }
-        // }
         $timings = Timing::all();
         return view('admin.view.schedule_view',['schedules' => $schedules,'timings' => $timings,'doctors_id'=>$doctors_id]);
     }
@@ -103,8 +95,8 @@ class ScheduleController extends Controller
      */
     public function destroy(Schedule $schedule, Request $request)
     {
-        dd($request->all());
-        $schedule = Schedule::findOrFail($id);
+        // dd($request->all());
+        // $schedule = Schedule::findOrFail($id);
         $schedule->delete();
         Alert::success('Success!','Schedule Deleted Sucessfully!');
         return redirect()->back();

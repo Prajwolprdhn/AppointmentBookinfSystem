@@ -27,7 +27,7 @@
                     <div class="col-12">
                         <div class="card card-info">
                             <div class="card-header ">
-                                <h3 class="card-title mt-2">List of Doctors</h3>
+                                <h3 class="card-title mt-2">List of Patients</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body table-responsive p-0">
@@ -36,32 +36,19 @@
                                         <tr>
                                             <th>S.N.</th>
                                             <th>Name</th>
-                                            <th>Department</th>
                                             <th>Contact</th>
+                                            <th>Email</th>
+                                            <th>Registered Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($doctors as $doctor)
+                                        @foreach ($patients as $patient)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $doctor->first_name . ' ' . $doctor->last_name }}</td>
-                                                <td>
-                                                    @if ($doctor->department)
-                                                        {{ $doctor->department->departments }}
-                                                    @else
-                                                        -
-                                                    @endif
-                                                </td>
-                                                <td>{{ $doctor->contact }}</td>
-                                                <td class="project-actions text-right">
-                                                    <form action="{{ route('schedule.show', ['schedule' => $doctor->id]) }}"
-                                                        method="get">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-info" style="color:white;">
-                                                            <i class="fa fa-pen-square pr-2">
-                                                            </i>Manage</button>
-                                                    </form>
-                                                </td>
+                                                <td>{{ $patient->name }}</td>
+                                                <td>{{ $patient->contact }}</td>
+                                                <td>{{ $patient->email }}</td>
+                                                <td>{{ $patient->booking->first()->book_date_bs ?? '-' }}</td>
                                             </tr>
                                         @endforeach
 

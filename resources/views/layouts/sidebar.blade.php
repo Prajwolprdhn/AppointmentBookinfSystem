@@ -69,9 +69,27 @@
                 @endif
                 @if (auth()->check() && auth()->user()->role == 0)
                     <li class="nav-item">
+                        <a href="{{ route('patient.index') }}" class="nav-link">
+                            <i class="fa fa-wheelchair pr-3"></i>
+                            <p>Patients</p>
+                        </a>
+                    </li>
+                @endif
+                @if (auth()->check() && auth()->user()->role == 0)
+                    <li class="nav-item">
                         <a href="{{ route('trash.index') }}" class="nav-link">
                             <i class="fa fa-trash pr-3"></i>
                             <p>Trash</p>
+                        </a>
+                    </li>
+                @endif
+
+                @if (auth()->check() && auth()->user()->role == 1)
+                    <li class="nav-item">
+                        <a href="{{ route('appointment.show', ['appointment' => auth()->user()->doctor->id]) }}"
+                            class="nav-link">
+                            <i class="fa fa-address-book pr-3"></i>
+                            <p>Appointments</p>
                         </a>
                     </li>
                 @endif

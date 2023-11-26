@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('book_date_bs');
             $table->string('book_date_ad');
-            $table->string('book_time');
-            $table->string('remarks');
+            $table->string('remarks')->nullable();
+            $table->foreignId('schedule_id')->constrained('schedule');
             $table->foreignId('patient_id')->constrained('patient');
             $table->foreignId('doctors_id')->constrained('doctors');
             $table->timestamps();

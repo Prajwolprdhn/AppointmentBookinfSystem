@@ -9,6 +9,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ use App\Http\Controllers\DepartmentController;
 |
 */
 
-Route::get('/', [PatientController::class, 'index'])->name('main');
+Route::get('/', [HomeController::class, 'index'])->name('main');
 
 Auth::routes();
 
@@ -92,6 +93,13 @@ Route::resource('schedule',ScheduleController::class);
 // Route::post('/schedule/store/{doctors_id}', [ScheduleController::class, 'store'])->name('schedule.data');
 
 
-//Patiennt
+//Booking
 Route::resource('booking',BookingController::class);
+
+//Appointments
+Route::resource('appointment',AppointmentController::class);
+
+//Patient
+Route::resource('patient',PatientController::class);
+
 

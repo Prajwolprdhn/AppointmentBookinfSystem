@@ -49,8 +49,7 @@ class DoctorController extends Controller
         User::create($formfields);
         print("Sucess");
 
-        return redirect()->route('doctors_table')
-                        ->with('success','Doctor created successfully.');
+        return redirect()->route('doctors_table');
     }
 
     /**

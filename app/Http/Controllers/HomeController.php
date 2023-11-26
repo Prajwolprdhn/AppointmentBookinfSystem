@@ -3,22 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Doctor;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    
     /**
      * Show the application dashboard.
      *
@@ -26,7 +18,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-       
+       $doctors = Doctor::latest()->get();
+        return view('welcome',compact('doctors'));
     }
 
     public function users_form(){

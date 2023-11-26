@@ -26,6 +26,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         .project-actions form {
@@ -43,6 +44,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
         .required:after {
             content: "*";
             color: red;
+        }
+
+        .schedule-item {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .delete-form {
+            display: inline;
         }
     </style>
 </head>
@@ -103,9 +113,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         mainInput.nepaliDatePicker();
     };
 </script>
-
-
-
 <script src="{{ asset('js/imagepreview.js') }}"></script>
 
 {{-- <script src="{{ asset('js/nepali.datepicker.v4.0.1.min.js') }}"></script> --}}

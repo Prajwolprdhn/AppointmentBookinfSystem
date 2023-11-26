@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Doctors Schedules</h1>
+                        <h1 class="m-0">Appointments Management</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Doctors Schedules</li>
+                            <li class="breadcrumb-item active">Appointments Management</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -26,11 +26,7 @@
                     <div class="col-12">
                         <div class="card card-light">
                             <div class="card-header ">
-                                <h3 class="card-title mt-2">Schedule List</h3>
-                                <button type="button" class="btn btn-info float-right" data-bs-toggle="modal"
-                                    data-bs-target="#myModal" style="color: white">
-                                    <i class="fa fa-plus-circle mr-2"></i> New Schedule
-                                </button>
+                                <h3 class="card-title mt-2">Appointment List</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body table-responsive p-0">
@@ -40,20 +36,45 @@
                                             <th>S.N.</th>
                                             <th>Date</th>
                                             <th>Day</th>
-                                            <th>Available Time</th>
+                                            <th>Booked Time</th>
                                         </tr>
                                     </thead>
-
-                                    @if ($schedules)
+                                    {{-- @if ($appointment)
                                         <tbody>
-                                            @foreach ($schedules as $doctor)
+
+                                            @php
+                                                $groupedAppointment = $appointment->groupBy('date_bs');
+                                            @endphp
+
+                                            @foreach ($groupedAppointment as $date => $bookings)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $doctor->date_bs }}</td>
+                                                    <td>{{ $bookings->first()->schedule->date_bs }}</td>
+                                                    <td>{{ $bookings->first()->schedule->day }}</td>
                                                     <td>
-                                                        Sunday
+                                                        @foreach ($bookings as $booking)
+                                                            {{ $booking->schedule->start_time . ' - ' . $booking->schedule->end_time }}
+                                                            @if (!$loop->last)
+                                                                <br>
+                                                            @endif
+                                                        @endforeach
                                                     </td>
-                                                    <td>{{ $doctor->start_time . ' - ' . $doctor->end_time }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    @else
+                                        <tbody></tbody>
+                                    @endif --}}
+                                    @if ($appointment)
+                                        <tbody>
+                                            @foreach ($appointment as $doctor)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $doctor->schedule->date_bs }}</td>
+                                                    <td>{{ $doctor->schedule->day }}</td>
+                                                    <td>
+                                                        {{ $doctor->schedule->start_time . ' - ' . $doctor->schedule->end_time }}
+                                                    </td>
                                                     <td class="project-actions text-right">
                                                         <form
                                                             action="{{ route('schedule.destroy', ['schedule' => $doctor->id]) }}"
@@ -92,10 +113,10 @@
                                                         </form>
                                                     </td>
                                                 </tr>
+                                            @endforeach
                                         </tbody>
-                                    @endforeach
-                                @else
-                                    <tbody></tbody>
+                                    @else
+                                        <tbody></tbody>
                                     @endif
                                 </table>
                             </div>
@@ -104,79 +125,6 @@
                         <!-- /.card -->
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Popup Form -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="{{ route('schedule.store') }}" method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title">New Schedule</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label required">Date</label>
-                            <input type="text" class="form-control" id="modal-nepali-date-picker" name="date_bs"
-                                placeholder="YYYY-MM-DD" required>
-                            @error('nepali_date')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-3" hidden>
-                            <label class="form-label required">Date in A.D</label>
-                            <input type="text" class="form-control" id="english_date" onclick="getDate()" name="date_ad"
-                                placeholder="YYYY-MM-DD">
-                            @error('english_date')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-3" hidden>
-                            <label class="form-label required">Doctors ID</label>
-                            <input type="text" class="form-control" id="doctors_id"name="doctors_id"
-                                value="{{ $doctors_id }}">
-                        </div>
-                        <div class="mb-3">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="form-label required">Available From</label>
-                                    <select class="form-control select2" name="start_time" id="start_time"
-                                        style="width: auto;" required>
-                                        <option selected="selected">-- Start Time --</option>
-                                        @foreach ($timings as $timing)
-                                            <option value="{{ $timing->timings }}">
-                                                {{ $timing->timings }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label required">Available To</label>
-                                    <select class="form-control select2" name="end_time" id="end_time"
-                                        style="width: auto;" required>
-                                        <option selected="selected">-- End Time --</option>
-                                        @foreach ($timings as $timing)
-                                            <option value="{{ $timing->timings }}">
-                                                {{ $timing->timings }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-
-                        <button type="submit" class="btn btn-info" style="color: white">Submit</button>
-
-                    </div>
-                </form>
             </div>
         </div>
     </div>

@@ -47,6 +47,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </head>
 
 <body class="hold-transition sidebar-mini">
+    @include('sweetalert::alert')
     <div class="wrapper">
         {{-- {{ $errors }} --}}
         <!-- Content Header (Page header) -->
@@ -76,10 +77,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="col-lg-3">
                             <div class="card mb-3 pb-3">
                                 <div class="card-body text-center">
-                                    <img src="{{ asset($doctor->photo) }}" alt="avatar"
-                                        class="rounded-circle img-fluid" style="width: 150px; height:150px;">
+                                    @if ($doctor->photo)
+                                        <img src="{{ asset($doctor->photo) }}" alt="avatar"
+                                            class="rounded-circle img-fluid" style="width: 150px; height: 150px;">
+                                    @else
+                                        <img src="{{ asset('images/blank.jpg') }}" alt="default-avatar"
+                                            class="rounded-circle img-fluid" style="width: 150px; height: 150px;">
+                                    @endif
                                     <h5 class="my-3">{{ $doctor->first_name . ' ' . $doctor->last_name }}</h5>
-                                    <p class="text-muted mb-2">{{ $doctor->department->departments }}</p>
+                                    <p class="text-muted mb-2">{{ $doctor->department->departments ?? '-' }}</p>
                                     <p class="text-muted mb-1">Bay Area, San Francisco, CA</p>
                                 </div>
                             </div>
@@ -99,20 +105,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             @if ($doctor->schedule)
                                                 @php
                                                     $groupedSchedules = $doctor->schedule->groupBy('date_bs');
-
+                                                    $noDateAvailable = false;
                                                 @endphp
-                                                @foreach ($groupedSchedules as $day => $doctors)
+                                                @foreach ($groupedSchedules as $date => $doctors)
                                                     <div class="col-sm-3">
-                                                        <p class="mb-0">{{ $day }}</p>
+                                                        <p class="mb-0">{{ $date }}</p>
+
                                                     </div>
                                                     <div class="col-sm-9">
                                                         @foreach ($doctors as $doctor)
-                                                            <button type="button" class="btn btn-info mb-3 mr-3"
-                                                                data-bs-toggle="modal" data-bs-target="#myModal"
-                                                                data-doctor-id="{{ $doctor->id }}"
-                                                                style="color:white;">
-                                                                {{ $doctor->start_time . ' - ' . $doctor->end_time }}
-                                                            </button>
+                                                            @if ($doctor->status == 0)
+                                                                <button type="button" class="btn btn-info mb-3 mr-3"
+                                                                    data-bs-toggle="modal" data-bs-target="#myModal"
+                                                                    data-doctor-id="{{ $doctor->id }}"
+                                                                    style="color:white;">
+                                                                    {{ $doctor->start_time . ' - ' . $doctor->end_time }}
+                                                                </button>
+                                                            @endif
+
                                                             <!-- Popup Form -->
                                                             <div class="modal" id="myModal">
                                                                 <div class="modal-dialog">
@@ -182,7 +192,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                         </option>
                                                                                         <option value="Female">Female
                                                                                         </option>
-                                                                                        <option value="Other">Other
+                                                                                        <option value="Others">Other
                                                                                         </option>
                                                                                     </select>
                                                                                     @error('contact')
@@ -233,13 +243,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                     @enderror
                                                                                 </div>
                                                                                 <div class="mb-3" hidden>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="current_bs"
+                                                                                        name="book_date_bs"
+                                                                                        placeholder="YYYY-MM-DD">
+                                                                                    @error('book_date_bs')
+                                                                                        <span
+                                                                                            class="text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="mb-3" hidden>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="current_ad"
+                                                                                        name="book_date_ad"
+                                                                                        placeholder="YYYY-MM-DD">
+                                                                                    @error('book_date_ad')
+                                                                                        <span
+                                                                                            class="text-danger">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="mb-3" hidden>
                                                                                     <label
                                                                                         class="form-label required">Doctors
                                                                                         ID</label>
                                                                                     <input type="text"
                                                                                         class="form-control"
                                                                                         id="doctors_id"
-                                                                                        name="doctors_id">
+                                                                                        name="schedule_id">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="modal-footer">
@@ -250,7 +282,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                                 <button type="submit"
                                                                                     class="btn btn-success"
                                                                                     style="color: white">Submit</button>
-
                                                                             </div>
                                                                         </form>
                                                                     </div>
@@ -317,6 +348,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+
+        var today_bs = NepaliFunctions.GetCurrentBsDate('YYYY-MM-DD')
+        var now_bs = document.getElementById("current_bs");
+        now_bs.value = today_bs;
+
+        var today_ad = NepaliFunctions.GetCurrentAdDate('YYYY-MM-DD')
+        var now_ad = document.getElementById("current_ad");
+        now_ad.value = today_ad;
+
         // Add a click event listener to the button
         confirmDeleteBtn.addEventListener('click', function() {
             // Trigger the form submission
@@ -330,6 +370,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         var button = $(event.relatedTarget);
         var doctorId = button.data('doctor-id');
         $(this).find('#doctors_id').val(doctorId);
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        @if (session('showModal'))
+            $('#myModal').modal('show');
+        @endif
     });
 </script>
 
