@@ -83,8 +83,11 @@ class BookingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Booking $booking)
     {
         //
+        $booking->delete();
+        Alert::success('Success!','Bookings Deleted Sucessfully!');
+        return redirect()->back();
     }
 }

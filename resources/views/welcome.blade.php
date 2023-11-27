@@ -55,7 +55,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="container-fluid pb-1">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Doctors Appiontments</h1>
+                        <h1 class="m-0">Doctors Appointments</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">

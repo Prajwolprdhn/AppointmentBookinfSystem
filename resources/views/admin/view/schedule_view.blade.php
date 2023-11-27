@@ -40,7 +40,7 @@
                                             <th>S.N.</th>
                                             <th>Date</th>
                                             <th>Day</th>
-                                            <th>Available Time</th>
+                                            <th>Appointment Time</th>
                                         </tr>
                                     </thead>
 

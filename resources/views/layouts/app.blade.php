@@ -54,6 +54,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
         .delete-form {
             display: inline;
         }
+
+        .custom-dropdown-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .custom-dropdown-item i {
+            margin-left: 10px;
+            /* Adjust as needed */
+        }
+
+        .accept-item {
+            color: green;
+            /* or any color you prefer for 'Accept' */
+        }
+
+        .reject-item {
+            color: red;
+            /* or any color you prefer for 'Reject' */
+        }
     </style>
 </head>
 

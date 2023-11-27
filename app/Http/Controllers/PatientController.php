@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Doctor;
+use App\Models\Booking;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 
@@ -11,10 +13,18 @@ class PatientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $patients = Patient::latest()->get();
+        $id = $request->input('id');
+        $data = User::findOrFail($id);
+        if($data->role == 0){
+            $patients = Patient::latest()->get();
+        }
+        else{
+            $doctorData= Doctor::where('user_id',$id)->first();
+            $patients = Booking::where('doctors_id',$doctorData->id)->with('patient')->latest()->get();
+        }
         return view('admin.view.patients_view',compact('patients'));
 
     }

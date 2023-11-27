@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AppointmentController extends Controller
 {
@@ -45,15 +46,20 @@ class AppointmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(int $id, Request $request)
     {
-        //
+        $status = $request->input('status');
+        $booking = Booking::find($id);
+        $booking->status = $status;
+        $booking->save();
+        Alert::success('Success!','Staus Changed Sucessfully!');
+        return redirect()->back();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
         //
     }
@@ -61,7 +67,7 @@ class AppointmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
         //
     }

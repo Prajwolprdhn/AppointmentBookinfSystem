@@ -33,10 +33,11 @@
                                 <table class="table table-head-fixed text-nowrap">
                                     <thead>
                                         <tr>
-                                            <th>S.N.</th>
-                                            <th>Date</th>
-                                            <th>Day</th>
-                                            <th>Booked Time</th>
+                                            <th class="text-center">S.N.</th>
+                                            <th class="text-center">Date</th>
+                                            <th class="text-center">Day</th>
+                                            <th class="text-center">Booked Time</th>
+                                            <th class="text-center">Status</th>
                                         </tr>
                                     </thead>
                                     {{-- @if ($appointment)
@@ -69,15 +70,42 @@
                                         <tbody>
                                             @foreach ($appointment as $doctor)
                                                 <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $doctor->schedule->date_bs }}</td>
-                                                    <td>{{ $doctor->schedule->day }}</td>
-                                                    <td>
+                                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                                    <td class="text-center">{{ $doctor->schedule->date_bs }}</td>
+                                                    <td class="text-center">{{ $doctor->schedule->day }}</td>
+                                                    <td class="text-center">
                                                         {{ $doctor->schedule->start_time . ' - ' . $doctor->schedule->end_time }}
                                                     </td>
+                                                    <td class="text-center">
+                                                        @if ($doctor->status == 0)
+                                                            <div class="btn-group">
+                                                                <button type="button"
+                                                                    class="btn btn-warning dropdown-toggle"
+                                                                    data-toggle="dropdown" aria-haspopup="true"
+                                                                    aria-expanded="false"
+                                                                    style="color: white; padding-left:15px; padding-right:15px;">
+                                                                    Pending
+                                                                </button>
+                                                                <div class="dropdown-menu">
+                                                                    <a class="dropdown-item custom-dropdown-item accept-item"
+                                                                        href="{{ route('appointment.edit', ['appointment' => $doctor->id, 'status' => '1']) }}">Approve<i
+                                                                            class="fa fa-check" aria-hidden="true"></i></a>
+                                                                    <a class="dropdown-item custom-dropdown-item reject-item"
+                                                                        href="{{ route('appointment.edit', ['appointment' => $doctor->id, 'status' => '1']) }}">Decline<i
+                                                                            class="fa fa-times" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        @elseif($doctor->status == 1)
+                                                            <span style="color: green;">Approved<i class="fa fa-check pl-3"
+                                                                    aria-hidden="true"></i></span>
+                                                        @else
+                                                            <span style="color: red;">Declined<i class="fa fa-times pl-4"
+                                                                    aria-hidden="true"></i></span>
+                                                        @endif
+
+                                                    </td>
                                                     <td class="project-actions text-right">
-                                                        <form
-                                                            action="{{ route('schedule.destroy', ['schedule' => $doctor->id]) }}"
+                                                        <form action="{{ route('booking.destroy', $doctor->id) }}"
                                                             method="post">
                                                             @csrf
                                                             @method('DELETE')

@@ -42,15 +42,25 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($patients as $patient)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $patient->name }}</td>
-                                                <td>{{ $patient->contact }}</td>
-                                                <td>{{ $patient->email }}</td>
-                                                <td>{{ $patient->booking->first()->book_date_bs ?? '-' }}</td>
-                                            </tr>
-                                        @endforeach
+                                        @if ($patients)
+                                            @foreach ($patients as $patient)
+                                                <tr>
+                                                    @if (auth()->user()->role == 1)
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $patient->patient->name }}</td>
+                                                        <td>{{ $patient->patient->contact }}</td>
+                                                        <td>{{ $patient->patient->email }}</td>
+                                                        <td>{{ $patient->first()->book_date_bs ?? '-' }}</td>
+                                                    @elseif(auth()->user()->role == 0)
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $patient->name }}</td>
+                                                        <td>{{ $patient->contact }}</td>
+                                                        <td>{{ $patient->email }}</td>
+                                                        <td>{{ $patient->booking->first()->book_date_bs ?? '-' }}</td>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
+                                        @endif
 
                                     </tbody>
                                 </table>

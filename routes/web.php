@@ -54,6 +54,9 @@ Route::get('/home/users_form', [AdminController::class, 'users_form'])->name('us
 Route::get('/home/edit_form/{user_id}', [AdminController::class, 'edit_form'])->name('edit_form');
 Route::put('/home/edit_user/{user_id}', [AdminController::class, 'update'])->name('edit_users');
 
+Route::get('/home/change-password/{id}', [AdminController::class, 'change_form'])->name('change_form');
+Route::post('home/{id}/change-password', [AdminController::class, 'changepassword'])->name('changepassword');
+
 Route::delete('/home/delete_users/{user}', [AdminController::class, 'delete'])->name('delete_users');
 
 //Admin--doctors

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\DoctorRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\EditDoctorRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -24,7 +25,7 @@ class AdminController extends Controller
         $patient=Department::all();
         $doctors=Doctor::paginate(6);
         $trashedCount = User::onlyTrashed()->count();
-        $id = Auth::id();
+        $id = Auth::id();//Auth::user();
         $userData = User::where('id',$id)->get();
         $doctorDetails = null;
         $booking = null;
@@ -244,6 +245,30 @@ class AdminController extends Controller
         $doctor = Doctor::findOrFail($id);
         // dd($doctor);
         return view('admin.view.doctors_view',compact('doctor'));
+    }
+
+    public function change_form($id)
+    {
+        return view('doctors.forms.password_change',compact('id'));
+    }
+
+    public function changePassword(Request $request, $id)
+    {
+        $request->validate([
+            'old_password'=>'required',
+            'password'=>'confirmed|required|min:8',
+        ]);
+        $user = Auth::user();
+        $oldPassword = $request->old_password;
+
+        if (Hash::check($oldPassword, $user->password)) {
+            $user = User::find(auth()->user()->id);
+            $user->update(['password'=>Hash::make($request->password)]);
+            Alert::success('Success!', 'Password changed successfully!');
+            return redirect()->back()->with("info_success", "Password updated successfully");
+        } else {
+            return redirect()->back()->withErrors(["old_password" => "Old password is not correct !"]);
+        }
     }
 
 }

@@ -25,7 +25,7 @@ class PatientRequest extends FormRequest
             'name' => 'required',
             'address' => 'required|string|max:255',
             'contact' => 'required|string|max:255',
-            'email' => 'required|unique:patient|email',
+            'email' => 'required|email',
             // 'dob' => 'required|string|max:255',
             'gender' => 'required|string|max:255',
             // 'image' => 'required|image|size:3072'

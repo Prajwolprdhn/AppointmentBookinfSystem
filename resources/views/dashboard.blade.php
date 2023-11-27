@@ -74,7 +74,8 @@
                                 <div class="icon">
                                     <i class="fas fa-users"></i>
                                 </div>
-                                <a href="{{ route('doctors_table') }}" class="small-box-footer">
+                                <a href="{{ route('appointment.show', ['appointment' => auth()->user()->doctor->id]) }}"
+                                    class="small-box-footer">
                                     More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                             </div>
@@ -228,7 +229,18 @@
                                                     <td>{{ $bookings->patient->name }}</td>
                                                     <td>{{ $bookings->patient->contact }}</td>
                                                     <td>{{ $bookings->patient->email }}</td>
-                                                    <td>Pending</td>
+                                                    <td>
+                                                        @if ($bookings->status == 0)
+                                                            <span style="color: yellow;">Pending<i class="fa fa-check pl-3"
+                                                                    aria-hidden="true"></i></span>
+                                                        @elseif($bookings->status == 1)
+                                                            <span style="color: green;">Approved<i class="fa fa-check pl-3"
+                                                                    aria-hidden="true"></i></span>
+                                                        @else
+                                                            <span style="color: red;">Declined<i class="fa fa-times pl-4"
+                                                                    aria-hidden="true"></i></span>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

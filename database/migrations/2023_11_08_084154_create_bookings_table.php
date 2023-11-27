@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('book_date_bs');
             $table->string('book_date_ad');
             $table->string('remarks')->nullable();
+            $table->boolean('status')->default(0);  /*0 - pending // 1 - accepted // 2 -rejected */
             $table->foreignId('schedule_id')->constrained('schedule');
             $table->foreignId('patient_id')->constrained('patient');
             $table->foreignId('doctors_id')->constrained('doctors');

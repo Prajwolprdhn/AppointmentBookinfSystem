@@ -101,13 +101,20 @@
                                     </div>
                                     <div class="form-group row">
                                         <label for="role" class="col-sm-2 col-form-label">Role</label>
-                                        <div class="col-sm-5">
-                                            <select class="form-control select2" name="role" style="width: auto;">
-                                                <option selected="selected">-- select one --</option>
-                                                <option value="0">Admin</option>
-                                                <option value="1">Doctor</option>
-                                                <option value="2">User</option>
-                                            </select>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <select class="form-control select2" name="role" style="width: auto;">
+                                                    <option selected="selected">-- Select Roles -- </option>
+                                                    <option value="0">Admin</option>
+                                                    <option value="1">Doctor</option>
+                                                    <option value="2">User</option>
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-caret-down"></i></span>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                     {{-- <div class="form-group row">

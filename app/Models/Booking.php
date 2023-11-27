@@ -16,6 +16,7 @@ class Booking extends Model
         'book_date_bs',
         'book_date_ad',
         'remarks',
+        'status',
         'schedule_id',
         'patient_id',
         'doctors_id',
