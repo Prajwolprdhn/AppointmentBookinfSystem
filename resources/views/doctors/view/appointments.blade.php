@@ -91,7 +91,7 @@
                                                                         href="{{ route('appointment.edit', ['appointment' => $doctor->id, 'status' => '1']) }}">Approve<i
                                                                             class="fa fa-check" aria-hidden="true"></i></a>
                                                                     <a class="dropdown-item custom-dropdown-item reject-item"
-                                                                        href="{{ route('appointment.edit', ['appointment' => $doctor->id, 'status' => '1']) }}">Decline<i
+                                                                        href="{{ route('appointment.edit', ['appointment' => $doctor->id, 'status' => '2']) }}">Decline<i
                                                                             class="fa fa-times" aria-hidden="true"></i></a>
                                                                 </div>
                                                             </div>

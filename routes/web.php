@@ -24,6 +24,9 @@ use App\Http\Controllers\AppointmentController;
 
 Route::get('/', [HomeController::class, 'index'])->name('main');
 
+Route::get('/doctors', [HomeController::class, 'doctors'])->name('doctors');
+
+
 Auth::routes();
 
 

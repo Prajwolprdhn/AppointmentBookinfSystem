@@ -19,7 +19,13 @@ class HomeController extends Controller
     public function index()
     {
        $doctors = Doctor::latest()->get();
-        return view('welcome',compact('doctors'));
+        return view('users.layouts.main',compact('doctors'));
+    }
+
+    public function doctors()
+    {
+       $doctors = Doctor::latest()->get();
+        return view('users.doctor_book',compact('doctors'));
     }
 
     public function users_form(){

@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\Patient;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\PatientRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -42,7 +43,7 @@ class BookingController extends Controller
         $scheduleData = Schedule::findOrFail($request->schedule_id);
         $request['doctors_id'] = $scheduleData->doctors_id;
 
-        Booking::create($request->only([
+        $booking = Booking::create($request->only([
             'book_date_bs',
             'book_date_ad',
             'schedule_id',
@@ -52,6 +53,10 @@ class BookingController extends Controller
             'created_at',
         ]));
         $scheduleData->update(['status' => 1]);
+        Mail::send('email.bookings_made',$scheduleData->toArray(),
+        function($message){
+            $message->to('prajwolp81@gmail.com','Doctor')->subject('New Appointments Registered.');
+        });
         Alert::success('Success!','Appointment Registered Successfully!');
         return redirect()->back();
     }

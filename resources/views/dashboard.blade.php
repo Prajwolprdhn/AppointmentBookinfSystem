@@ -231,8 +231,8 @@
                                                     <td>{{ $bookings->patient->email }}</td>
                                                     <td>
                                                         @if ($bookings->status == 0)
-                                                            <span style="color: yellow;">Pending<i class="fa fa-check pl-3"
-                                                                    aria-hidden="true"></i></span>
+                                                            <span style="color: rgb(0, 176, 230)">Pending<i
+                                                                    class="fa fa-check pl-3" aria-hidden="true"></i></span>
                                                         @elseif($bookings->status == 1)
                                                             <span style="color: green;">Approved<i class="fa fa-check pl-3"
                                                                     aria-hidden="true"></i></span>

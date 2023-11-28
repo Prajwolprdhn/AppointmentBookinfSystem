@@ -29,11 +29,9 @@ class DoctorRequest extends FormRequest
             'email' => 'required|unique:users|email',
             'password' => 'required|confirmed|string|min:8',
             'password_confirmation' => 'required',
-            // 'dob' => 'required|string|max:255',
             'gender' => 'required|string|max:255',
             'department_id' => 'required',
             'role' => 'nullable',
-            // 'image' => 'required|image|size:3072'
         ];
     }
 }
