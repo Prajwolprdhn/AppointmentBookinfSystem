@@ -143,7 +143,7 @@
     <div class="modal" id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('schedule.store') }}" method="post">
+                <form action="{{ route('schedule.store') }}" method="post" onsubmit="return validateTime()">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title">New Schedule</h5>
@@ -186,7 +186,7 @@
                                     <label class="form-label required">Available From</label>
                                     <select class="form-control select2" name="schedule[start_time][]" id="start_time"
                                         style="width: auto;" required>
-                                        <option selected="selected">-- Start Time --</option>
+                                        <option>-- Start Time --</option>
                                         @foreach ($timings as $timing)
                                             <option value="{{ $timing->timings }}">
                                                 {{ $timing->timings }}
@@ -194,11 +194,12 @@
                                         @endforeach
                                     </select>
                                 </div>
+
                                 <div class="col-md-6">
                                     <label class="form-label required">Available To</label>
                                     <select class="form-control select2" name="schedule[end_time][]" id="end_time"
                                         style="width: auto;" required>
-                                        <option selected="selected">-- End Time --</option>
+                                        <option>-- End Time --</option>
                                         @foreach ($timings as $timing)
                                             <option value="{{ $timing->timings }}">
                                                 {{ $timing->timings }}
@@ -208,19 +209,21 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="mb-2 ml-3">
 
+                        <span class="required"><strong>Note:</strong> </span><span class="required">Please enter the time
+                            with one-hour
+                            gap</span>
 
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-
                         <button type="submit" class="btn btn-info" style="color: white">Submit</button>
-
                     </div>
                 </form>
             </div>
         </div>
-    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
@@ -238,4 +241,43 @@
             });
         });
     </script>
+    <script>
+        function validateTime() {
+            // Get the selected start and end time values
+            var startTimeSelect = document.getElementById('start_time');
+            var endTimeSelect = document.getElementById('end_time');
+
+            var startTime = startTimeSelect.options[startTimeSelect.selectedIndex].value;
+            var endTime = endTimeSelect.options[endTimeSelect.selectedIndex].value;
+
+            // Parse the time values to compare
+            var startTimestamp = Date.parse('01/01/2020 ' + startTime);
+            var endTimestamp = Date.parse('01/01/2020 ' + endTime);
+
+            // Check if the values are valid dates
+            if (isNaN(startTimestamp) || isNaN(endTimestamp)) {
+                // Display an alert or any other validation message for invalid dates
+                alert('Please select both start time and end time.');
+                return false; // Prevent form submission
+            }
+
+            // Calculate the time difference in milliseconds
+            var timeDifference = endTimestamp - startTimestamp;
+
+            // Calculate the time difference in hours
+            var timeDifferenceInHours = timeDifference / (1000 * 60 * 60);
+
+            // Check if the time difference is exactly one hour
+            if (timeDifferenceInHours !== 1) {
+                // Display an alert or any other validation message
+                alert('Please select a start time and end time with a one-hour gap.');
+                return false; // Prevent form submission
+            }
+
+            // Allow form submission if validation passes
+            return true;
+        }
+    </script>
+
+
 @endsection

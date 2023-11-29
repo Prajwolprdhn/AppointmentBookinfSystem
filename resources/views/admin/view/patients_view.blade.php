@@ -42,7 +42,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if ($patients)
+                                        @if ($patients->isNotEmpty())
                                             @foreach ($patients as $patient)
                                                 <tr>
                                                     @if (auth()->user()->role == 1)
@@ -60,6 +60,10 @@
                                                     @endif
                                                 </tr>
                                             @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="5" class="text-center bg-light">No Data Available</td>
+                                            </tr>
                                         @endif
 
                                     </tbody>

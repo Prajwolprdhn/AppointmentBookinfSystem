@@ -67,11 +67,11 @@
                                                     @endif
                                                 </td>
                                                 <td class="project-actions text-right">
-                                                    <form action="#" method="post">
+                                                    {{-- <form action="#" method="post">
                                                         <button type="submit" class="btn btn-warning"
                                                             style="color:white;"><i class="fa fa-eye pr-2"></i>
                                                             View</button>
-                                                    </form>
+                                                    </form> --}}
                                                     <form action="{{ route('edit_form', ['user_id' => $user->id]) }}"
                                                         method="get">
                                                         @csrf

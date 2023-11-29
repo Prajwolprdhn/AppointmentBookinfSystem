@@ -116,7 +116,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $("#modal-nepali-date-picker").nepaliDatePicker({
             container: "#myModal",
         });
+
+        // Initialize schedule date pickers
+        var calendar = document.querySelectorAll("#modal-nepali-date-picker");
+        calendar.forEach(function(element) {
+            element.nepaliDatePicker({
+                language: "english",
+                disableDaysAfter: 7,
+                disableDaysBefore: 0,
+            });
+        });
     });
+
 
     function getDate() {
         var nepali = document.getElementById("modal-nepali-date-picker").value;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Department;
@@ -25,7 +26,15 @@ class HomeController extends Controller
     public function doctors()
     {
        $doctors = Doctor::latest()->get();
-        return view('users.doctor_book',compact('doctors'));
+       $today = Carbon::now()->toDateString();
+        $tomorrow = Carbon::now()->addDay()->toDateString();
+        $nextDay = Carbon::now()->addDay(2)->toDateString();
+        $dateFormat = [
+            'today' => $today,
+            'tomorrow' => $tomorrow,
+            'nextDay' => $nextDay
+        ];
+        return view('users.doctor_book',compact('doctors','dateFormat'));
     }
 
     public function users_form(){

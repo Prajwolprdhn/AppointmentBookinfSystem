@@ -59,7 +59,7 @@
     <!-- About End -->
 
 
-    <!-- Service Start -->
+    <!-- Doctors Start -->
     <div class="container-fluid bg-light mt-5 py-5">
         <div class="container py-5">
             <div class="row g-5 align-items-center">
@@ -136,7 +136,7 @@
         </div>
     </div>
     </div>
-    <!-- Service End -->
+    <!-- Doctors End -->
 
 
     <!-- FAQs Start -->

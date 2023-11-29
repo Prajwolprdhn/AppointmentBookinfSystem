@@ -57,191 +57,202 @@
                                         @foreach ($doctor->schedule as $schedule)
                                             @if ($doctor->schedule)
                                                 @php
-                                                    $groupedSchedules = $doctor->schedule->groupBy('date_bs');
+                                                    $groupedSchedules = $doctor->schedule->groupBy('date_ad');
                                                     $dataFound = false;
                                                 @endphp
                                                 @foreach ($groupedSchedules as $date => $doctors)
-                                                    <div class="col-sm-3">
-                                                        <p class="mb-0">{{ $date }}</p>
-                                                    </div>
-                                                    <div class="col-sm-9">
-                                                        @foreach ($doctors as $doctor)
-                                                            @if ($doctor->status == 0)
-                                                                @php
-                                                                    $dataFound = true;
-                                                                @endphp
-                                                                <button type="button" class="btn btn-primary mb-3 mr-3"
-                                                                    data-bs-toggle="modal" data-bs-target="#myModal"
-                                                                    data-doctor-id="{{ $doctor->id }}"
-                                                                    style="color:white;">
-                                                                    {{ $doctor->start_time . ' - ' . $doctor->end_time }}
-                                                                </button>
-                                                            @endif
-                                                            <!-- Popup Form -->
-                                                            <div class="modal" id="myModal">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <form action="{{ route('booking.store') }}"
-                                                                            method="post">
-                                                                            @csrf
-                                                                            <div class="modal-header bg-primary">
-                                                                                <h5 class="modal-title"
-                                                                                    style="color: white">Personal Details
-                                                                                </h5>
-                                                                                <div class="ms-auto">
-                                                                                    <button type="button" class="btn-close"
-                                                                                        data-bs-dismiss="modal"
-                                                                                        style="background-color: white"></button>
+                                                    @if ($date == $dateFormat['today'] || $date == $dateFormat['tomorrow'])
+                                                        <div class="col-sm-3">
+                                                            <p class="mb-0">{{ $date }}</p>
+                                                        </div>
 
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                <div class="mb-3">
-                                                                                    <label class="form-label required">Full
-                                                                                        Name</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control" id="name"
-                                                                                        name="name"
-                                                                                        placeholder="Full Name">
-                                                                                    @error('name')
-                                                                                        <span
-                                                                                            class="text-danger">{{ $message }}</span>
-                                                                                    @enderror
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label
-                                                                                        class="form-label required">Address</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control" id="address"
-                                                                                        name="address"
-                                                                                        placeholder="Address">
-                                                                                    @error('address')
-                                                                                        <span
-                                                                                            class="text-danger">{{ $message }}</span>
-                                                                                    @enderror
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label
-                                                                                        class="form-label required">Contact
-                                                                                        No.</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control" id="contact"
-                                                                                        name="contact"
-                                                                                        placeholder="Contact Details">
-                                                                                    @error('contact')
-                                                                                        <span
-                                                                                            class="text-danger">{{ $message }}</span>
-                                                                                    @enderror
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label
-                                                                                        class="form-label required">Gender</label>
-                                                                                    <select class ="form-control select2"
-                                                                                        name="gender">
-                                                                                        <option disabled="disabled"
-                                                                                            selected="selected">-- Not
-                                                                                            Selected --
-                                                                                        </option>
-                                                                                        <option value="Male">Male
-                                                                                        </option>
-                                                                                        <option value="Female">Female
-                                                                                        </option>
-                                                                                        <option value="Others">Other
-                                                                                        </option>
-                                                                                    </select>
-                                                                                    @error('contact')
-                                                                                        <span
-                                                                                            class="text-danger">{{ $message }}</span>
-                                                                                    @enderror
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label
-                                                                                        class="form-label required">Email</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control" id="email"
-                                                                                        name="email"
-                                                                                        placeholder="Email ID">
-                                                                                    @error('email')
-                                                                                        <span
-                                                                                            class="text-danger">{{ $message }}</span>
-                                                                                    @enderror
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label class="form-label required">Date
-                                                                                        Of Birth</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="modal-nepali-date-picker"
-                                                                                        name="dob_bs"
-                                                                                        placeholder="YYYY-MM-DD" required>
-                                                                                    @error('dob_bs')
-                                                                                        <span
-                                                                                            class="text-danger">{{ $message }}</span>
-                                                                                    @enderror
-                                                                                </div>
-                                                                                <div class="mb-3" hidden>
-                                                                                    <label class="form-label required">Date
-                                                                                        in A.D</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="english_date"
-                                                                                        onclick="getDate()" name="dob_ad"
-                                                                                        placeholder="YYYY-MM-DD">
-                                                                                    @error('dob_ad')
-                                                                                        <span
-                                                                                            class="text-danger">{{ $message }}</span>
-                                                                                    @enderror
-                                                                                </div>
-                                                                                <div class="mb-3" hidden>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="current_bs"
-                                                                                        name="book_date_bs"
-                                                                                        placeholder="YYYY-MM-DD">
-                                                                                    @error('book_date_bs')
-                                                                                        <span
-                                                                                            class="text-danger">{{ $message }}</span>
-                                                                                    @enderror
-                                                                                </div>
-                                                                                <div class="mb-3" hidden>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="current_ad"
-                                                                                        name="book_date_ad"
-                                                                                        placeholder="YYYY-MM-DD">
-                                                                                    @error('book_date_ad')
-                                                                                        <span
-                                                                                            class="text-danger">{{ $message }}</span>
-                                                                                    @enderror
-                                                                                </div>
-                                                                                <div class="mb-3" hidden>
-                                                                                    <label
-                                                                                        class="form-label required">Doctors
-                                                                                        ID</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="doctors_id"
-                                                                                        name="schedule_id">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="submit"
-                                                                                    class="btn btn-danger"
-                                                                                    data-bs-dismiss="modal">Cancel</button>
+                                                        <div class="col-sm-9">
+                                                            @foreach ($doctors as $doctor)
+                                                                @if ($doctor->status == 0)
+                                                                    @php
+                                                                        $dataFound = true;
+                                                                    @endphp
+                                                                    <button type="button" class="btn btn-primary mb-3 mr-3"
+                                                                        data-bs-toggle="modal" data-bs-target="#myModal"
+                                                                        data-doctor-id="{{ $doctor->id }}"
+                                                                        style="color:white;">
+                                                                        {{ $doctor->start_time . ' - ' . $doctor->end_time }}
+                                                                    </button>
+                                                                @endif
+                                                                <!-- Popup Form -->
+                                                                <div class="modal" id="myModal">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <form action="{{ route('booking.store') }}"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                <div class="modal-header bg-primary">
+                                                                                    <h5 class="modal-title"
+                                                                                        style="color: white">Personal
+                                                                                        Details
+                                                                                    </h5>
+                                                                                    <div class="ms-auto">
+                                                                                        <button type="button"
+                                                                                            class="btn-close"
+                                                                                            data-bs-dismiss="modal"
+                                                                                            style="background-color: white"></button>
 
-                                                                                <button type="submit"
-                                                                                    class="btn btn-success"
-                                                                                    style="color: white">Submit</button>
-                                                                            </div>
-                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <div class="mb-3">
+                                                                                        <label
+                                                                                            class="form-label required">Full
+                                                                                            Name</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="name" name="name"
+                                                                                            placeholder="Full Name">
+                                                                                        @error('name')
+                                                                                            <span
+                                                                                                class="text-danger">{{ $message }}</span>
+                                                                                        @enderror
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label
+                                                                                            class="form-label required">Address</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="address" name="address"
+                                                                                            placeholder="Address">
+                                                                                        @error('address')
+                                                                                            <span
+                                                                                                class="text-danger">{{ $message }}</span>
+                                                                                        @enderror
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label
+                                                                                            class="form-label required">Contact
+                                                                                            No.</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="contact" name="contact"
+                                                                                            placeholder="Contact Details">
+                                                                                        @error('contact')
+                                                                                            <span
+                                                                                                class="text-danger">{{ $message }}</span>
+                                                                                        @enderror
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label
+                                                                                            class="form-label required">Gender</label>
+                                                                                        <select
+                                                                                            class ="form-control select2"
+                                                                                            name="gender">
+                                                                                            <option disabled="disabled"
+                                                                                                selected="selected">-- Not
+                                                                                                Selected --
+                                                                                            </option>
+                                                                                            <option value="Male">Male
+                                                                                            </option>
+                                                                                            <option value="Female">Female
+                                                                                            </option>
+                                                                                            <option value="Others">Other
+                                                                                            </option>
+                                                                                        </select>
+                                                                                        @error('contact')
+                                                                                            <span
+                                                                                                class="text-danger">{{ $message }}</span>
+                                                                                        @enderror
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label
+                                                                                            class="form-label required">Email</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="email" name="email"
+                                                                                            placeholder="Email ID">
+                                                                                        @error('email')
+                                                                                            <span
+                                                                                                class="text-danger">{{ $message }}</span>
+                                                                                        @enderror
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label
+                                                                                            class="form-label required">Date
+                                                                                            Of Birth</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="modal-nepali-date-picker"
+                                                                                            name="dob_bs"
+                                                                                            placeholder="YYYY-MM-DD"
+                                                                                            required>
+                                                                                        @error('dob_bs')
+                                                                                            <span
+                                                                                                class="text-danger">{{ $message }}</span>
+                                                                                        @enderror
+                                                                                    </div>
+                                                                                    <div class="mb-3" hidden>
+                                                                                        <label
+                                                                                            class="form-label required">Date
+                                                                                            in A.D</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="english_date"
+                                                                                            onclick="getDate()"
+                                                                                            name="dob_ad"
+                                                                                            placeholder="YYYY-MM-DD">
+                                                                                        @error('dob_ad')
+                                                                                            <span
+                                                                                                class="text-danger">{{ $message }}</span>
+                                                                                        @enderror
+                                                                                    </div>
+                                                                                    <div class="mb-3" hidden>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="current_bs"
+                                                                                            name="book_date_bs"
+                                                                                            placeholder="YYYY-MM-DD">
+                                                                                        @error('book_date_bs')
+                                                                                            <span
+                                                                                                class="text-danger">{{ $message }}</span>
+                                                                                        @enderror
+                                                                                    </div>
+                                                                                    <div class="mb-3" hidden>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="current_ad"
+                                                                                            name="book_date_ad"
+                                                                                            placeholder="YYYY-MM-DD">
+                                                                                        @error('book_date_ad')
+                                                                                            <span
+                                                                                                class="text-danger">{{ $message }}</span>
+                                                                                        @enderror
+                                                                                    </div>
+                                                                                    <div class="mb-3" hidden>
+                                                                                        <label
+                                                                                            class="form-label required">Doctors
+                                                                                            ID</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="doctors_id"
+                                                                                            name="schedule_id">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-danger"
+                                                                                        data-bs-dismiss="modal">Cancel</button>
+
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-success"
+                                                                                        style="color: white">Submit</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        @endforeach
-                                                        @if (!$dataFound)
-                                                            <p class="text-muted mb-3">No appointment available.</p>
-                                                        @endif
-                                                    </div>
+                                                            @endforeach
+                                                            @if (!$dataFound)
+                                                                <p class="text-muted mb-3">No appointment available.</p>
+                                                            @endif
+                                                        </div>
+                                                    @endif
                                                 @endforeach
                                             @endif
                                         @endforeach

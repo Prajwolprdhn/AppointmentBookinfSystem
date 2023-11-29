@@ -78,6 +78,11 @@
         // Initialize Nepali Date Picker for Modal
         $("#modal-nepali-date-picker").nepaliDatePicker({
             container: "#myModal",
+            ndpYear: true,
+            ndpMonth: true,
+            ndpYearCount: 200, // Show 100 years
+            language: "english",
+            disableDaysAfter: 0 // Disable days before 100 years ahead from today
         });
     });
 

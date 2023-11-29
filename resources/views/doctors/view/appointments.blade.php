@@ -66,7 +66,7 @@
                                     @else
                                         <tbody></tbody>
                                     @endif --}}
-                                    @if ($appointment)
+                                    @if ($appointment->isNotEmpty())
                                         <tbody>
                                             @foreach ($appointment as $doctor)
                                                 <tr>
@@ -144,7 +144,13 @@
                                             @endforeach
                                         </tbody>
                                     @else
-                                        <tbody></tbody>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="5" class="text-center bg-light">
+                                                    No Data Available
+                                                </td>
+                                            </tr>
+                                        </tbody>
                                     @endif
                                 </table>
                             </div>
