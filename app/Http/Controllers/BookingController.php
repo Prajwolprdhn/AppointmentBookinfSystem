@@ -43,7 +43,10 @@ class BookingController extends Controller
         $request['patient_id'] = $patientDetail->id;
         $scheduleData = Schedule::findOrFail($request->schedule_id);
         $request['doctors_id'] = $scheduleData->doctors_id;
-
+        Mail::send('email.bookings_made',$scheduleData->toArray(),
+        function($message){
+            $message->to('prajwolp81@gmail.com','Doctor')->subject('New Appointments Registered.');
+        });
         $booking = Booking::create($request->only([
             'book_date_bs',
             'book_date_ad',
@@ -54,10 +57,6 @@ class BookingController extends Controller
             'created_at',
         ]));
         $scheduleData->update(['status' => 1]);
-        Mail::send('email.bookings_made',$scheduleData->toArray(),
-        function($message){
-            $message->to('prajwolp81@gmail.com','Doctor')->subject('New Appointments Registered.');
-        });
         Alert::success('Success!','Appointment Registered Successfully!');
         return redirect()->back();
     }

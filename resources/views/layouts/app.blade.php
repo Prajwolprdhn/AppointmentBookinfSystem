@@ -109,23 +109,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('js/formchange.js') }}"></script>
 <script src="{{ asset('js/field_add.js') }}"></script>
 <script src="{{ asset('js/time_add.js') }}"></script>
-
+<script src="http://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/js/nepali.datepicker.v4.0.1.min.js"
+    type="text/javascript"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        var mainInput = document.getElementById("nepali-datepicker");
+        mainInput.nepaliDatePicker();
+    };
+</script>
 <script>
     $(document).ready(function() {
         // Initialize Nepali Date Picker for Modal
         $("#modal-nepali-date-picker").nepaliDatePicker({
             container: "#myModal",
+            language: "english",
+            disableDaysAfter: 7,
+            disableDaysBefore: 0,
         });
 
-        // Initialize schedule date pickers
-        var calendar = document.querySelectorAll("#modal-nepali-date-picker");
-        calendar.forEach(function(element) {
-            element.nepaliDatePicker({
-                language: "english",
-                disableDaysAfter: 7,
-                disableDaysBefore: 0,
-            });
-        });
     });
 
 
@@ -137,14 +138,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         english.value = converted;
     }
 </script>
-<script src="http://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/js/nepali.datepicker.v4.0.1.min.js"
-    type="text/javascript"></script>
-<script type="text/javascript">
-    window.onload = function() {
-        var mainInput = document.getElementById("nepali-datepicker");
-        mainInput.nepaliDatePicker();
-    };
-</script>
+
 <script src="{{ asset('js/imagepreview.js') }}"></script>
 
 {{-- <script src="{{ asset('js/nepali.datepicker.v4.0.1.min.js') }}"></script> --}}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AppointmentController extends Controller
@@ -50,9 +51,23 @@ class AppointmentController extends Controller
     {
         $status = $request->input('status');
         $booking = Booking::find($id);
+        $patient = $booking->patient;
         $booking->status = $status;
+        $schedule = $booking->schedule;
+        $email = $patient['email'];
+        $schedule['appointment_status'] = $status;
+        if ($status == 1) {
+            Mail::send('email.status_change', $schedule->toArray(), function($message) use ($email){
+                $message->to($email, 'Patient')->subject('Appointment Approved');
+            });
+
+        } elseif($status == 2) {
+            Mail::send('email.status_change', $schedule->toArray(), function($message) use ($email){
+                $message->to($email, 'Patient')->subject('Appointment Declined');
+            });
+        }
         $booking->save();
-        Alert::success('Success!','Staus Changed Sucessfully!');
+        Alert::success('Success!','Status Changed Sucessfully!');
         return redirect()->back();
     }
 

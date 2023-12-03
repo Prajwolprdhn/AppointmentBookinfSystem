@@ -424,4 +424,22 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            // Remove button click event
+            $(".remove-button").on("click", function() {
+                // Check the number of elements with the class 'form-step'
+                var formStepsCount = $(".form-step").length;
+
+                // If there is only one form step left, show an alert or prevent the removal
+                if (formStepsCount === 1) {
+                    alert("Cannot remove the only remaining field.");
+                    // To prevent removal, you can use 'return;' instead of the alert.
+                } else {
+                    // Remove the closest form-step if there is more than one
+                    $(this).closest(".form-step").remove();
+                }
+            });
+        });
+    </script>
 @endsection
