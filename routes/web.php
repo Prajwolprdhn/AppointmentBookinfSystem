@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\MenubarController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DepartmentController;
@@ -34,6 +37,11 @@ Auth::routes();
 
 Route::get('/home', [AdminController::class, 'index'])->name('home');
 
+Route::get('/view/{id}', [PageController::class, 'dynamic'])->name('dynamic_view');
+
+//Notification
+Route::get('/markasread', [BookingController::class, 'markasread'])->name('markasread');
+
 
 
 
@@ -47,6 +55,7 @@ Route::get('/home/doctors_form', [DoctorController::class, 'index'])->name('doct
 // Route::get('/home/education_form', [DoctorController::class, 'education_form'])->name('education_form');
 
 
+Route::post('/home/doctors', [HomeController::class, 'filter'])->name('filter_doctor');
 
 
 //Admin
@@ -70,7 +79,7 @@ Route::delete('/home/delete_doctor/{doctor}', [AdminController::class, 'delete_d
 Route::get('/home/edit_doctor/{doctor_id}', [AdminController::class, 'edit_doctor'])->name('edit_doctor');
 Route::put('/home/edit_doc/{doctor_id}', [AdminController::class, 'update_doctor'])->name('edit_doc');
 
-Route::get('/home/view_doctor/{doctor_id}',[AdminController::class,'view_doctor'])->name('view_doctor');
+Route::get('/home/view_doctor/{doctor_id}', [AdminController::class, 'view_doctor'])->name('view_doctor');
 
 
 Route::post('/home/add_users', [AdminController::class, 'create'])->name('add_users');
@@ -89,23 +98,27 @@ Route::put('/home/edit_department/{department_id}', [DepartmentController::class
 
 
 //Trash
-Route::resource('trash',TrashController::class);
+Route::resource('trash', TrashController::class);
 
 Route::post('trash/restore/{user_id}', [TrashController::class, 'restore'])->name('restore');
 
 
 //Schedule
-Route::resource('schedule',ScheduleController::class);
+Route::resource('schedule', ScheduleController::class);
 // Route::post('/schedule/store/{doctors_id}', [ScheduleController::class, 'store'])->name('schedule.data');
 
 
 //Booking
-Route::resource('booking',BookingController::class);
+Route::resource('booking', BookingController::class);
 
 //Appointments
-Route::resource('appointment',AppointmentController::class);
+Route::resource('appointment', AppointmentController::class);
 
 //Patient
-Route::resource('patient',PatientController::class);
+Route::resource('patient', PatientController::class);
 
-
+//Menu Controller
+Route::resource('menu', MenuController::class);
+Route::resource('menubar', MenubarController::class);
+//Page
+Route::resource('page', PageController::class);

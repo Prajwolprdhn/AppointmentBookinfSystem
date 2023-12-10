@@ -8,13 +8,17 @@ use App\Models\Education;
 use App\Models\Department;
 use App\Models\Experience;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Doctor extends Model
+class Doctor extends Model implements Auditable
 {
     use SoftDeletes;
     use HasFactory;
+    use Notifiable;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'lisence_no',
@@ -42,19 +46,22 @@ class Doctor extends Model
     }
     public function experiences()
     {
-        return $this->hasMany(Experience::class,'doctors_id','id');
+        return $this->hasMany(Experience::class, 'doctors_id', 'id');
     }
     public function education()
     {
-        return $this->hasMany(Education::class,'doctors_id','id');
+        return $this->hasMany(Education::class, 'doctors_id', 'id');
     }
-    public function department(){
+    public function department()
+    {
         return $this->belongsTo(Department::class);
     }
-    public function schedule(){
-        return $this->hasMany(Schedule::class,'doctors_id','id');
+    public function schedule()
+    {
+        return $this->hasMany(Schedule::class, 'doctors_id', 'id');
     }
-    public function booking(){
+    public function booking()
+    {
         return $this->hasMany(Booking::class);
     }
 }

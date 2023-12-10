@@ -3,36 +3,62 @@
 @section('content')
     {{-- {{ $errors }} --}}
     <!-- Content Header (Page header) -->
-    {{-- <div class="content-header mt-2">
-            <div class="container-fluid pb-1">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">Doctors Appointments</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('login') }}" class="btn btn-secondary"
-                                    style="color:white;">
-                                    LOGIN</a></li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
+    <div class="content-header mt-4" style="margin-left: 500px">
+        <div class="row">
+            {{-- {{ dd($selectedDepartment) }} --}}
+            <div class="col-sm-1">
+                <div class="dropdown show text-center">
+                    <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ $selectedDepartment ? $selectedDepartment->departments : 'Departments' }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        @foreach ($departments as $department)
+                            <a class="dropdown-item" href="#" onclick="submitDepartment({{ $department->id }})">
+                                {{ $department->departments }}
+                            </a>
+                        @endforeach
+                    </div>
 
-            </div><!-- /.container-fluid -->
-            <hr class="hr" />
-        </div> --}}
+                    <form id="departmentForm" method="POST" action="{{ route('filter_doctor') }}" style="display: none;">
+                        @csrf
+                        <input type="hidden" name="department_id" id="departmentIdInput">
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-sm-6" style="margin-left: 90px">
+                <form class="form-inline my-2 my-lg-0" action="{{ route('filter_doctor') }}" method="post">
+                    @csrf
+                    <div class="row">
+                        <div class="col-6">
+                            <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search"
+                                aria-label="Search" required>
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
     <!-- /.content-header -->
     <div class="content-wrapper mb-4">
         <div class="content ml-2">
             <div class="container-fluid">
                 <div class="row">
-                    @foreach ($doctors as $doctor)
+                    @forelse ($doctors as $doctor)
                         <div class="col-lg-3">
                             <div class="card mb-3 pb-3">
                                 <div class="card-body text-center">
                                     @if ($doctor->photo)
-                                        <img src="{{ asset($doctor->photo) }}" alt="avatar" class="rounded-circle img-fluid"
-                                            style="width: 150px; height: 150px;">
+                                        <img src="{{ asset($doctor->photo) }}" alt="avatar"
+                                            class="rounded-circle img-fluid" style="width: 150px; height: 150px;">
                                     @else
                                         <img src="{{ asset('images/blank.jpg') }}" alt="default-avatar"
                                             class="rounded-circle img-fluid" style="width: 150px; height: 150px;">
@@ -145,14 +171,17 @@
                                                                                             class ="form-control select2"
                                                                                             name="gender">
                                                                                             <option disabled="disabled"
-                                                                                                selected="selected">-- Not
+                                                                                                selected="selected">--
+                                                                                                Not
                                                                                                 Selected --
                                                                                             </option>
                                                                                             <option value="Male">Male
                                                                                             </option>
-                                                                                            <option value="Female">Female
+                                                                                            <option value="Female">
+                                                                                                Female
                                                                                             </option>
-                                                                                            <option value="Others">Other
+                                                                                            <option value="Others">
+                                                                                                Other
                                                                                             </option>
                                                                                         </select>
                                                                                         @error('contact')
@@ -233,8 +262,18 @@
                                                                                             id="doctors_id"
                                                                                             name="schedule_id">
                                                                                     </div>
+                                                                                    <div class="mb-3">
+
+                                                                                        {!! NoCaptcha::renderJs() !!}
+                                                                                        {!! NoCaptcha::display() !!}
+                                                                                        @error('g-recaptcha-response')
+                                                                                            <span
+                                                                                                class="text-danger">{{ $message }}</span>
+                                                                                        @enderror
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div class="modal-footer">
+                                                                                <div class="modal-footer"
+                                                                                    aria-required="true">
                                                                                     <button type="submit"
                                                                                         class="btn btn-danger"
                                                                                         data-bs-dismiss="modal">Cancel</button>
@@ -249,7 +288,8 @@
                                                                 </div>
                                                             @endforeach
                                                             @if (!$dataFound)
-                                                                <p class="text-muted mb-3">No appointment available.</p>
+                                                                <p class="text-muted mb-3">No appointment available.
+                                                                </p>
                                                             @endif
                                                         </div>
                                                     @endif
@@ -260,11 +300,24 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="col-lg-12 text-center">
+                            <div class="card mx-4">
+                                <div class="card-body" style="padding-top:60px; padding-bottom:60px;">
+                                    <p class="h3 text-muted mb-0">Oops!! Currently No Doctor Are Available.</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- FAQs Start -->
+    <script>
+        function submitDepartment(departmentId) {
+            document.getElementById('departmentIdInput').value = departmentId;
+            document.getElementById('departmentForm').submit();
+        }
+    </script>
 @endsection

@@ -4,7 +4,7 @@
         <div class="row g-5">
             <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
                 <a href="index.html" class="d-inline-block mb-3">
-                    <h1 class="text-white">Young<span class="text-primary"> . </span>Minds</h1>
+                    <h1 class="text-white">Young Minds</h1>
                 </a>
                 <p class="mb-0">Thank you for choosing Appointment Booking System. Your well-being is our
                     commitment, and we look forward to making your healthcare

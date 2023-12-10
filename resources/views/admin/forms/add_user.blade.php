@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@inject('doctor_helper', 'App\Helpers\DoctorHelper')
 @section('content')
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -31,10 +31,16 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
+
                             <form action="{{ route('add_users') }}" method="post">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
+                                        {{-- {!! Form::select('doctor_id', $doctor_helper->list(), null, [
+                                            'class' => 'form-select',
+                                            'placeholder' => 'select doctor',
+                                        ]) !!} --}}
+
                                         <label class="col-sm-2 col-form-label" for="exampleInputStatus">Status</label>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input mt-1" type="radio" name="status"
@@ -114,7 +120,6 @@
                                                             class="fas fa-caret-down"></i></span>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                     {{-- <div class="form-group row">

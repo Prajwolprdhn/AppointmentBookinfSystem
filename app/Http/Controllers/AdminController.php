@@ -18,20 +18,21 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminController extends Controller
 {
+
     public function index()
     {
-        $user=User::all();
-        $department=Department::all();
-        $patient=Department::all();
-        $doctors=Doctor::paginate(6);
+        $user = User::all();
+        $department = Department::all();
+        $patient = Department::all();
+        $doctors = Doctor::paginate(6);
         $trashedCount = User::onlyTrashed()->count();
-        $id = Auth::id();//Auth::user();
-        $userData = User::where('id',$id)->get();
+        $id = Auth::id(); //Auth::user();
+        $userData = User::where('id', $id)->get();
         $doctorDetails = null;
         $booking = null;
-        if($userData[0]->role == 1){
-            $doctorDetails = Doctor::where('user_id',$id)->pluck('id');
-            $booking=Booking::where('doctors_id',$doctorDetails)->get();
+        if ($userData[0]->role == 1) {
+            $doctorDetails = Doctor::where('user_id', $id)->pluck('id');
+            $booking = Booking::where('doctors_id', $doctorDetails)->get();
         }
         $departmentChartData = [
             'labels' => $department->pluck('departments')->toArray(),
@@ -43,19 +44,22 @@ class AdminController extends Controller
         }
 
         $departmentChartData['values'] = $values;
-        return view('dashboard',compact('user','doctors', 'booking', 'department', 'trashedCount', 'departmentChartData','id','doctorDetails','patient'));
+        return view('dashboard', compact('user', 'doctors', 'booking', 'department', 'trashedCount', 'departmentChartData', 'id', 'doctorDetails', 'patient'));
     }
-    public function users_form(){
+    public function users_form()
+    {
         return view('admin.forms.add_user');
     }
 
-    public function users_table(){
+    public function users_table()
+    {
         $users = User::latest()->get();
 
-        return view('admin.tables.user_details',['users' => $users]);
+        return view('admin.tables.user_details', ['users' => $users]);
     }
 
-    public function details_table(){
+    public function details_table()
+    {
         return view('admin.tables.add_user');
     }
 
@@ -65,52 +69,58 @@ class AdminController extends Controller
         $formFields['status'] = $request->has('status') ? 1 : 0;
 
         $formfields['name'] = $formfields['first_name'] . ' ' . $formfields['last_name'];
-        $userData=User::create($formfields->all());
+        $userData = User::create($formfields->all());
 
-        if($formfields['role'] == 1){
+        if ($formfields['role'] == 1) {
             $formfields['user_id'] = $userData->id;
-        $doctorData = Doctor::create($formfields->all());
+            $doctorData = Doctor::create($formfields->all());
         }
-        Alert::success('Success!','User Created Sucessfully!');
+        Alert::success('Success!', 'User Created Sucessfully!');
         return redirect()->route('users_table');
     }
 
-    public function delete($user_id){
+    public function delete($user_id)
+    {
         // dd($user_id);
         $user = User::findOrFail($user_id);
-        if($user->doctor){
+        if ($user->doctor) {
             $user->doctor->delete();
         }
         $user->delete();
-        Alert::success('Success!','User Deleted Sucessfully!');
+        Alert::success('Success!', 'User Deleted Sucessfully!');
         return redirect()->route('users_table');
     }
 
-    public function edit_form($user_id){
+    public function edit_form($user_id)
+    {
         $data = User::findOrFail($user_id);
-        return view('admin.forms.edit_user',['details'=>$data]);
+        return view('admin.forms.edit_user', ['details' => $data]);
     }
-    public function update(EditDoctorRequest $request, User $user_id){
+    public function update(EditDoctorRequest $request, User $user_id)
+    {
         $formfields = $request;
         $data = User::find($user_id);
 
         $formfields['name'] = $formfields['fname'] . ' ' . $formfields['lname'];
         // dd($formfields);
         $user_id->update($formfields);
-        Alert::success('Success!','User Edited Sucessfully!');
+        Alert::success('Success!', 'User Edited Sucessfully!');
         return redirect()->route('users_table');
     }
 
 
-    public function doctors_table(){
+    public function doctors_table()
+    {
         $doctors = Doctor::latest()->get();
-        return view('admin.tables.doctors_details',['doctors'=>$doctors]);
+        return view('admin.tables.doctors_details', ['doctors' => $doctors]);
     }
-    public function doctors_form(){
+    public function doctors_form()
+    {
         $department = Department::all();
-        return view('admin.forms.doctors_form',['departments'=>$department]);
+        return view('admin.forms.doctors_form', ['departments' => $department]);
     }
-    public function add_doctors(DoctorRequest $request){
+    public function add_doctors(DoctorRequest $request)
+    {
         // foreach($request->get('education') as $educations){
         //     dd($educations);
         // }
@@ -121,16 +131,16 @@ class AdminController extends Controller
             $request['photo'] = 'storage/img/' . $fileName;
             $imagePath->storeAs('public/img', $fileName);
         }
-        
+
         $formfields = $request;
         $request['status'] = $request->has('status') ? 1 : 0;
         $formfields['name'] = $request['first_name'] . ' ' . $request['last_name'];
         $formfields['role'] = 1;
-    
+
         $userData = User::create($formfields->all());
         $formfields['user_id'] = $userData->id;
         $doctorData = Doctor::create($formfields->all());
-    
+
         // Handle dynamic input fields for education
         if ($request->has('education')) {
             foreach ($request->input('education.institution') as $index => $institution) {
@@ -165,20 +175,22 @@ class AdminController extends Controller
             }
         }
 
-        Alert::success('Success!','Doctor Added Successfully!');
+        Alert::success('Success!', 'Doctor Added Successfully!');
 
         return redirect()->route('doctors_table');
     }
-    public function delete_doctor(Doctor $doctor){
-        if($doctor->user){
+    public function delete_doctor(Doctor $doctor)
+    {
+        if ($doctor->user) {
             $doctor->user->delete();
         }
         $doctor->delete();
-        Alert::success('Success!','User Deleted Sucessfully!');
+        Alert::success('Success!', 'User Deleted Sucessfully!');
         return redirect()->route('doctors_table')->with('success', 'Doctor deleted successfully.');
     }
 
-    public function edit_doctor($doctor_id){
+    public function edit_doctor($doctor_id)
+    {
         // $department = Department::all();
         // $data = Doctor::findOrFail($doctor_id);
         // $user = $data->user;
@@ -191,10 +203,11 @@ class AdminController extends Controller
         $doctor = Doctor::findOrFail($doctor_id);
         $departments = Department::all();
 
-        return view('admin.forms.edit_doctor',compact('doctor','departments'));
+        return view('admin.forms.edit_doctor', compact('doctor', 'departments'));
     }
 
-    public function update_doctor(EditDoctorRequest $request,Doctor $doctor_id){
+    public function update_doctor(EditDoctorRequest $request, Doctor $doctor_id)
+    {
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image');
             $fileName = $imagePath->getClientOriginalName();
@@ -205,7 +218,7 @@ class AdminController extends Controller
         $formfields['name'] = $request['first_name'] . ' ' . $request['last_name'];
         $doctor_id->user->update($formfields->all());
         if ($doctor_id) {
-             Education::where('doctors_id', $doctor_id->id)->delete();
+            Education::where('doctors_id', $doctor_id->id)->delete();
         }
         foreach ($request->input('education.institution') as $index => $institution) {
             // Create a new Education instance
@@ -236,39 +249,39 @@ class AdminController extends Controller
         }
 
         $doctor_id->update($formfields->all());
-        Alert::success('Success!','Doctor Updated Successfully!');
+        Alert::success('Success!', 'Doctor Updated Successfully!');
 
         return redirect()->route('doctors_table');
     }
 
-    public function view_doctor($id){
+    public function view_doctor($id)
+    {
         $doctor = Doctor::findOrFail($id);
         // dd($doctor);
-        return view('admin.view.doctors_view',compact('doctor'));
+        return view('admin.view.doctors_view', compact('doctor'));
     }
 
     public function change_form($id)
     {
-        return view('doctors.forms.password_change',compact('id'));
+        return view('doctors.forms.password_change', compact('id'));
     }
 
     public function changePassword(Request $request, $id)
     {
         $request->validate([
-            'old_password'=>'required',
-            'password'=>'confirmed|required|min:8',
+            'old_password' => 'required',
+            'password' => 'confirmed|required|min:8',
         ]);
         $user = Auth::user();
         $oldPassword = $request->old_password;
 
         if (Hash::check($oldPassword, $user->password)) {
             $user = User::find(auth()->user()->id);
-            $user->update(['password'=>Hash::make($request->password)]);
+            $user->update(['password' => Hash::make($request->password)]);
             Alert::success('Success!', 'Password changed successfully!');
             return redirect()->back()->with("info_success", "Password updated successfully");
         } else {
             return redirect()->back()->withErrors(["old_password" => "Old password is not correct !"]);
         }
     }
-
 }

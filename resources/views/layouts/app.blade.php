@@ -23,7 +23,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Nepali Datepicker -->
     <link href="http://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/css/nepali.datepicker.v4.0.1.min.css"
         rel="stylesheet" type="text/css" />
-
+    <!-- summernote -->
+    <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -75,6 +76,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
             color: red;
             /* or any color you prefer for 'Reject' */
         }
+
+
+        .notification-content {
+            max-width: 1000px;
+            /* Adjust the max-width as needed */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .notification-details {
+            max-width: 800px;
+            /* Adjust the max-width as needed */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+        }
+
+        /* Change the background color of the active tab */
+        .nav-pills .nav-item.show .nav-link,
+        .nav-pills .nav-link.active {
+            background-color: grey;
+            color: white !important;
+            /* Change this to your desired text color */
+        }
     </style>
 </head>
 
@@ -105,6 +131,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 
+<!-- Summernote -->
+<script src="../../plugins/summernote/summernote-bs4.min.js"></script>
+
 <script src="{{ asset('js/nepalidatepicker.js') }}"></script>
 <script src="{{ asset('js/formchange.js') }}"></script>
 <script src="{{ asset('js/field_add.js') }}"></script>
@@ -127,6 +156,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             disableDaysBefore: 0,
         });
 
+    });
+
+    $(document).ready(function() {
+        $('#title_en').on('input', function() {
+            // Get the value of the title input
+            var title = $(this).val().toLowerCase();
+
+            // Replace spaces with hyphens and update the slug input
+            $('#slug').val(title.replace(/\s+/g, '-'));
+        });
     });
 
 

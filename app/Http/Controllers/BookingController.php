@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\PatientRequest;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Notifications\BookingNotification;
+use Illuminate\Support\Facades\Notification;
 
 class BookingController extends Controller
 {
@@ -21,7 +23,7 @@ class BookingController extends Controller
     {
         //
         $doctors = Doctor::latest()->get();
-        return view('welcome',compact('doctors'));
+        return view('welcome', compact('doctors'));
     }
 
     /**
@@ -43,10 +45,17 @@ class BookingController extends Controller
         $request['patient_id'] = $patientDetail->id;
         $scheduleData = Schedule::findOrFail($request->schedule_id);
         $request['doctors_id'] = $scheduleData->doctors_id;
-        Mail::send('email.bookings_made',$scheduleData->toArray(),
-        function($message){
-            $message->to('prajwolp81@gmail.com','Doctor')->subject('New Appointments Registered.');
-        });
+        $doctor = Doctor::findOrFail($request['doctors_id']);
+        // dd($doctor);
+        $doctor->notify(new BookingNotification($patientDetail, $scheduleData));
+        // dd("done");
+        Mail::send(
+            'email.bookings_made',
+            $scheduleData->toArray(),
+            function ($message) {
+                $message->to('prajwolp81@gmail.com', 'Doctor')->subject('New Appointments Registered.');
+            }
+        );
         $booking = Booking::create($request->only([
             'book_date_bs',
             'book_date_ad',
@@ -57,7 +66,8 @@ class BookingController extends Controller
             'created_at',
         ]));
         $scheduleData->update(['status' => 1]);
-        Alert::success('Success!','Appointment Registered Successfully!');
+
+        Alert::success('Success!', 'Appointment Registered Successfully!');
         return redirect()->back();
     }
 
@@ -92,7 +102,13 @@ class BookingController extends Controller
     {
         //
         $booking->delete();
-        Alert::success('Success!','Bookings Deleted Sucessfully!');
+        Alert::success('Success!', 'Bookings Deleted Sucessfully!');
         return redirect()->back();
+    }
+
+    public function markasread()
+    {
+        auth()->user()->doctor->notifications->markAsRead();
+        return back();
     }
 }

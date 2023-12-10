@@ -36,7 +36,7 @@
                     <li class="nav-item">
                         <a href="{{ route('doctors_table') }}" class="nav-link">
                             <i class="fa fa-user pr-3"></i>
-                            <p>Doctors Management</p>
+                            <p>Doctors</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -48,7 +48,7 @@
                     <li class="nav-item">
                         <a href="{{ route('schedule.index') }}" class="nav-link">
                             <i class="far fa-calendar pr-3"></i>
-                            <p>Schedule Management</p>
+                            <p>Schedules</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -63,13 +63,42 @@
                             <p>Trash</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy pr-3"></i>
+                            <p>
+                                Web Management
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('page.index') }}" class="nav-link">
+                                    <i class="fa fa-file nav-icon"></i>
+                                    <p>Page Management</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('menubar.index') }}" class="nav-link">
+                                    <i class="fa fa-bars nav-icon"></i>
+                                    <p>Menu Management</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('menubar.index') }}" class="nav-link">
+                                    <i class="fa fa-question-circle nav-icon"></i>
+                                    <p>FAQ's Management</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
                 @if (auth()->check() && auth()->user()->role == 1)
                     <li class="nav-item">
                         <a href="{{ route('schedule.show', ['schedule' => auth()->user()->doctor->id]) }}"
                             class="nav-link">
                             <i class="far fa-calendar pr-3"></i>
-                            <p>Schedule Management</p>
+                            <p>Schedules</p>
                         </a>
                     </li>
                     <li class="nav-item">

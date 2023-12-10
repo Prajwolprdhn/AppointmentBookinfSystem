@@ -8,7 +8,7 @@ window.onload = function () {
 
 setInterval(() => {
     getDate();
-}, 10);
+}, 50);
 
 function getDate() {
     var nepali = document.getElementById("nepali-datepicker").value;
