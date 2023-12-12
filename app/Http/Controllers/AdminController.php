@@ -13,7 +13,6 @@ use App\Http\Requests\UserRequest;
 use App\Http\Requests\DoctorRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\EditDoctorRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminController extends Controller
@@ -96,7 +95,7 @@ class AdminController extends Controller
         $data = User::findOrFail($user_id);
         return view('admin.forms.edit_user', ['details' => $data]);
     }
-    public function update(EditDoctorRequest $request, User $user_id)
+    public function update(DoctorRequest $request, User $user_id)
     {
         $formfields = $request;
         $data = User::find($user_id);
@@ -206,7 +205,7 @@ class AdminController extends Controller
         return view('admin.forms.edit_doctor', compact('doctor', 'departments'));
     }
 
-    public function update_doctor(EditDoctorRequest $request, Doctor $doctor_id)
+    public function update_doctor(DoctorRequest $request, Doctor $doctor_id)
     {
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image');

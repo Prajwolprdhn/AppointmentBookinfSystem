@@ -36,10 +36,6 @@
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
-                                        {{-- {!! Form::select('doctor_id', $doctor_helper->list(), null, [
-                                            'class' => 'form-select',
-                                            'placeholder' => 'select doctor',
-                                        ]) !!} --}}
 
                                         <label class="col-sm-2 col-form-label" for="exampleInputStatus">Status</label>
                                         <div class="form-check form-check-inline">

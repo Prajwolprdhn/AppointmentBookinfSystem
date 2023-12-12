@@ -1,8 +1,3 @@
-{{-- @foreach ($menus as $menu)
-    @if ($menu->type == 'Page')
-        {{ dd($menu->page_id, $menu) }}
-    @endif
-@endforeach --}}
 @inject('menubar_helper', 'App\Helpers\MenubarHelper')
 
 <div id="spinner"
@@ -25,15 +20,31 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto">
                     @foreach ($menubar_helper->show() as $menu)
-                        @if ($menu->type == 'Module')
-                            <a href="{{ route($menu->modules->link) }}"
-                                class="nav-item nav-link active">{{ $menu->name }}</a>
-                        @elseif($menu->type == 'Page')
-                            <a href="{{ route('dynamic_view', ['id' => $menu->page_id]) }}"
-                                class="nav-item nav-link active">{{ $menu->name }}</a>
-                        @else
-                            <a href="{{ $menu->external_link }}"
-                                class="nav-item nav-link active">{{ $menu->name }}</a>
+                        @if ($menu->parent_id == null)
+                            @if ($menu->children->isNotEmpty())
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle"
+                                        data-bs-toggle="dropdown">{{ $menu->name }}</a>
+                                    <div class="dropdown-menu bg-light mt-2">
+                                        @foreach ($menu->children as $childMenu)
+                                            <a href="{{ $childMenu->type == 'Module' ? route($childMenu->modules->link) : ($childMenu->type == 'Page' ? route('dynamic_view', ['id' => $childMenu->page_id]) : $childMenu->external_link) }}"
+                                                target="{{ $childMenu->type == 'ExternalLink' ? '_blank' : '_self' }}"
+                                                class="dropdown-item">{{ $childMenu->name }}</a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @else
+                                @if ($menu->type == 'Module')
+                                    <a href="{{ route($menu->modules->link) }}"
+                                        class="nav-item nav-link active">{{ $menu->name }}</a>
+                                @elseif($menu->type == 'Page')
+                                    <a href="{{ route('dynamic_view', ['id' => $menu->page_id]) }}"
+                                        class="nav-item nav-link active">{{ $menu->name }}</a>
+                                @else
+                                    <a href="{{ $menu->external_link }}" class="nav-item nav-link active"
+                                        target="_blank">{{ $menu->name }}</a>
+                                @endif
+                            @endif
                         @endif
                     @endforeach
                 </div>

@@ -1,5 +1,7 @@
 @extends('users.dashboard')
 
+@inject('faq_helper', 'App\Helpers\FaqHelper')
+
 @section('content')
     <!-- Hero Start -->
     <div class="container-fluid pt-5 bg-primary hero-header mb-5">
@@ -82,7 +84,7 @@
                                             alt="">
                                         <h5 class="mb-1">
                                             {{ $doctors[0]->first_name . ' ' . $doctors[0]->last_name }}</h5>
-                                        <small class="mb-1">Founder & CEO</small><br>
+                                        <small class="mb-1">{{ $doctors[0]->department->departments }}</small><br>
                                         <small><i class="far fa-envelope"
                                                 style="padding-right: 10px; font-size: 14px;"></i>{{ $doctors[0]->user->email ?? '-' }}
                                         </small>
@@ -94,7 +96,7 @@
                                             alt="">
                                         <h5 class="mb-1">
                                             {{ $doctors[1]->first_name . ' ' . $doctors[1]->last_name }}</h5>
-                                        <small class="mb-1">Founder & CEO</small><br>
+                                        <small class="mb-1">{{ $doctors[0]->department->departments }}</small><br>
                                         <small><i class="far fa-envelope"
                                                 style="padding-right: 10px; font-size: 14px;"></i>{{ $doctors[1]->user->email ?? '-' }}
                                         </small>
@@ -106,25 +108,25 @@
                             <div class="row g-4">
                                 <div class="col-12 wow fadeIn" data-wow-delay="0.3s">
                                     <div class="team-item bg-white text-center rounded p-4 pt-0">
-                                        <img class="img-fluid rounded-circle p-4" src="{{ asset($doctors[1]->photo) }}"
+                                        <img class="img-fluid rounded-circle p-4" src="{{ asset($doctors[2]->photo) }}"
                                             alt="">
                                         <h5 class="mb-1">
-                                            {{ $doctors[1]->first_name . ' ' . $doctors[1]->last_name }}</h5>
-                                        <small class="mb-1">Founder & CEO</small><br>
+                                            {{ $doctors[2]->first_name . ' ' . $doctors[2]->last_name }}</h5>
+                                        <small class="mb-1">{{ $doctors[2]->department->departments }}</small><br>
                                         <small><i class="far fa-envelope"
-                                                style="padding-right: 10px; font-size: 14px;"></i>{{ $doctors[1]->user->email ?? '-' }}
+                                                style="padding-right: 10px; font-size: 14px;"></i>{{ $doctors[2]->user->email ?? '-' }}
                                         </small>
                                     </div>
                                 </div>
                                 <div class="col-12 wow fadeIn" data-wow-delay="0.7s">
                                     <div class="team-item bg-white text-center rounded p-4 pt-0">
-                                        <img class="img-fluid rounded-circle p-4" src="{{ asset($doctors[0]->photo) }}"
+                                        <img class="img-fluid rounded-circle p-4" src="{{ asset($doctors[3]->photo) }}"
                                             alt="">
                                         <h5 class="mb-1">
-                                            {{ $doctors[0]->first_name . ' ' . $doctors[0]->last_name }}</h5>
-                                        <small class="mb-1">Founder & CEO</small><br>
+                                            {{ $doctors[3]->first_name . ' ' . $doctors[3]->last_name }}</h5>
+                                        <small class="mb-1">{{ $doctors[3]->department->departments }}</small><br>
                                         <small><i class="far fa-envelope"
-                                                style="padding-right: 10px; font-size: 14px;"></i>{{ $doctors[0]->user->email ?? '-' }}
+                                                style="padding-right: 10px; font-size: 14px;"></i>{{ $doctors[3]->user->email ?? '-' }}
                                         </small>
                                     </div>
                                 </div>
@@ -149,142 +151,66 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="accordion" id="accordionFAQ1">
-                        <div class="accordion-item wow fadeIn" data-wow-delay="0.1s">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                    How to build a website?
-                                </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                                data-bs-parent="#accordionFAQ1">
-                                <div class="accordion-body">
-                                    Dolor nonumy tempor elitr et rebum ipsum sit duo duo. Diam sed sed magna et
-                                    magna
-                                    diam aliquyam amet dolore ipsum erat duo. Sit rebum magna duo labore no diam.
+                        @php
+                            $accordionCount1 = 1; // Initialize the counter for FAQ1
+                        @endphp
+                        @foreach ($faq_helper->show()['faqs_first'] as $faq)
+                            <div class="accordion-item wow fadeIn" data-wow-delay="0.1s">
+                                <h2 class="accordion-header" id="headingFAQ1_{{ $accordionCount1 }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseFAQ1_{{ $accordionCount1 }}" aria-expanded="false"
+                                        aria-controls="collapseFAQ1_{{ $accordionCount1 }}">
+                                        {{ $faq->question }}
+                                    </button>
+                                </h2>
+                                <div id="collapseFAQ1_{{ $accordionCount1 }}" class="accordion-collapse collapse"
+                                    aria-labelledby="headingFAQ1_{{ $accordionCount1 }}" data-bs-parent="#accordionFAQ1">
+                                    <div class="accordion-body">
+                                        {{ $faq->answer }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="accordion-item wow fadeIn" data-wow-delay="0.2s">
-                            <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    How long will it take to get a new website?
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                data-bs-parent="#accordionFAQ1">
-                                <div class="accordion-body">
-                                    Dolor nonumy tempor elitr et rebum ipsum sit duo duo. Diam sed sed magna et
-                                    magna
-                                    diam aliquyam amet dolore ipsum erat duo. Sit rebum magna duo labore no diam.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item wow fadeIn" data-wow-delay="0.3s">
-                            <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Do you only create HTML websites?
-                                </button>
-                            </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                                data-bs-parent="#accordionFAQ1">
-                                <div class="accordion-body">
-                                    Dolor nonumy tempor elitr et rebum ipsum sit duo duo. Diam sed sed magna et
-                                    magna
-                                    diam aliquyam amet dolore ipsum erat duo. Sit rebum magna duo labore no diam.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item wow fadeIn" data-wow-delay="0.4s">
-                            <h2 class="accordion-header" id="headingFour">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                    Will my website be mobile-friendly?
-                                </button>
-                            </h2>
-                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
-                                data-bs-parent="#accordionFAQ1">
-                                <div class="accordion-body">
-                                    Dolor nonumy tempor elitr et rebum ipsum sit duo duo. Diam sed sed magna et
-                                    magna
-                                    diam aliquyam amet dolore ipsum erat duo. Sit rebum magna duo labore no diam.
-                                </div>
-                            </div>
-                        </div>
+                            @php
+                                $accordionCount1++; // Increment the counter for FAQ1
+                            @endphp
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="accordion" id="accordionFAQ2">
-                        <div class="accordion-item wow fadeIn" data-wow-delay="0.5s">
-                            <h2 class="accordion-header" id="headingFive">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                    Will you maintain my site for me?
-                                </button>
-                            </h2>
-                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
-                                data-bs-parent="#accordionFAQ2">
-                                <div class="accordion-body">
-                                    Dolor nonumy tempor elitr et rebum ipsum sit duo duo. Diam sed sed magna et
-                                    magna
-                                    diam aliquyam amet dolore ipsum erat duo. Sit rebum magna duo labore no diam.
+                        @php
+                            $accordionCount2 = 1; // Initialize the counter for FAQ2
+                        @endphp
+
+                        @foreach ($faq_helper->show()['faqs_second'] as $faq)
+                            <div class="accordion-item wow fadeIn" data-wow-delay="0.3s">
+                                <h2 class="accordion-header" id="headingFAQ2_{{ $accordionCount2 }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseFAQ2_{{ $accordionCount2 }}" aria-expanded="false"
+                                        aria-controls="collapseFAQ2_{{ $accordionCount2 }}">
+                                        {{ $faq->question }}
+                                    </button>
+                                </h2>
+
+                                <div id="collapseFAQ2_{{ $accordionCount2 }}" class="accordion-collapse collapse"
+                                    aria-labelledby="headingFAQ2_{{ $accordionCount2 }}" data-bs-parent="#accordionFAQ2">
+                                    <div class="accordion-body">
+                                        {{ $faq->answer }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="accordion-item wow fadeIn" data-wow-delay="0.6s">
-                            <h2 class="accordion-header" id="headingSix">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                    I’m on a strict budget. Do you have any low cost options?
-                                </button>
-                            </h2>
-                            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
-                                data-bs-parent="#accordionFAQ2">
-                                <div class="accordion-body">
-                                    Dolor nonumy tempor elitr et rebum ipsum sit duo duo. Diam sed sed magna et
-                                    magna
-                                    diam aliquyam amet dolore ipsum erat duo. Sit rebum magna duo labore no diam.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item wow fadeIn" data-wow-delay="0.7s">
-                            <h2 class="accordion-header" id="headingSeven">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                                    Will you maintain my site for me?
-                                </button>
-                            </h2>
-                            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
-                                data-bs-parent="#accordionFAQ2">
-                                <div class="accordion-body">
-                                    Dolor nonumy tempor elitr et rebum ipsum sit duo duo. Diam sed sed magna et
-                                    magna
-                                    diam aliquyam amet dolore ipsum erat duo. Sit rebum magna duo labore no diam.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item wow fadeIn" data-wow-delay="0.8s">
-                            <h2 class="accordion-header" id="headingEight">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
-                                    I’m on a strict budget. Do you have any low cost options?
-                                </button>
-                            </h2>
-                            <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight"
-                                data-bs-parent="#accordionFAQ2">
-                                <div class="accordion-body">
-                                    Dolor nonumy tempor elitr et rebum ipsum sit duo duo. Diam sed sed magna et
-                                    magna
-                                    diam aliquyam amet dolore ipsum erat duo. Sit rebum magna duo labore no diam.
-                                </div>
-                            </div>
-                        </div>
+                            @php
+                                $accordionCount2++; // Increment the counter for FAQ2
+                            @endphp
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- FAQs Start -->
+    <script>
+        let accordionCountFAQ1 = {{ $accordionCount1 }};
+        let accordionCountFAQ2 = {{ $accordionCount2 }};
+    </script>
 @endsection

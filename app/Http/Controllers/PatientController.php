@@ -18,15 +18,14 @@ class PatientController extends Controller
         //
         $id = $request->input('id');
         $data = User::findOrFail($id);
-        if($data->role == 0){
-            $patients = Patient::latest()->get();
+        if ($data->role == 0) {
+            $patients = Patient::latest()->take(15)->get();
+            // $patients = Patient::skip(5)->take(5)->get(); slice(5)
+        } else {
+            $doctorData = Doctor::where('user_id', $id)->first();
+            $patients = Booking::where('doctors_id', $doctorData->id)->with('patient')->latest()->get();
         }
-        else{
-            $doctorData= Doctor::where('user_id',$id)->first();
-            $patients = Booking::where('doctors_id',$doctorData->id)->with('patient')->latest()->get();
-        }
-        return view('admin.view.patients_view',compact('patients'));
-
+        return view('admin.view.patients_view', compact('patients'));
     }
 
     /**

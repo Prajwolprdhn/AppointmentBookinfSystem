@@ -11,12 +11,18 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class MenubarController extends Controller
 {
+    private $menubar;
+    public function __construct(Menubar $menubar)
+    {
+        $this->menubar = $menubar;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $menus = Menubar::all();
+        $menus = $this->menubar->get();
+        // dd($menus);
         return view('admin.tables.menubar', compact('menus'));
     }
 
@@ -27,7 +33,8 @@ class MenubarController extends Controller
     {
         $modules = Modules::all();
         $pages = Page::all();
-        return view('admin.forms.add_menubar', compact('modules', 'pages'));
+        $menus = Menubar::all();
+        return view('admin.forms.add_menubar', compact('modules', 'pages', 'menus'));
     }
 
     /**

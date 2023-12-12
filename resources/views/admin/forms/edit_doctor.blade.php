@@ -151,7 +151,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="form-group row" hidden>
+                                        <div class="form-group row">
                                             <label for="birthday" class="col-sm-2 col-form-label">Date of Birth
                                                 (AD)</label>
                                             <div class="col-sm-3">
@@ -384,11 +384,11 @@
 
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-success float-right m-2" style="color: white"
-                                        id="submit-form">Submit</button>
-                                    <button type="button" class="btn btn-info float-right m-2"
-                                        id="next-step">Next</button>
-                                    <button type="button" class="btn btn-secondary float-right m-2"
-                                        id="prev-step">Previous</button>
+                                        id="submit-form" onclick="getDate()">Submit</button>
+                                    <button type="button" class="btn btn-info float-right m-2" id="next-step"
+                                        onclick="getDate()">Next</button>
+                                    <button type="button" class="btn btn-secondary float-right m-2" id="prev-step"
+                                        onclick="getDate()">Previous</button>
 
 
                                 </div>

@@ -21,7 +21,7 @@ class MenubarRequest extends FormRequest
      */
     public function rules(): array
     {
-        $doctor = $this->route('menubar.index');
+
         if ($this->isMethod('PUT')) {
             return [
                 'status' => 'required',

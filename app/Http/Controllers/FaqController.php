@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Menu;
+use App\Models\Faq;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class MenuController extends Controller
+class FaqController extends Controller
 {
+    private $faq;
+    public function __construct(Faq $faq)
+    {
+        $this->faq = $faq;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $menus = Menu::all();
-        return view('admin.tables.menu_list', compact('menus'));
+        $faqs = $this->faq->get();
+        return view('admin.tables.faq', compact('faqs'));
     }
 
     /**
@@ -22,7 +27,7 @@ class MenuController extends Controller
      */
     public function create()
     {
-        return view('admin.forms.add_menu');
+        return view('admin.forms.add_faq');
     }
 
     /**
@@ -31,11 +36,9 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $formfields = $request;
-        $formFields['menu_status'] = $request->has('status') ? 1 : 0;
-
-        Menu::create($formfields->all());
-        Alert::success('Success!', 'Menu Created Sucessfully!');
-        return redirect()->route('menu.index');
+        Faq::create($formfields->all());
+        Alert::success('Success!', 'FAQ Created Sucessfully!');
+        return redirect()->route('faq.index');
     }
 
     /**
@@ -43,7 +46,6 @@ class MenuController extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -51,9 +53,8 @@ class MenuController extends Controller
      */
     public function edit(string $id)
     {
-
-        $menu = Menu::findOrFail($id);
-        return view('admin.forms.edit_menu', ['menu' => $menu]);
+        $faq = Faq::findOrFail($id);
+        return view('admin.forms.edit_faq', compact('faq'));
     }
 
     /**
@@ -61,21 +62,20 @@ class MenuController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $formfields = $request;
-        $data = Menu::findOrFail($id);
-        // dd($formfields);
-        $data->update($request->all());
-        Alert::success('Success!', 'Menu Edited Sucessfully!');
-        return redirect()->route('menu.index');
+        $formFields = $request;
+        $data = Faq::findOrFail($id);
+        $data->update($formFields->all());
+        Alert::success('Success!', 'FAQ Edited Sucessfully!');
+        return redirect()->route('faq.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Menu $menu)
+    public function destroy(Faq $faq)
     {
-        $menu->delete();
-        Alert::success('Success!', 'Menu Deleted Sucessfully!');
+        $faq->delete();
+        Alert::success('Success!', 'Question Deleted Sucessfully!');
         return redirect()->back();
     }
 }

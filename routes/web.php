@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PageController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\MenubarController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\AppointmentController;
@@ -41,6 +43,8 @@ Route::get('/view/{id}', [PageController::class, 'dynamic'])->name('dynamic_view
 
 //Notification
 Route::get('/markasread', [BookingController::class, 'markasread'])->name('markasread');
+Route::get('/markasread1', [BookingController::class, 'markasread1'])->name('markasread1');
+
 
 
 
@@ -118,7 +122,13 @@ Route::resource('appointment', AppointmentController::class);
 Route::resource('patient', PatientController::class);
 
 //Menu Controller
-Route::resource('menu', MenuController::class);
 Route::resource('menubar', MenubarController::class);
+
 //Page
 Route::resource('page', PageController::class);
+
+//FAQ's
+Route::resource('faq', FaqController::class);
+
+//Feedback
+Route::resource('feedback', FeedbackController::class);

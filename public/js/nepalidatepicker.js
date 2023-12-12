@@ -6,10 +6,6 @@ window.onload = function () {
     console.log(currentdate);
 };
 
-setInterval(() => {
-    getDate();
-}, 50);
-
 function getDate() {
     var nepali = document.getElementById("nepali-datepicker").value;
     converted = NepaliFunctions.BS2AD(nepali);

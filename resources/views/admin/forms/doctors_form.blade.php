@@ -150,7 +150,7 @@
                                                 (AD)</label>
                                             <div class="col-sm-3">
                                                 <input type="text" class="form-control" id="english_date"
-                                                    onclick="getDate()" name="english_date" placeholder="YYYY-MM-DD">
+                                                    name="english_date" placeholder="YYYY-MM-DD">
                                                 @error('english_date')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -409,10 +409,10 @@
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-success float-right m-2"
                                             style="color: white" id="submit-form">Submit</button>
-                                        <button type="button" class="btn btn-info float-right m-2"
-                                            id="next-step">Next</button>
-                                        <button type="button" class="btn btn-secondary float-right m-2"
-                                            id="prev-step">Previous</button>
+                                        <button type="button" class="btn btn-info float-right m-2" id="next-step"
+                                            onclick="getDate()">Next</button>
+                                        <button type="button" class="btn btn-secondary float-right m-2" id="prev-step"
+                                            onclick="getDate()">Previous</button>
 
 
                                     </div>

@@ -85,12 +85,18 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('menubar.index') }}" class="nav-link">
+                                <a href="{{ route('faq.index') }}" class="nav-link">
                                     <i class="fa fa-question-circle nav-icon"></i>
                                     <p>FAQ's Management</p>
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('feedback.index') }}" class="nav-link">
+                            <i class="fa fa-comments pr-3"></i>
+                            <p>Feedbacks</p>
+                        </a>
                     </li>
                 @endif
                 @if (auth()->check() && auth()->user()->role == 1)

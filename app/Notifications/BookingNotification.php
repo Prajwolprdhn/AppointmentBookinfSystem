@@ -12,6 +12,8 @@ class BookingNotification extends Notification
 {
     use Queueable;
     public $name;
+    public $patientDetail;
+    public $scheduleData;
 
     /**
      * Create a new notification instance.

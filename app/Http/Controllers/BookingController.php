@@ -10,6 +10,7 @@ use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\PatientRequest;
+use App\Models\Department;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Notifications\BookingNotification;
 use Illuminate\Support\Facades\Notification;
@@ -23,7 +24,8 @@ class BookingController extends Controller
     {
         //
         $doctors = Doctor::latest()->get();
-        return view('welcome', compact('doctors'));
+        $department = Department::latest()->get();
+        return redirect()->back();
     }
 
     /**
@@ -109,6 +111,11 @@ class BookingController extends Controller
     public function markasread()
     {
         auth()->user()->doctor->notifications->markAsRead();
+        return back();
+    }
+    public function markasread1()
+    {
+        auth()->user()->user->notifications->markAsRead();
         return back();
     }
 }

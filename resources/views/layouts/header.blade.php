@@ -74,7 +74,7 @@
                             <div class="notification-content">
                                 <div class="notification-details">
                                     <span>{{ $notification->data['name'] }} made an appointment for</span>
-                                    <span class="date">{{ $notification->data['date_bs'] }}</span>
+                                    <span class="date">{{ $notification->data['contact'] }}</span>
                                 </div>
                             </div>
                         </a>

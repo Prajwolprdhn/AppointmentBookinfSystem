@@ -280,7 +280,8 @@
 
                                                                                     <button type="submit"
                                                                                         class="btn btn-success"
-                                                                                        style="color: white">Submit</button>
+                                                                                        style="color: white"
+                                                                                        onclick="getDate()">Submit</button>
                                                                                 </div>
                                                                             </form>
                                                                         </div>

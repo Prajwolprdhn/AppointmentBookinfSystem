@@ -24,19 +24,20 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
-                <h5 class="text-white mb-4">Popular Link</h5>
-                <a class="btn btn-link" href="">Doctors</a>
-                <a class="btn btn-link" href="">Book Appointment</a>
-                <a class="btn btn-link" href="">Login</a>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14131.512560402289!2d85.3436567!3d27.690161!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb199225ddb01b%3A0x5bdcec622a9c4d75!2sYoung%20Minds%20Creation%20(P)%20Ltd!5e0!3m2!1sen!2snp!4v1702273581161!5m2!1sen!2snp"
+                    width="700" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
+            {{-- <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
                 <h5 class="text-white mb-4">Our Services</h5>
                 <a class="btn btn-link" href="">Emergency Services</a>
                 <a class="btn btn-link" href="">Rapid Rescue</a>
                 <a class="btn btn-link" href="">The Wellness Center</a>
                 <a class="btn btn-link" href="">Heli Service</a>
                 <a class="btn btn-link" href="">Pharmaceuticals</a>
-            </div>
+            </div> --}}
+
         </div>
     </div>
 </div>

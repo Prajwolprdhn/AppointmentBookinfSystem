@@ -83,6 +83,17 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <label for="type" class="col-sm-2 col-form-label">Parent</label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <select class="form-control select2" name="parent_id" style="width: auto;">
+                                                    <option selected="selected" value="">-- Select Parent -- </option>
+                                                    @foreach ($menus as $menu)
+                                                        <option value="{{ $menu->id }}">{{ $menu->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div id="modulesDiv" class="form-group row" style="display: none;">
                                         <label for="modules" class="col-sm-2 col-form-label">Modules</label>

@@ -123,6 +123,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </html>
 
 <!-- REQUIRED SCRIPTS -->
+<script src="{{ asset('js/nepalidatepicker.js') }}"></script>
 
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
@@ -134,7 +135,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Summernote -->
 <script src="../../plugins/summernote/summernote-bs4.min.js"></script>
 
-<script src="{{ asset('js/nepalidatepicker.js') }}"></script>
 <script src="{{ asset('js/formchange.js') }}"></script>
 <script src="{{ asset('js/field_add.js') }}"></script>
 <script src="{{ asset('js/time_add.js') }}"></script>
@@ -167,15 +167,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             $('#slug').val(title.replace(/\s+/g, '-'));
         });
     });
-
-
-    function getDate() {
-        var nepali = document.getElementById("modal-nepali-date-picker").value;
-        converted = NepaliFunctions.BS2AD(nepali);
-
-        var english = document.getElementById("english_date");
-        english.value = converted;
-    }
 </script>
 
 <script src="{{ asset('js/imagepreview.js') }}"></script>

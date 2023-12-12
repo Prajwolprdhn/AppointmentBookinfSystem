@@ -21,17 +21,29 @@ class DoctorRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'lisence_no' => 'required|integer',
-            'first_name' => 'required',
-            'last_name' => 'required|string|max:255',
-            'contact' => 'required|string|max:255',
-            'email' => 'required|unique:users|email',
-            'password' => 'required|confirmed|string|min:8',
-            'password_confirmation' => 'required',
-            'gender' => 'required|string|max:255',
-            'department_id' => 'required',
-            'role' => 'nullable',
-        ];
+        if ($this->isMethod('PUT')) {
+            return [
+                'lisence_no' => 'required|integer',
+                'first_name' => 'required',
+                'last_name' => 'required|string|max:255',
+                'contact' => 'required|string|max:255',
+                'gender' => 'required|string|max:255',
+                'department_id' => 'required',
+                'role' => 'nullable'
+            ];
+        } else {
+            return [
+                'lisence_no' => 'required|integer',
+                'first_name' => 'required',
+                'last_name' => 'required|string|max:255',
+                'contact' => 'required|string|max:255',
+                'email' => 'required|unique:users|email',
+                'password' => 'required|confirmed|string|min:8',
+                'password_confirmation' => 'required',
+                'gender' => 'required|string|max:255',
+                'department_id' => 'required',
+                'role' => 'nullable',
+            ];
+        }
     }
 }
