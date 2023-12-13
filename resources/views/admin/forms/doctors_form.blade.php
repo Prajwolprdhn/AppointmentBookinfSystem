@@ -166,6 +166,36 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
+                                            <label for="department" class="col-sm-2 col-form-label">Address</label>
+                                            <div class="col-sm-3">
+                                                <select class="form-control select2" id="provinceDropdown"
+                                                    name="province" style="width: 150px;" required>
+                                                    <option value="" selected="selected">-- Province --</option>
+                                                    @foreach ($data->provinceList as $province)
+                                                        <option value="{{ $province->name }}">
+                                                            {{ $province->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 ">
+                                                <select class="form-control select2" id="districtDropdown"
+                                                    name="district" style="width: 150px;" required>
+                                                    <option value="" selected="selected">-- District --</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 ">
+                                                <select class="form-control select2" id="municipalityDropdown"
+                                                    name="municipality" style="width: 150px" required>
+                                                    <option value="" selected="selected">-- Municipality --</option>
+                                                </select>
+                                            </div>
+                                            <input type="hidden" name="selectedProvince" id="selectedProvince">
+                                            <input type="hidden" name="selectedDistrict" id="selectedDistrict">
+                                            <input type="hidden" name="selectedMunicipality" id="selectedMunicipality">
+                                        </div>
+
+                                        <div class="form-group row">
                                             <label for="exampleInputFile">Upload Image</label>
                                             <img id="preview" src="#" alt="img" class="mt-3 pb-3"
                                                 style="display:none; width:200px; height:200px;" />
@@ -440,6 +470,96 @@
                     $(this).closest(".form-step").remove();
                 }
             });
+        });
+    </script>
+    {{-- <script>
+        document.getElementById('provinceDropdown').addEventListener('change', function() {
+            var selectedProvinceId = this.value;
+            var districtDropdown = document.getElementById('districtDropdown');
+            districtDropdown.innerHTML = ''; // Clear existing options
+
+            // Find the selected province in the data
+            var selectedProvince = data.provinceList.find(function(province) {
+                return province.id == selectedProvinceId;
+            });
+
+            // Populate district dropdown based on the selected province
+            selectedProvince.districtList.forEach(function(district) {
+                var option = document.createElement('option');
+                option.value = district.id;
+                option.textContent = district.name;
+                districtDropdown.appendChild(option);
+            });
+        });
+
+        document.getElementById('districtDropdown').addEventListener('change', function() {
+            var selectedDistrictId = this.value;
+            var municipalityDropdown = document.getElementById('municipalityDropdown');
+            municipalityDropdown.innerHTML = ''; // Clear existing options
+
+            // Find the selected district in the data
+            var selectedDistrict = data.provinceList.flatMap(function(province) {
+                return province.districtList;
+            }).find(function(district) {
+                return district.id == selectedDistrictId;
+            });
+
+            // Populate municipality dropdown based on the selected district
+            selectedDistrict.municipalityList.forEach(function(municipality) {
+                var option = document.createElement('option');
+                option.value = municipality.id;
+                option.textContent = municipality.name;
+                municipalityDropdown.appendChild(option);
+            });
+        });
+    </script> --}}
+    <script>
+        document.getElementById('provinceDropdown').addEventListener('change', function() {
+            var selectedProvinceName = this.value;
+            var selectedProvinceInput = document.getElementById('selectedProvince');
+            selectedProvinceInput.value = selectedProvinceName;
+
+            var districtDropdown = document.getElementById('districtDropdown');
+            districtDropdown.innerHTML =
+                '<option value="" selected="selected">-- District --</option>'; // Reset district dropdown
+
+            var selectedProvince = {!! json_encode($data->provinceList) !!}.find(function(province) {
+                return province.name == selectedProvinceName;
+            });
+
+            if (selectedProvince) {
+                selectedProvince.districtList.forEach(function(district) {
+                    var option = document.createElement('option');
+                    option.value = district.name;
+                    option.textContent = district.name;
+                    districtDropdown.appendChild(option);
+                });
+            }
+        });
+
+        document.getElementById('districtDropdown').addEventListener('change', function() {
+            var selectedDistrictName = this.value;
+            var selectedDistrictInput = document.getElementById('selectedDistrict');
+            selectedDistrictInput.value = selectedDistrictName;
+
+            var municipalityDropdown = document.getElementById('municipalityDropdown');
+            municipalityDropdown.innerHTML =
+                '<option value="" selected="selected">-- Municipality --</option>'; // Reset municipality dropdown
+
+            var selectedDistrict = {!! json_encode($data->provinceList) !!}.flatMap(function(province) {
+                return province.districtList;
+            }).find(function(district) {
+                return district.name == selectedDistrictName;
+            });
+
+            if (selectedDistrict) {
+                selectedDistrict.municipalityList.forEach(function(municipality) {
+                    var option = document.createElement('option');
+                    option.value = municipality.name;
+                    option.textContent = municipality.name;
+                    municipalityDropdown.appendChild(option);
+                });
+            }
         });
     </script>
 @endsection

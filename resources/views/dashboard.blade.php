@@ -44,45 +44,6 @@
                                 </a>
                             </div>
                         </div>
-                    @endif
-                    @if (auth()->check() && auth()->user()->role == 0)
-                        <div class="col-lg-3 col-6">
-                            <!-- small card -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3>{{ $user->where('role', 1)->count() }}</h3>
-
-                                    <p>Total Doctors</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-user-md"></i>
-                                </div>
-                                <a href="{{ route('doctors_table') }}" class="small-box-footer">
-                                    More info <i class="fas fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    @else
-                        <div class="col-lg-3 col-6">
-                            <!-- small card -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3>{{ $booking->count() }}</h3>
-
-                                    <p>Total Appointments</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <a href="{{ route('appointment.show', ['appointment' => auth()->user()->doctor->id]) }}"
-                                    class="small-box-footer">
-                                    More info <i class="fas fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    @endif
-                    <!-- ./col -->
-                    @if (auth()->check() && auth()->user()->role == 0)
                         <div class="col-lg-3 col-6">
                             <!-- small card -->
                             <div class="small-box bg-success">
@@ -99,9 +60,6 @@
                                 </a>
                             </div>
                         </div>
-                    @endif
-                    <!-- ./col -->
-                    @if (auth()->check() && auth()->user()->role == 0)
                         <div class="col-lg-3 col-6">
                             <!-- small card -->
                             <div class="small-box bg-danger">
@@ -118,9 +76,6 @@
                                 </a>
                             </div>
                         </div>
-                    @endif
-
-                    @if (auth()->check() && auth()->user()->role == 0)
                         <div class="col-lg-3 col-6">
                             <!-- small card -->
                             <div class="small-box bg-secondary">
@@ -138,8 +93,94 @@
                                 </a>
                             </div>
                         </div>
-                    @endif
+                        <div class="col-lg-3 col-6">
+                            <!-- small card -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3>{{ $user->where('role', 1)->count() }}</h3>
 
+                                    <p>Total Doctors</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <a href="{{ route('doctors_table') }}" class="small-box-footer">
+                                    More info <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                    @if (auth()->check() && auth()->user()->role == 1)
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <!-- small card -->
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                        <h3>{{ $booking->count() }}</h3>
+
+                                        <p>Total Appointments</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <a href="{{ route('appointment.show', ['appointment' => auth()->user()->doctor->id]) }}"
+                                        class="small-box-footer">
+                                        More info <i class="fas fa-arrow-circle-right"></i>
+                                    </a>
+                                </div>
+                                <!-- small card -->
+                                <div class="small-box bg-warning">
+                                    <div class="inner">
+                                        <h3>{{ $booking->where('status', 0)->count() }}</h3>
+
+                                        <p>Pending Appointments</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <a href="{{ route('appointment.show', ['appointment' => auth()->user()->doctor->id]) }}"
+                                        class="small-box-footer">
+                                        More info <i class="fas fa-arrow-circle-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div class="card card-primary" style="height: 300px;">
+                                    <div class="card-body pl-3">
+                                        <div class="timeline timeline-inverse">
+                                            <div class="time-label">
+                                                <span class="bg-danger">
+                                                    Today
+                                                </span>
+                                            </div>
+
+                                            <?php
+                                            // date_default_timezone_set('Asia/Kathmandu');
+                                            $todayDate = date('Y-m-d');
+                                            ?>
+                                            @foreach (auth()->user()->doctor->booking as $book)
+                                                @if ($book->status == 1 && $book->schedule->date_ad == $todayDate)
+                                                    <div>
+                                                        <i class="fas fa-envelope bg-primary"></i>
+                                                        <div class="timeline-item mb-3">
+                                                            <h3 class="timeline-header">{{ $book->patient->name }} has an
+                                                                appointment for
+                                                                {{ $book->schedule->start_time . ' - ' . $book->schedule->end_time }}
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+
+
+                                            <!-- END timeline item -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    <!-- ./col -->
                 </div>
                 <!-- /.row -->
                 <div class="row">
@@ -232,9 +273,11 @@
                                                     <td>
                                                         @if ($bookings->status == 0)
                                                             <span style="color: rgb(0, 176, 230)">Pending<i
-                                                                    class="fa fa-check pl-3" aria-hidden="true"></i></span>
+                                                                    class="fa fa-check pl-3"
+                                                                    aria-hidden="true"></i></span>
                                                         @elseif($bookings->status == 1)
-                                                            <span style="color: green;">Approved<i class="fa fa-check pl-3"
+                                                            <span style="color: green;">Approved<i
+                                                                    class="fa fa-check pl-3"
                                                                     aria-hidden="true"></i></span>
                                                         @else
                                                             <span style="color: red;">Declined<i class="fa fa-times pl-4"
@@ -266,6 +309,7 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+
     <script>
         // fetch department data from controller
         var departmentsData = {!! json_encode($departmentChartData) !!};
@@ -291,4 +335,5 @@
             },
         });
     </script>
+
 @endsection

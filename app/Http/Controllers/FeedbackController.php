@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Notifications\FeedbackNotification;
+use Illuminate\Support\Facades\Notification;
+
 
 class FeedbackController extends Controller
 {
@@ -37,7 +41,20 @@ class FeedbackController extends Controller
     {
         // dd($request);
         $formfields = $request;
+        $users = User::where('role', 0)->get();
+        $userDetail = $formfields['name'];
         Feedback::create($formfields->all());
+        $userDetailsArray = [];
+
+        foreach ($users as $user) {
+            $userDetailsArray[] = [
+                'name' => $formfields->name,
+                // Add other user details as needed
+            ];
+        }
+
+        Notification::send($users, new FeedbackNotification($userDetailsArray));
+
         Alert::success('Success!', 'Message Sent Sucessfully!');
         return redirect()->route('feedback.create');
     }

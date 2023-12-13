@@ -73,8 +73,9 @@
                         <a href="#" class="dropdown-item">
                             <div class="notification-content">
                                 <div class="notification-details">
-                                    <span>{{ $notification->data['name'] }} made an appointment for</span>
-                                    <span class="date">{{ $notification->data['contact'] }}</span>
+                                    @foreach ($notification->data['users'] as $user)
+                                        <span>{{ $user['name'] }} provided feedback.</span>
+                                    @endforeach
                                 </div>
                             </div>
                         </a>
@@ -91,7 +92,7 @@
                     @endif
                 @elseif(auth()->user()->role == 0)
                     @if (auth()->user()->unreadnotifications->isNotEmpty())
-                        <a class="dropdown-item dropdown-header text-center" href="{{ route('markasread') }}">Mark all
+                        <a class="dropdown-item dropdown-header text-center" href="{{ route('markasread1') }}">Mark all
                             as
                             read.</a>
                     @endif

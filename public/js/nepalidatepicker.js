@@ -5,7 +5,9 @@ window.onload = function () {
     var currentdate = year + "-" + month + "-" + day;
     console.log(currentdate);
 };
-
+// setInterval(() => {
+//     getDate();
+// }, 10);
 function getDate() {
     var nepali = document.getElementById("nepali-datepicker").value;
     converted = NepaliFunctions.BS2AD(nepali);

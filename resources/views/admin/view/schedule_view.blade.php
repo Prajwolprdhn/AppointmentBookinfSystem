@@ -219,7 +219,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-info" style="color: white">Submit</button>
+                        <button type="submit" class="btn btn-info" style="color: white"
+                            onclick="getDate()">Submit</button>
                     </div>
                 </form>
             </div>

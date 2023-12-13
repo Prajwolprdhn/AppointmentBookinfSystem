@@ -62,6 +62,6 @@ class Doctor extends Model implements Auditable
     }
     public function booking()
     {
-        return $this->hasMany(Booking::class);
+        return $this->hasMany(Booking::class, 'doctors_id', 'id');
     }
 }

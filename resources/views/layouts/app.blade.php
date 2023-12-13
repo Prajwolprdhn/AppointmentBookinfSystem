@@ -23,8 +23,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Nepali Datepicker -->
     <link href="http://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/css/nepali.datepicker.v4.0.1.min.css"
         rel="stylesheet" type="text/css" />
+
+    <!-- fullCalendar -->
+    <link rel="stylesheet" href="{{ asset('plugins/fullcalendar/main.css') }}">
+
     <!-- summernote -->
-    <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
+    <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -132,8 +136,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 
+<!-- fullCalendar 2.2.5 -->
+<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset('plugins/fullcalendar/main.js') }}"></script>
+
 <!-- Summernote -->
-<script src="../../plugins/summernote/summernote-bs4.min.js"></script>
+<script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
 
 <script src="{{ asset('js/formchange.js') }}"></script>
 <script src="{{ asset('js/field_add.js') }}"></script>
@@ -157,6 +165,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         });
 
     });
+
+    function getDate() {
+        var nepali = document.getElementById("modal-nepali-date-picker").value;
+        converted = NepaliFunctions.BS2AD(nepali);
+
+        var english = document.getElementById("english_date");
+        english.value = converted;
+    }
 
     $(document).ready(function() {
         $('#title_en').on('input', function() {

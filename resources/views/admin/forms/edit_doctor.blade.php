@@ -162,6 +162,7 @@
                                                 @enderror
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
                                             <label for="role" class="col-sm-2 col-form-label">Role</label>
                                             <div class="col-sm-5">
@@ -170,6 +171,39 @@
                                                     <option value="1" selected>Doctor</option>
                                                 </select>
                                             </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="department" class="col-sm-2 col-form-label">Address</label>
+                                            <div class="col-sm-3">
+                                                <select class="form-control select2" id="provinceDropdown"
+                                                    name="province" style="width: 150px;" required>
+                                                    <option value="{{ $doctor->province }}" selected="selected">
+                                                        {{ $doctor->province }}</option>
+                                                    @foreach ($data->provinceList as $province)
+                                                        <option value="{{ $province->name }}">
+                                                            {{ $province->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 ">
+                                                <select class="form-control select2" id="districtDropdown"
+                                                    name="district" style="width: 150px;" required>
+                                                    <option value="{{ $doctor->district }}" selected="selected">--
+                                                        District --</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 ">
+                                                <select class="form-control select2" id="municipalityDropdown"
+                                                    name="municipality" style="width: 150px" required>
+                                                    <option value="{{ $doctor->municipality }}" selected="selected">--
+                                                        Municipality --</option>
+                                                </select>
+                                            </div>
+                                            <input type="hidden" name="selectedProvince" id="selectedProvince">
+                                            <input type="hidden" name="selectedDistrict" id="selectedDistrict">
+                                            <input type="hidden" name="selectedMunicipality" id="selectedMunicipality">
                                         </div>
                                         <div class="form-group row">
                                             <label for="exampleInputFile">Upload Image</label>
@@ -412,5 +446,81 @@
 
             reader.readAsDataURL(file);
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var doctorProvince = '{{ $doctor->province }}';
+            var doctorDistrict = '{{ $doctor->district }}';
+            var doctorMunicipality = '{{ $doctor->municipality }}';
+
+            // Set selected province
+            var provinceDropdown = document.getElementById('provinceDropdown');
+            provinceDropdown.value = doctorProvince;
+
+            // Trigger change event to populate district dropdown
+            var changeEvent = new Event('change');
+            provinceDropdown.dispatchEvent(changeEvent);
+
+            // Set selected district
+            var districtDropdown = document.getElementById('districtDropdown');
+            districtDropdown.value = doctorDistrict;
+
+            // Trigger change event to populate municipality dropdown
+            districtDropdown.dispatchEvent(changeEvent);
+
+            // Set selected municipality
+            var municipalityDropdown = document.getElementById('municipalityDropdown');
+            municipalityDropdown.value = doctorMunicipality;
+        });
+        document.getElementById('provinceDropdown').addEventListener('change', function() {
+            var selectedProvinceName = this.value;
+            var selectedProvinceInput = document.getElementById('selectedProvince');
+            selectedProvinceInput.value = selectedProvinceName;
+
+            var districtDropdown = document.getElementById('districtDropdown');
+            districtDropdown.innerHTML =
+                '<option value="" selected="selected">-- District --</option>'; // Reset district dropdown
+            var municipalityDropdown = document.getElementById('municipalityDropdown');
+            municipalityDropdown.innerHTML =
+                '<option value="" selected="selected">-- Municipality --</option>'; // Reset municipality dropdown
+
+            var selectedProvince = {!! json_encode($data->provinceList) !!}.find(function(province) {
+                return province.name == selectedProvinceName;
+            });
+
+            if (selectedProvince) {
+                selectedProvince.districtList.forEach(function(district) {
+                    var option = document.createElement('option');
+                    option.value = district.name;
+                    option.textContent = district.name;
+                    districtDropdown.appendChild(option);
+                });
+            }
+        });
+
+        document.getElementById('districtDropdown').addEventListener('change', function() {
+            var selectedDistrictName = this.value;
+            var selectedDistrictInput = document.getElementById('selectedDistrict');
+            selectedDistrictInput.value = selectedDistrictName;
+
+            var municipalityDropdown = document.getElementById('municipalityDropdown');
+            municipalityDropdown.innerHTML =
+                '<option value="" selected="selected">-- Municipality --</option>'; // Reset municipality dropdown
+
+            var selectedDistrict = {!! json_encode($data->provinceList) !!}.flatMap(function(province) {
+                return province.districtList;
+            }).find(function(district) {
+                return district.name == selectedDistrictName;
+            });
+
+            if (selectedDistrict) {
+                selectedDistrict.municipalityList.forEach(function(municipality) {
+                    var option = document.createElement('option');
+                    option.value = municipality.name;
+                    option.textContent = municipality.name;
+                    municipalityDropdown.appendChild(option);
+                });
+            }
+        });
     </script>
 @endsection

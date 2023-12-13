@@ -48,7 +48,6 @@ class BookingController extends Controller
         $scheduleData = Schedule::findOrFail($request->schedule_id);
         $request['doctors_id'] = $scheduleData->doctors_id;
         $doctor = Doctor::findOrFail($request['doctors_id']);
-        // dd($doctor);
         $doctor->notify(new BookingNotification($patientDetail, $scheduleData));
         // dd("done");
         Mail::send(
@@ -115,7 +114,7 @@ class BookingController extends Controller
     }
     public function markasread1()
     {
-        auth()->user()->user->notifications->markAsRead();
+        auth()->user()->notifications->markAsRead();
         return back();
     }
 }

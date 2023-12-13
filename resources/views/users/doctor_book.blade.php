@@ -65,7 +65,8 @@
                                     @endif
                                     <h5 class="my-3">{{ $doctor->first_name . ' ' . $doctor->last_name }}</h5>
                                     <p class="text-muted mb-2">{{ $doctor->department->departments ?? '-' }}</p>
-                                    <p class="text-muted mb-1">Bay Area, San Francisco, CA</p>
+                                    <p class="text-muted mb-1">{{ $doctor->municipality }}</p>
+                                    <p class="text-muted mb-1">{{ $doctor->district . ', ' . $doctor->province }}</p>
                                 </div>
                             </div>
 

@@ -13,6 +13,7 @@ use App\Http\Requests\UserRequest;
 use App\Http\Requests\DoctorRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminController extends Controller
@@ -116,7 +117,9 @@ class AdminController extends Controller
     public function doctors_form()
     {
         $department = Department::all();
-        return view('admin.forms.doctors_form', ['departments' => $department]);
+        $jsonFile = Storage::get('nepal_location.json');
+        $data = json_decode($jsonFile);
+        return view('admin.forms.doctors_form', ['departments' => $department, 'data' => $data]);
     }
     public function add_doctors(DoctorRequest $request)
     {
@@ -200,9 +203,11 @@ class AdminController extends Controller
         // dd($result);
 
         $doctor = Doctor::findOrFail($doctor_id);
+        $jsonFile = Storage::get('nepal_location.json');
+        $data = json_decode($jsonFile);
         $departments = Department::all();
 
-        return view('admin.forms.edit_doctor', compact('doctor', 'departments'));
+        return view('admin.forms.edit_doctor', compact('doctor', 'departments', 'data'));
     }
 
     public function update_doctor(DoctorRequest $request, Doctor $doctor_id)
