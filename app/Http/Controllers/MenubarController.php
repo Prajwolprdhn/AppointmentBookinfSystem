@@ -33,7 +33,7 @@ class MenubarController extends Controller
     {
         $modules = Modules::all();
         $pages = Page::all();
-        $menus = Menubar::all();
+        $menus = $this->menubar->get();
         return view('admin.forms.add_menubar', compact('modules', 'pages', 'menus'));
     }
 
@@ -67,7 +67,8 @@ class MenubarController extends Controller
         $menu = Menubar::findOrFail($id);
         $modules = Modules::all();
         $pages = Page::all();
-        return view('admin.forms.edit_menubar', compact('modules', 'pages', 'menu'));
+        $menus = $this->menubar->get();
+        return view('admin.forms.edit_menubar', compact('modules', 'pages', 'menu', 'menus'));
     }
 
     /**

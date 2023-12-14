@@ -95,20 +95,20 @@
                 <div class="tab-content">
                     <div class="active tab-pane" id="english">
                         <div class="container-fluid py-2">
-                            <h1 class="mb-0 text-center">{{ $data->title['en'] }}</h1>
+                            <h1 class="mb-0 text-center">{!! $data->title['en'] !!}</h1>
                             <div class="container py-5">
                                 <div class="row align-items-center">
-                                    <p class="mb-4">{{ $data->content['en'] }}</p>
+                                    <p class="mb-4">{!! $data->content['en'] !!}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="nepali">
                         <div class="container-fluid py-2">
-                            <h1 class="mb-0 text-center">{{ $data->title['np'] }}</h1>
+                            <h1 class="mb-0 text-center">{!! $data->title['np'] !!}</h1>
                             <div class="container py-5">
                                 <div class="row align-items-center">
-                                    <p class="mb-4">{{ $data->content['np'] }}</p>
+                                    <p class="mb-4">{!! $data->content['np'] !!}</p>
 
                                 </div>
                             </div>
